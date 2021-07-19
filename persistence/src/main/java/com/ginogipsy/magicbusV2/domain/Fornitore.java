@@ -14,7 +14,7 @@ public class Fornitore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fornitore_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;
@@ -35,6 +35,8 @@ public class Fornitore {
     private Integer partitaIva;
 
     @ManyToMany
-    @JoinTable(name = "marca_fornitore", joinColumns = @JoinColumn(name = "marca_id"), inverseJoinColumns = @JoinColumn(name = "fornitore_id"))
+    @JoinTable(name = "marca_fornitore",
+            joinColumns = @JoinColumn(name = "marca_id"),
+            inverseJoinColumns = @JoinColumn(name = "fornitore_id"))
     private Set<MarcaProdotto> marche;
 }

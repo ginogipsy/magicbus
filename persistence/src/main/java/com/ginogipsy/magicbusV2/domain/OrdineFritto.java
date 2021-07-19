@@ -14,7 +14,7 @@ public class OrdineFritto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordinefritto_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "ordine_id")
@@ -27,7 +27,7 @@ public class OrdineFritto {
     @Column(name = "quantita")
     private Integer quantita;
 
-    @Column(name = "annullato")
+    @Column(name = "annullato", columnDefinition = "TINYINT(2)")
     private Boolean annullato;
 
     @Column(name = "costo_totale")

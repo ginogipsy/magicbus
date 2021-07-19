@@ -14,7 +14,7 @@ public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingrediente_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;
@@ -22,7 +22,7 @@ public class Ingrediente {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @Column(name = "disponibile")
+    @Column(name = "disponibile", columnDefinition = "TINYINT(2)")
     private Boolean disponibile;
 
     @Column(name = "costo_aggiunta_cliente")

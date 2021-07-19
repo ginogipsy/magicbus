@@ -14,7 +14,7 @@ public class ImpastoIngrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "impastoingrediente_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "ingrediente_id")

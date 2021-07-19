@@ -12,7 +12,7 @@ public class Bibita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bibita_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome", unique = true)
     private String nome;
@@ -21,12 +21,8 @@ public class Bibita {
     @Enumerated(EnumType.STRING)
     private TipologiaBibite tipologia;
 
-    @Lob
     @Column(name = "descrizione")
     private String descrizione;
-
-    @Column(name = "alcolico")
-    private Boolean alcolico;
 
     @Column(name = "costo_al_litro")
     private Double costoAlLitro;

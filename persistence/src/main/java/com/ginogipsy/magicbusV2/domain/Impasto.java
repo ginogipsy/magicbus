@@ -15,7 +15,7 @@ public class Impasto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "impasto_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;
@@ -23,13 +23,10 @@ public class Impasto {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "impasto_ingrediente",
-            joinColumns = @JoinColumn(name = "impasto_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
-    private Set<Ingrediente> ingredienti;
-
     @Column(name = "costo_aggiuntivo")
     private Double costoAggiuntivo;
+
+    @OneToMany(mappedBy = "impasto", cascade = CascadeType.ALL)
+    private Set<ImpastoIngrediente> ingredienti;
 
 }

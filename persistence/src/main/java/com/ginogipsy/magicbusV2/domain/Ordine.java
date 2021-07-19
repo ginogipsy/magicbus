@@ -2,44 +2,51 @@ package com.ginogipsy.magicbusV2.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.joda.time.DateTime;
+
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
-@Entity
-@Table(name = "ordine")
+
 @Data
 @EqualsAndHashCode(exclude = {"orarioDisponibile", "user", "ordineFritti", "ordineGusti", "ordineBibite", "ordinePagamento"})
+@Entity(name = "ordine")
 public class Ordine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordine_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "ora_inserimento")
-    private DateTime oraInserimento;
+    private Date oraInserimento;
 
     @Column(name = "ora_approvazione")
-    private DateTime oraApprovazione;
+    private Date oraApprovazione;
 
     @ManyToOne
     @JoinColumn(name = "orariodisponibile_id")
     private OrarioDisponibile orarioDisponibile;
 
     @ManyToOne
-    @JoinColumn(name = "utente_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
     private Set<OrdineFritto> ordineFritti;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
     private Set<OrdineGusto> ordineGusti;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
     private Set<OrdineBibita> ordineBibite;
+
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
+    private Set<OrdineBirra> ordineBirre;
+
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
+    private Set<OrdineVino> ordineVini;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ordinepagamento_id")

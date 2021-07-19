@@ -14,16 +14,16 @@ public class Gusto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gusto_id")
-    private Long id;
+    private Integer id;
 
-    @Column(name ="nome", unique = true, nullable = false)
+    @Column(name ="nome", unique = true)
     private String nome;
 
-    @Lob
+    //@Lob da implementare per descrizioni grosse
     @Column(name = "descrizione_gusto")
     private String descrizioneGusto;
 
-    @Column(name = "tradizionale")
+    @Column(name = "tradizionale", columnDefinition = "TINYINT(2)")
     private Boolean tradizionale;
 
     @Column(name = "status")
@@ -33,19 +33,18 @@ public class Gusto {
     @Column(name = "costo")
     private Double costo;
 
-    @Column(name = "versione_vegana_disponibile")
+    @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT(2)")
     private Boolean versioneVeganaDisponibile;
 
+    @Column(name = "immagine")
+    @Lob
+    private Byte[] immagine;
 
     @ManyToMany(mappedBy = "gustiPreferiti")
     private Set<User> utenti;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto")
     private Set<GustoIngrediente> ingredienti;
-
-    @Column(name = "immagine")
-    @Lob
-    private Byte[] immagine;
 
     @Column(name = "tipologia_menu")
     @Enumerated(EnumType.STRING)
@@ -62,5 +61,11 @@ public class Gusto {
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
     private CategoriaProdotto categoriaProdotto;
+
+    @ManyToMany(mappedBy = "gustiPreferiti")
+    private Set<User> users;
+
+    @OneToOne(mappedBy = "gusto")
+    private GustoUtente gustoUtente;
 
 }

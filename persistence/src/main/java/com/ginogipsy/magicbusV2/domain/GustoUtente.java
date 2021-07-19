@@ -5,13 +5,17 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-@Entity
+@EqualsAndHashCode(exclude = {"gusto"})
 @Data
-@Inheritance(strategy = InheritanceType.JOINED)
-@EqualsAndHashCode(exclude = {"utente"})
-public class GustoUtente extends Gusto {
+@Entity(name = "gusto_utente")
+public class GustoUtente{
 
-    @Column(name = "inserita_da_utente")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gustoutente_id")
+    private Integer id;
+
+    @Column(name = "inserita_da_utente", columnDefinition = "TINYINT(2)")
     private Boolean inseritaDaUtente;
 
     @Column(name = "status")
@@ -20,5 +24,10 @@ public class GustoUtente extends Gusto {
 
     @Column(name = "username_inseritore")
     private String username;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "gusto_id")
+    private Gusto gusto;
+
 }
 

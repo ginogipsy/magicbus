@@ -15,12 +15,12 @@ public class Fritto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fritto_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;
 
-    @Lob
+    //@Lob da implementare per grosse dimensioni
     @Column(name = "descrizione")
     private String descrizione;
 
@@ -45,6 +45,9 @@ public class Fritto {
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
     private CategoriaProdotto categoriaProdotto;
+
+    @ManyToMany(mappedBy = "frittiPreferiti")
+    private Set<User> users;
 
 
 }

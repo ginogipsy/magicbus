@@ -15,7 +15,7 @@ public class Birrificio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "birrificio_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome", unique = true)
     private String nome;

@@ -15,7 +15,7 @@ public class OrarioDisponibile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orariodisponibile_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "ora", nullable = false)
     private Integer ora;

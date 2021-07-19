@@ -8,13 +8,13 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"gustiPreferiti","frittiPreferiti","gustiPreferiti","bibitePreferite", "ordini" })
-@Entity(name = "utente")
+@Entity(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "utente_id")
-    private Long id;
+    @Column(name = "user_id")
+    private Integer id;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -60,24 +60,27 @@ public class User {
     private Set<Role> roles;
 
     @ManyToMany
-    @JoinTable(name = "gusto_utente", joinColumns = @JoinColumn(name = "gusto_id"),
-            inverseJoinColumns = @JoinColumn(name = "utente_id"))
+    @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "gusto_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Gusto> gustiPreferiti;
 
     @ManyToMany
     @JoinTable(name = "fritto_utente", joinColumns = @JoinColumn(name = "fritto_id"),
-            inverseJoinColumns = @JoinColumn(name = "utente_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Fritto> frittiPreferiti;
 
     @ManyToMany
-    @JoinTable(name = "bibita_utente", joinColumns = @JoinColumn(name = "bibita_id"),
-            inverseJoinColumns = @JoinColumn(name = "utente_id"))
-    private Set<Bibita> bibitePreferite;
+    @JoinTable(name = "birra_utente", joinColumns = @JoinColumn(name = "birra_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<Birra> birrePreferite;
+
+    @ManyToMany
+    @JoinTable(name = "vino_utente", joinColumns = @JoinColumn(name = "vino_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<Vino> viniPreferiti;
 
     @OneToMany(mappedBy = "user")
     private Set<Ordine> ordini;
-
-
 
 }
 
