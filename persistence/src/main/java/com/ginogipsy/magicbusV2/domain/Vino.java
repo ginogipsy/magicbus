@@ -24,7 +24,7 @@ public class Vino{
     @Column(name = "nome", unique = true)
     private String nome;
 
-    //@Lob(per grosse quantita', da implementare
+    //@Lob(per grosse quantita' di stringhe, da implementare
     @Column(name = "descrizione")
     private String descrizione;
 
