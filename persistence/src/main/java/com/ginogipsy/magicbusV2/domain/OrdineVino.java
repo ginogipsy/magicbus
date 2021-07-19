@@ -5,15 +5,14 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-
 @Data
-@EqualsAndHashCode(exclude = {"ordine", "bibita"})
-@Entity(name = "ordine_bibita")
-public class OrdineBibita {
+@EqualsAndHashCode(exclude = {"ordine", "vino"})
+@Entity(name = "ordine_vino")
+public class OrdineVino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ordinebibita_id")
+    @Column(name = "ordinevino_id")
     private Integer id;
 
     @ManyToOne
@@ -21,8 +20,8 @@ public class OrdineBibita {
     private Ordine ordine;
 
     @ManyToOne
-    @JoinColumn(name = "bibita_id")
-    private Bibita bibita;
+    @JoinColumn(name = "vino_id")
+    private Vino vino;
 
     @Column(name = "quantita")
     private Integer quantita;
@@ -34,8 +33,6 @@ public class OrdineBibita {
     private Double costoTotale;
 
     public void setCostoTotale(){
-        this.costoTotale = this.quantita * this.bibita.getCosto();
+        this.costoTotale = this.quantita * this.vino.getCosto();
     }
-
 }
-

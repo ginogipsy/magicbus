@@ -22,7 +22,7 @@ public class Ingrediente {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @Column(name = "disponibile")
+    @Column(name = "disponibile", columnDefinition = "TINYINT(2)")
     private Boolean disponibile;
 
     @Column(name = "costo_aggiunta_cliente")

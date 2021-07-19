@@ -29,9 +29,9 @@ public class OrdineGusto {
     private Impasto impasto;
 
     @Column(name = "quantita")
-    private Integer quantita;
+    private Double quantita;
 
-    @Column(name = "annullato")
+    @Column(name = "annullato", columnDefinition = "TINYINT(2)")
     private Boolean annullato;
 
     @Column(name = "costo_totale")

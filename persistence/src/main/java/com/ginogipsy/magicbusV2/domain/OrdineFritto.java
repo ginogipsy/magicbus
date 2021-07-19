@@ -27,7 +27,7 @@ public class OrdineFritto {
     @Column(name = "quantita")
     private Integer quantita;
 
-    @Column(name = "annullato")
+    @Column(name = "annullato", columnDefinition = "TINYINT(2)")
     private Boolean annullato;
 
     @Column(name = "costo_totale")

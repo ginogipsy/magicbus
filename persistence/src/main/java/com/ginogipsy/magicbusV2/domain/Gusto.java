@@ -23,7 +23,7 @@ public class Gusto {
     @Column(name = "descrizione_gusto")
     private String descrizioneGusto;
 
-    @Column(name = "tradizionale")
+    @Column(name = "tradizionale", columnDefinition = "TINYINT(2)")
     private Boolean tradizionale;
 
     @Column(name = "status")
@@ -33,7 +33,7 @@ public class Gusto {
     @Column(name = "costo")
     private Double costo;
 
-    @Column(name = "versione_vegana_disponibile")
+    @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT(2)")
     private Boolean versioneVeganaDisponibile;
 
     @Column(name = "immagine")

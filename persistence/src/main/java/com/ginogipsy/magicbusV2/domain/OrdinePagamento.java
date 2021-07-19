@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "ordine_pagamento")
@@ -25,11 +26,11 @@ public class OrdinePagamento {
     @JoinColumn(name = "tipologiapagamento_id")
     private TipologiaPagamento tipologiaPagamento;
 
-    @Column(name = "pagato")
+    @Column(name = "pagato", columnDefinition = "TINYINT(2)")
     private Boolean pagato;
 
     @Column(name = "ora_pagamento")
-    private DateTime oraPagamento;
+    private Date oraPagamento;
 
     @Column(name = "codice_fiscale")
     private String codiceFiscale;

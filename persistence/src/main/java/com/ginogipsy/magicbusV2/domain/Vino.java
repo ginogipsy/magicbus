@@ -14,6 +14,7 @@ public class Vino{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vino_id")
     private Integer id;
 
     @Column(name = "qualita_vino")
@@ -28,7 +29,10 @@ public class Vino{
     private String descrizione;
 
     @Column(name = "grado_alcolico")
-    private String gradoAlcolico;
+    private Double gradoAlcolico;
+
+    @Column(name = "costo")
+    private Double costo;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cantina_id")

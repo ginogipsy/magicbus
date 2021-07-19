@@ -27,6 +27,9 @@ public class Birra{
     @Column(name = "grado_alcolico")
     private Double gradoAlcolico;
 
+    @Column(name = "costo")
+    private Double costo;
+
     @Column(name = "tipologia_birra")
     @Enumerated(EnumType.STRING)
     private TipologiaBirra tipologiaBirra;

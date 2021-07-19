@@ -5,16 +5,17 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
-@Entity
+@EqualsAndHashCode(exclude = {"gusto"})
 @Data
-public class GustoUtente extends Gusto {
+@Entity(name = "gusto_utente")
+public class GustoUtente{
 
     @Id
-    @GeneratedValue(generator = "gustoutente_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gustoutente_id")
     private Integer id;
 
-    @Column(name = "inserita_da_utente")
+    @Column(name = "inserita_da_utente", columnDefinition = "TINYINT(2)")
     private Boolean inseritaDaUtente;
 
     @Column(name = "status")

@@ -60,7 +60,7 @@ public class User {
     private Set<Role> roles;
 
     @ManyToMany
-    @JoinTable(name = "gusto_utente", joinColumns = @JoinColumn(name = "gusto_id"),
+    @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "gusto_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Gusto> gustiPreferiti;
 

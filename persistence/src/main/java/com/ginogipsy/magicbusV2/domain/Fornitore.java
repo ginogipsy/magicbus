@@ -35,6 +35,8 @@ public class Fornitore {
     private Integer partitaIva;
 
     @ManyToMany
-    @JoinTable(name = "marca_fornitore", joinColumns = @JoinColumn(name = "marca_id"), inverseJoinColumns = @JoinColumn(name = "fornitore_id"))
+    @JoinTable(name = "marca_fornitore",
+            joinColumns = @JoinColumn(name = "marca_id"),
+            inverseJoinColumns = @JoinColumn(name = "fornitore_id"))
     private Set<MarcaProdotto> marche;
 }
