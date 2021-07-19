@@ -14,7 +14,7 @@ public class OrdineBibita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordinebibita_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "ordine_id")

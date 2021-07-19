@@ -5,14 +5,14 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "posizione_magic_bus")
+@Table(name = "posizione_magicbus")
 @Data
 public class PosizioneMagicBus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "posizionemagicbus_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;

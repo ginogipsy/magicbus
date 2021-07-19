@@ -15,7 +15,7 @@ public class Cantina {
     @Id
     @GeneratedValue
     @Column(name = "cantina_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome", unique = true)
     private String nome;

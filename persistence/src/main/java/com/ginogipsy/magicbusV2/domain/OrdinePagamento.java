@@ -15,14 +15,14 @@ public class OrdinePagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordinepagamento_id")
-    private Long id;
+    private Integer id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "ordine_fk")
+    @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
     @ManyToOne
-    @JoinColumn(name = "tipologiapagamento_fk")
+    @JoinColumn(name = "tipologiapagamento_id")
     private TipologiaPagamento tipologiaPagamento;
 
     @Column(name = "pagato")

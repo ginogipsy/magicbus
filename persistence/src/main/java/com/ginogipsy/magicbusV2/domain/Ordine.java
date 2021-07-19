@@ -16,7 +16,7 @@ public class Ordine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordine_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "ora_inserimento")
     private DateTime oraInserimento;
@@ -29,7 +29,7 @@ public class Ordine {
     private OrarioDisponibile orarioDisponibile;
 
     @ManyToOne
-    @JoinColumn(name = "utente_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)

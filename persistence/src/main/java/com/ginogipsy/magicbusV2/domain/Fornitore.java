@@ -14,7 +14,7 @@ public class Fornitore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fornitore_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;

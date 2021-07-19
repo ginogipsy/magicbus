@@ -4,13 +4,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "vino")
+
 @Data
 @EqualsAndHashCode(exclude = "cantina", callSuper = false)
-public class Vino extends Alcolico {
+@Entity(name = "vino")
+public class Vino{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "qualita_vino")
     @Enumerated(EnumType.STRING)
@@ -19,10 +23,21 @@ public class Vino extends Alcolico {
     @Column(name = "nome", unique = true)
     private String nome;
 
+    //@Lob(per grosse quantita', da implementare
+    @Column(name = "descrizione")
+    private String descrizione;
 
+    @Column(name = "grado_alcolico")
+    private String gradoAlcolico;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cantina_id")
     private Cantina cantina;
+
+    @ManyToMany(mappedBy = "viniPreferiti")
+    private Set<User> users;
+
+
+
 }
 

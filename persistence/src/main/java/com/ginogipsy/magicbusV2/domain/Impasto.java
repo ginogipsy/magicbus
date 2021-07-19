@@ -15,7 +15,7 @@ public class Impasto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "impasto_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nome")
     private String nome;
