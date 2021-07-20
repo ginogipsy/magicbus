@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,5 +44,13 @@ public class UserMapper {
     public List<UserDTO> findByUsernameOrEmail(String username, String email){
         List<User> users = userRepository.findByUsernameOrEmail(username, email);
         return (!users.isEmpty()) ? users.stream().map(this::convertToDTO).collect(Collectors.toList()) : null;
+    }
+
+    public UserDTO findByCodiceFiscale(String codiceFiscale){
+        return Optional.ofNullable(convertToDTO(userRepository.findByCodiceFiscale(codiceFiscale))).orElse(null);
+    }
+
+    public UserDTO findByNumeroCellulare(long numeroCellullare){
+        return Optional.ofNullable(convertToDTO(userRepository.findByNumeroCellulare(numeroCellullare))).orElse(null);
     }
 }
