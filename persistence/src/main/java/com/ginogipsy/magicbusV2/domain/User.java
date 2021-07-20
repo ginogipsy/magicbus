@@ -32,7 +32,7 @@ public class User {
     private String cognome;
 
     @Column(name = "numero_cellulare", unique = true, nullable = false)
-    private Integer numeroCellulare;
+    private Long numeroCellulare;
 
     @Column(name = "indirizzo")
     private String indirizzo;
