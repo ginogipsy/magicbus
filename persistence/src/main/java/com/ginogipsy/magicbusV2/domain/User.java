@@ -53,10 +53,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            joinColumns = @JoinColumn(name = "user_id"))
     private Set<Role> roles;
 
     @ManyToMany

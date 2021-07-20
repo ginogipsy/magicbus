@@ -36,9 +36,6 @@ public class UserDTO {
     private String codiceFiscale;
 
     @JsonIgnore
-    private String profilo;
-
-    @JsonIgnore
     private String status;
     @JsonIgnore
     private List<RoleDTO> roles;

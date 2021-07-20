@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbusV2.marshall;
 
+import com.ginogipsy.magicbusV2.domain.Profilo;
 import com.ginogipsy.magicbusV2.domain.Role;
 import com.ginogipsy.magicbusV2.dto.RoleDTO;
 import com.ginogipsy.magicbusV2.repository.RoleRepository;
@@ -17,7 +18,7 @@ public class RoleMapper {
         this.roleRepository = roleRepository;
     }
 
-    public RoleDTO findByProfilo(String profilo){
+    public RoleDTO findByProfilo(Profilo profilo){
         return convertToDTO(roleRepository.findByProfilo(profilo));
     }
 
