@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -40,9 +39,9 @@ public class UserDTO {
     @JsonIgnore
     private Set<RoleDTO> roles;
     private Set<GustoDTO> gustiPreferiti;
-
-    //private Set<FrittoDTO> frittiPreferiti;
-    //private Set<BibitaDTO> bibitePreferite;
-    //private Set<Ordine> ordini;
+    private Set<FrittoDTO> frittiPreferiti;
+    private Set<VinoDTO> viniPreferiti;
+    private Set<BirraDTO> birrePreferite;
+    private Set<OrdineDTO> ordini;
 
 }

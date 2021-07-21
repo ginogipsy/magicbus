@@ -20,6 +20,6 @@ public class RicercaPizzeController {
 
     @GetMapping("/ricercaGustoPerNome")
     public ResponseEntity<GustoDTO> ricercaPizzaDalNome(@RequestParam String nomeGusto){
-        return ResponseEntity.ok().body(gustoMapper.trovaGustoDalNome(nomeGusto));
+        return ResponseEntity.ok().body(gustoMapper.findByNome(nomeGusto));
     }
 }

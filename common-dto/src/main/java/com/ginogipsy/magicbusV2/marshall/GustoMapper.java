@@ -17,11 +17,11 @@ public class GustoMapper {
         this.gustoRepository = gustoRepository;
     }
 
-    public GustoDTO trovaGustoDalNome(String nome){
-        return conversioneDaEntityADTO(gustoRepository.findByNome(nome));
+    public GustoDTO findByNome(String nome){
+        return convertToDTO(gustoRepository.findByNome(nome));
     }
 
-    public GustoDTO conversioneDaEntityADTO(Gusto gusto){
+    public GustoDTO convertToDTO(Gusto gusto){
         return (gusto != null) ? modelMapper.map(gusto, GustoDTO.class) : null;
     }
 }
