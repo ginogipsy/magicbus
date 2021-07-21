@@ -5,4 +5,5 @@ public interface StringUtility {
     boolean controlloCodiceFiscale(String codiceFiscale);
     String formattataMinuscConSpaziaturaCorretta(String string);
     String formattazionePrimaMaiusc(String string);
+    boolean capCorretto(String cap);
 }

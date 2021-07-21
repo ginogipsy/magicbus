@@ -34,6 +34,16 @@ public class UserUtilityComponent implements UserUtility {
         if(userDTO.getCitta() != null){
             userDTO.setCitta(stringUtility.formattazionePrimaMaiusc(userDTO.getCitta()));
         }
+
+        if(userDTO.getCivico() != null){
+            userDTO.setCivico(userDTO.getCivico().trim());
+        }
+
+        if(userDTO.getCap() != null && !stringUtility.capCorretto(userDTO.getCap().trim())){
+            userDTO.setCap(null);
+        }else{
+            userDTO.setCap(userDTO.getCap().trim());
+        }
         userDTO.setUsername(userDTO.getUsername().toLowerCase().trim());
         userDTO.setEmail(userDTO.getEmail().toLowerCase().trim());
         userDTO.setPassword(userDTO.getPassword().trim());

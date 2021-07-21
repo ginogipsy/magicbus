@@ -2,6 +2,7 @@ package com.ginogipsy.magicbusV2.component;
 
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.Optional;
 
 @Component
@@ -29,6 +30,19 @@ public class StringUtilityComponent implements StringUtility {
             result.append(s).append(" ");
         }
         return result.toString().trim();
+    }
+
+    @Override
+    public boolean capCorretto(String cap) {
+        if(cap.length() != 5){
+            return false;
+        }
+        try {
+            Integer.parseInt(cap);
+        }catch (RuntimeException e){
+            return false;
+        }
+        return true;
     }
 }
 

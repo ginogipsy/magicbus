@@ -29,9 +29,9 @@ public class UserDTO {
     @NonNull
     private Long numeroCellulare;
     private String indirizzo;
-    private Integer civico;
+    private String civico;
     private String citta;
-    private Integer cap;
+    private String cap;
     private String codiceFiscale;
 
     //@JsonIgnore

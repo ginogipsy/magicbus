@@ -3,16 +3,17 @@ package com.ginogipsy.magicbusV2.marshall;
 
 import com.ginogipsy.magicbusV2.domain.Vino;
 import com.ginogipsy.magicbusV2.dto.VinoDTO;
+import com.ginogipsy.magicbusV2.repository.VinoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VinoRepository {
+public class VinoMapper {
 
     private final ModelMapper modelMapper;
     private final VinoRepository vinoRepository;
 
-    public VinoRepository(ModelMapper modelMapper, VinoRepository vinoRepository) {
+    public VinoMapper(ModelMapper modelMapper, VinoRepository vinoRepository) {
         this.modelMapper = modelMapper;
         this.vinoRepository = vinoRepository;
     }

@@ -1,11 +1,14 @@
 package com.ginogipsy.magicbusV2.controller;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.ginogipsy.magicbusV2.dto.UserDTO;
 import com.ginogipsy.magicbusV2.request.InserisciIndirizzoRequest;
+import com.ginogipsy.magicbusV2.securityModel.MyUserDetails;
 import com.ginogipsy.magicbusV2.service.UserService;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,43 +23,43 @@ public class UserController {
     }
 
     @PutMapping("/modificaUser")
-    public ResponseEntity<UserDTO> modificaUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal String email){
-        UserDTO user = userService.modificaUtente(email, userDTO);
+    public ResponseEntity<UserDTO> modificaUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal MyUserDetails myUserDetails){
+        UserDTO user = userService.modificaUtente(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciCodiceFiscale")
-    public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal String email){
-        UserDTO user = userService.inserimentoCodiceFiscale(email, codiceFiscale);
+    public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal MyUserDetails myUserDetails){
+        UserDTO user = userService.inserimentoCodiceFiscale(myUserDetails.getUserDTO(), codiceFiscale);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciIndirizzo")
-    public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal String email){
-        UserDTO user = userService.inserimentoIndirizzo(email, inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
+    public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal MyUserDetails myUserDetails,  BindingResult bindingResult){
+        UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciNomeCognome")
-    public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal String email){
-        UserDTO user = userService.inserimentoNomeCognome(email, nome, cognome);
+    public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal MyUserDetails myUserDetails){
+        UserDTO user = userService.inserimentoNomeCognome(myUserDetails.getUserDTO(), nome, cognome);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaEmail")
-    public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal String email){
-        UserDTO user = userService.modificaEmail(email, nuovaEmail);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+    public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal MyUserDetails myUserDetails){
+            UserDTO user = userService.modificaEmail(myUserDetails.getUserDTO(), nuovaEmail);
+            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaUsername")
-    public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal String email){
-        UserDTO user = userService.modificaUsername(email, username);
+    public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal MyUserDetails myUserDetails){
+        UserDTO user = userService.modificaUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaCellulare")
-    public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal String email){
+    public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal MyUserDetails myUserDetails){
         Long numCell = null;
 
         if(numeroCellulare.length() != 10){
@@ -66,7 +69,7 @@ public class UserController {
                 throw new RuntimeException("il numero deve essere composto da 10 cifre numeriche!");
             }
         }
-        UserDTO user = userService.modificaNumeroCellulare(email, numCell);
+        UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numCell);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 }

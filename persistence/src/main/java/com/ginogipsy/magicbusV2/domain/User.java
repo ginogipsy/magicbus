@@ -1,16 +1,16 @@
 package com.ginogipsy.magicbusV2.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(exclude = {"gustiPreferiti","frittiPreferiti","gustiPreferiti","bibitePreferite", "ordini" })
+@Getter
+@Setter
 @Entity(name = "user")
 public class User {
 
@@ -41,13 +41,13 @@ public class User {
     private String indirizzo;
 
     @Column(name = "civico")
-    private Integer civico;
+    private String civico;
 
     @Column(name = "citta")
     private String citta;
 
     @Column(name = "cap")
-    private Integer cap;
+    private String cap;
 
     @Column(name = "codice_fiscale", unique = true)
     private String codiceFiscale;
@@ -62,27 +62,32 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"))
     private Set<Role> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "gusto_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Gusto> gustiPreferiti;
 
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "fritto_utente", joinColumns = @JoinColumn(name = "fritto_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Fritto> frittiPreferiti;
 
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "birra_utente", joinColumns = @JoinColumn(name = "birra_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Birra> birrePreferite;
 
-    @ManyToMany
+    @ManyToMany(fetch= FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "vino_utente", joinColumns = @JoinColumn(name = "vino_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Vino> viniPreferiti;
 
     @OneToMany(mappedBy = "user")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Ordine> ordini;
 
 }

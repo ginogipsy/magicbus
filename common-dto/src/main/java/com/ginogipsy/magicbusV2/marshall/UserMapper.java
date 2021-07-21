@@ -27,7 +27,7 @@ public class UserMapper {
     }
 
     public UserDTO findUserByEmail(String email){
-        return convertToDTO(userRepository.findByUsername(email));
+        return convertToDTO(userRepository.findByEmail(email));
     }
 
     public User convertToEntity(UserDTO userDTO){
