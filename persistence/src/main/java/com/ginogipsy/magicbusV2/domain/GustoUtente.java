@@ -15,7 +15,7 @@ public class GustoUtente{
     @Column(name = "gustoutente_id")
     private Integer id;
 
-    @Column(name = "inserita_da_utente", columnDefinition = "TINYINT(2)")
+    @Column(name = "inserita_da_utente", columnDefinition = "TINYINT", length = 1)
     private Boolean inseritaDaUtente;
 
     @Column(name = "status")

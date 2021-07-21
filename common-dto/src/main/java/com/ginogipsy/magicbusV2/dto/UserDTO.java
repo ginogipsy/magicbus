@@ -37,9 +37,10 @@ public class UserDTO {
 
     //@JsonIgnore
     private Boolean isEnabled;
-    //@JsonIgnore
+    @JsonIgnore
     private Set<RoleDTO> roles;
     private Set<GustoDTO> gustiPreferiti;
+
     //private Set<FrittoDTO> frittiPreferiti;
     //private Set<BibitaDTO> bibitePreferite;
     //private Set<Ordine> ordini;

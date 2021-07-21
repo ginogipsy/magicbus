@@ -2,8 +2,11 @@ package com.ginogipsy.magicbusV2.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -49,10 +52,11 @@ public class User {
     @Column(name = "codice_fiscale", unique = true)
     private String codiceFiscale;
 
-    @Column(name = "enabled", nullable = false,  columnDefinition = "TINYINT(2)")
-    private boolean enabled;
+    @Column(name = "is_enabled", columnDefinition = "TINYINT", length = 1)
+    private Boolean isEnabled;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch= FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "user_role",
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             joinColumns = @JoinColumn(name = "user_id"))

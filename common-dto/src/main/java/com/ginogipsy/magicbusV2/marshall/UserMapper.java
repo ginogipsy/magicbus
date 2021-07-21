@@ -3,6 +3,7 @@ package com.ginogipsy.magicbusV2.marshall;
 import com.ginogipsy.magicbusV2.domain.User;
 import com.ginogipsy.magicbusV2.dto.UserDTO;
 import com.ginogipsy.magicbusV2.repository.UserRepository;
+import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

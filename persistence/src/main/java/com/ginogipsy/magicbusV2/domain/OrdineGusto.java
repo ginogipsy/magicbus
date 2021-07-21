@@ -31,7 +31,7 @@ public class OrdineGusto {
     @Column(name = "quantita")
     private Double quantita;
 
-    @Column(name = "annullato", columnDefinition = "TINYINT(2)")
+    @Column(name = "annullato", columnDefinition = "TINYINT", length = 1)
     private Boolean annullato;
 
     @Column(name = "costo_totale")

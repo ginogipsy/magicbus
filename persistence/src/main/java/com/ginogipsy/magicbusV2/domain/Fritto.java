@@ -49,5 +49,8 @@ public class Fritto {
     @ManyToMany(mappedBy = "frittiPreferiti")
     private Set<User> users;
 
+    @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
+    private Boolean disponibile;
+
 
 }

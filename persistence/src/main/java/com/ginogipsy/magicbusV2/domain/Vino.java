@@ -41,6 +41,9 @@ public class Vino{
     @ManyToMany(mappedBy = "viniPreferiti")
     private Set<User> users;
 
+    @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
+    private Boolean disponibile;
+
 
 
 }

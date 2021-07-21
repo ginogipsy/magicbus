@@ -23,7 +23,7 @@ public class Gusto {
     @Column(name = "descrizione_gusto")
     private String descrizioneGusto;
 
-    @Column(name = "tradizionale", columnDefinition = "TINYINT(2)")
+    @Column(name = "tradizionale", columnDefinition = "TINYINT", length = 1)
     private Boolean tradizionale;
 
     @Column(name = "status")
@@ -33,7 +33,7 @@ public class Gusto {
     @Column(name = "costo")
     private Double costo;
 
-    @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT(2)")
+    @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT", length = 1)
     private Boolean versioneVeganaDisponibile;
 
     @Column(name = "immagine")
@@ -67,5 +67,8 @@ public class Gusto {
 
     @OneToOne(mappedBy = "gusto")
     private GustoUtente gustoUtente;
+
+    @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
+    private Boolean disponibile;
 
 }
