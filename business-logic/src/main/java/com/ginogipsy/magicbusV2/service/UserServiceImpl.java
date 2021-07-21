@@ -11,9 +11,7 @@ import com.ginogipsy.magicbusV2.marshall.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,11 +45,11 @@ public class UserServiceImpl implements UserService {
             }
 
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            List<RoleDTO> role = new ArrayList<>();
+            Set<RoleDTO> role = new HashSet<>();
             RoleDTO roleDTO = roleMapper.findByProfilo(Profilo.USER);
             role.add(roleDTO);
             userDTO.setRoles(role);
-            userDTO.setStatus(Status.APPROVATO.toString());
+            userDTO.setIsEnabled(true);
             return userMapper.save(userDTO);
         }
         throw new RuntimeException("Username o email già presenti");

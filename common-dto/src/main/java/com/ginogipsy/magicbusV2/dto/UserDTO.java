@@ -35,10 +35,10 @@ public class UserDTO {
     private Integer cap;
     private String codiceFiscale;
 
-    @JsonIgnore
-    private String status;
-    @JsonIgnore
-    private List<RoleDTO> roles;
+    //@JsonIgnore
+    private Boolean isEnabled;
+    //@JsonIgnore
+    private Set<RoleDTO> roles;
     private Set<GustoDTO> gustiPreferiti;
     //private Set<FrittoDTO> frittiPreferiti;
     //private Set<BibitaDTO> bibitePreferite;

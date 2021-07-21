@@ -49,9 +49,8 @@ public class User {
     @Column(name = "codice_fiscale", unique = true)
     private String codiceFiscale;
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(name = "enabled", nullable = false,  columnDefinition = "TINYINT(2)")
+    private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_role",
