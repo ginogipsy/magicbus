@@ -3,10 +3,12 @@ package com.ginogipsy.magicbusV2.marshall;
 import com.ginogipsy.magicbusV2.domain.User;
 import com.ginogipsy.magicbusV2.dto.UserDTO;
 import com.ginogipsy.magicbusV2.repository.UserRepository;
+import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +27,7 @@ public class UserMapper {
     }
 
     public UserDTO findUserByEmail(String email){
-        return convertToDTO(userRepository.findByUsername(email));
+        return convertToDTO(userRepository.findByEmail(email));
     }
 
     public User convertToEntity(UserDTO userDTO){
@@ -43,5 +45,17 @@ public class UserMapper {
     public List<UserDTO> findByUsernameOrEmail(String username, String email){
         List<User> users = userRepository.findByUsernameOrEmail(username, email);
         return (!users.isEmpty()) ? users.stream().map(this::convertToDTO).collect(Collectors.toList()) : null;
+    }
+
+    public UserDTO findByCodiceFiscale(String codiceFiscale){
+        return Optional.ofNullable(convertToDTO(userRepository.findByCodiceFiscale(codiceFiscale))).orElse(null);
+    }
+
+    public UserDTO findByNumeroCellulare(long numeroCellullare){
+        return Optional.ofNullable(convertToDTO(userRepository.findByNumeroCellulare(numeroCellullare))).orElse(null);
+    }
+
+    public UserDTO findByEmailAndUsernameAndNumeroCellulare(String email, String username, long numeroCellullare){
+        return Optional.ofNullable(convertToDTO(userRepository.findByEmailAndUsernameAndNumeroCellulare(email, username, numeroCellullare))).orElse(null);
     }
 }

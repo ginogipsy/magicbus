@@ -26,7 +26,7 @@ public class OrdinePagamento {
     @JoinColumn(name = "tipologiapagamento_id")
     private TipologiaPagamento tipologiaPagamento;
 
-    @Column(name = "pagato", columnDefinition = "TINYINT(2)")
+    @Column(name = "pagato", columnDefinition = "TINYINT", length = 1)
     private Boolean pagato;
 
     @Column(name = "ora_pagamento")

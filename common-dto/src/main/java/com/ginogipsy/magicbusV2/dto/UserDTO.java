@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -30,21 +29,19 @@ public class UserDTO {
     @NonNull
     private Long numeroCellulare;
     private String indirizzo;
-    private Integer civico;
+    private String civico;
     private String citta;
-    private Integer cap;
+    private String cap;
     private String codiceFiscale;
 
+    //@JsonIgnore
+    private Boolean isEnabled;
     @JsonIgnore
-    private String profilo;
-
-    @JsonIgnore
-    private String status;
-    @JsonIgnore
-    private List<RoleDTO> roles;
+    private Set<RoleDTO> roles;
     private Set<GustoDTO> gustiPreferiti;
-    //private Set<FrittoDTO> frittiPreferiti;
-    //private Set<BibitaDTO> bibitePreferite;
-    //private Set<Ordine> ordini;
+    private Set<FrittoDTO> frittiPreferiti;
+    private Set<VinoDTO> viniPreferiti;
+    private Set<BirraDTO> birrePreferite;
+    private Set<OrdineDTO> ordini;
 
 }
