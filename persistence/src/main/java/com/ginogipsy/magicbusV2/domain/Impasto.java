@@ -17,7 +17,7 @@ public class Impasto {
     @Column(name = "impasto_id")
     private Integer id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", unique = true)
     private String nome;
 
     @Column(name = "descrizione")

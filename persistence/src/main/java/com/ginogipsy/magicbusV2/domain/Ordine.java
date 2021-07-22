@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -34,19 +35,19 @@ public class Ordine {
     private User user;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
-    private Set<OrdineFritto> ordineFritti;
+    private List<OrdineFritto> ordineFritti;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
-    private Set<OrdineGusto> ordineGusti;
+    private List<OrdineGusto> ordineGusti;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
-    private Set<OrdineBibita> ordineBibite;
+    private List<OrdineBibita> ordineBibite;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
-    private Set<OrdineBirra> ordineBirre;
+    private List<OrdineBirra> ordineBirre;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
-    private Set<OrdineVino> ordineVini;
+    private List<OrdineVino> ordineVini;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ordinepagamento_id")

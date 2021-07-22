@@ -16,7 +16,7 @@ public class Fornitore {
     @Column(name = "fornitore_id")
     private Integer id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", unique = true)
     private String nome;
 
     @Column(name = "via")
@@ -26,13 +26,13 @@ public class Fornitore {
     private Integer civico;
 
     @Column(name = "cap")
-    private Integer cap;
+    private String cap;
 
     @Column(name = "citta")
     private String citta;
 
     @Column(name = "partita_iva")
-    private Integer partitaIva;
+    private String partitaIva;
 
     @ManyToMany
     @JoinTable(name = "marca_fornitore",
