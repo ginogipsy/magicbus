@@ -14,7 +14,7 @@ public class PosizioneMagicBus {
     @Column(name = "posizionemagicbus_id")
     private Integer id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", unique = true)
     private String nome;
 
     @Column(name = "descrizione")
@@ -24,10 +24,10 @@ public class PosizioneMagicBus {
     private String via;
 
     @Column(name = "civico")
-    private Integer civico;
+    private String civico;
 
     @Column(name = "cap")
-    private Integer cap;
+    private String cap;
 
     @Column(name = "citta")
     private String citta;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MapperFactory {
 
+    private final AllergeneMapper allergeneMapper;
     private final BibitaMapper bibitaMapper;
     private final BirraMapper birraMapper;
     private final BirrificioMapper birrificioMapper;
@@ -14,16 +15,26 @@ public class MapperFactory {
     private final FrittoMapper frittoMapper;
     private final GustoIngredienteMapper gustoIngredienteMapper;
     private final GustoMapper gustoMapper;
+    private final GustoUtenteMapper gustoUtenteMapper;
     private final ImpastoIngredienteMapper impastoIngredienteMapper;
     private final ImpastoMapper impastoMapper;
     private final IngredienteMapper ingredienteMapper;
     private final MarcaProdottoMapper marcaProdottoMapper;
+    private final OrarioDisponibileMapper orarioDisponibileMapper;
+    private final OrdineBibitaMapper ordineBibitaMapper;
+    private final OrdineBirraMapper ordineBirraMapper;
+    private final OrdineFrittoMapper ordineFrittoMapper;
+    private final OrdineGustoMapper ordineGustoMapper;
     private final OrdineMapper ordineMapper;
+    private final OrdineVinoMapper ordineVinoMapper;
+    private final PosizioneMagicBusMapper posizioneMagicBusMapper;
     private final RoleMapper roleMapper;
+    private final TipologiaPagamentoMapper tipologiaPagamentoMapper;
     private final UserMapper userMapper;
     private final VinoMapper vinoMapper;
 
-    public MapperFactory(BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrdineMapper ordineMapper, RoleMapper roleMapper, UserMapper userMapper, VinoMapper vinoMapper) {
+    public MapperFactory(AllergeneMapper allergeneMapper, BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, GustoUtenteMapper gustoUtenteMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrarioDisponibileMapper orarioDisponibileMapper, OrdineBibitaMapper ordineBibitaMapper, OrdineBirraMapper ordineBirraMapper, OrdineFrittoMapper ordineFrittoMapper, OrdineGustoMapper ordineGustoMapper, OrdineMapper ordineMapper, OrdineVinoMapper ordineVinoMapper, PosizioneMagicBusMapper posizioneMagicBusMapper, RoleMapper roleMapper, TipologiaPagamentoMapper tipologiaPagamentoMapper, UserMapper userMapper, VinoMapper vinoMapper) {
+        this.allergeneMapper = allergeneMapper;
         this.bibitaMapper = bibitaMapper;
         this.birraMapper = birraMapper;
         this.birrificioMapper = birrificioMapper;
@@ -33,14 +44,27 @@ public class MapperFactory {
         this.frittoMapper = frittoMapper;
         this.gustoIngredienteMapper = gustoIngredienteMapper;
         this.gustoMapper = gustoMapper;
+        this.gustoUtenteMapper = gustoUtenteMapper;
         this.impastoIngredienteMapper = impastoIngredienteMapper;
         this.impastoMapper = impastoMapper;
         this.ingredienteMapper = ingredienteMapper;
         this.marcaProdottoMapper = marcaProdottoMapper;
+        this.orarioDisponibileMapper = orarioDisponibileMapper;
+        this.ordineBibitaMapper = ordineBibitaMapper;
+        this.ordineBirraMapper = ordineBirraMapper;
+        this.ordineFrittoMapper = ordineFrittoMapper;
+        this.ordineGustoMapper = ordineGustoMapper;
         this.ordineMapper = ordineMapper;
+        this.ordineVinoMapper = ordineVinoMapper;
+        this.posizioneMagicBusMapper = posizioneMagicBusMapper;
         this.roleMapper = roleMapper;
+        this.tipologiaPagamentoMapper = tipologiaPagamentoMapper;
         this.userMapper = userMapper;
         this.vinoMapper = vinoMapper;
+    }
+
+    public AllergeneMapper getAllergeneMapper() {
+        return allergeneMapper;
     }
 
     public BibitaMapper getBibitaMapper() {
@@ -75,6 +99,10 @@ public class MapperFactory {
         return gustoMapper;
     }
 
+    public GustoUtenteMapper getGustoUtenteMapper() {
+        return gustoUtenteMapper;
+    }
+
     public ImpastoIngredienteMapper getImpastoIngredienteMapper() {
         return impastoIngredienteMapper;
     }
@@ -91,12 +119,44 @@ public class MapperFactory {
         return marcaProdottoMapper;
     }
 
+    public OrarioDisponibileMapper getOrarioDisponibileMapper() {
+        return orarioDisponibileMapper;
+    }
+
+    public OrdineBibitaMapper getOrdineBibitaMapper() {
+        return ordineBibitaMapper;
+    }
+
+    public OrdineBirraMapper getOrdineBirraMapper() {
+        return ordineBirraMapper;
+    }
+
+    public OrdineFrittoMapper getOrdineFrittoMapper() {
+        return ordineFrittoMapper;
+    }
+
+    public OrdineGustoMapper getOrdineGustoMapper() {
+        return ordineGustoMapper;
+    }
+
     public OrdineMapper getOrdineMapper() {
         return ordineMapper;
     }
 
+    public OrdineVinoMapper getOrdineVinoMapper() {
+        return ordineVinoMapper;
+    }
+
+    public PosizioneMagicBusMapper getPosizioneMagicBusMapper() {
+        return posizioneMagicBusMapper;
+    }
+
     public RoleMapper getRoleMapper() {
         return roleMapper;
+    }
+
+    public TipologiaPagamentoMapper getTipologiaPagamentoMapper() {
+        return tipologiaPagamentoMapper;
     }
 
     public UserMapper getUserMapper() {
