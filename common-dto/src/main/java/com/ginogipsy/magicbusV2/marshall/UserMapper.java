@@ -54,4 +54,8 @@ public class UserMapper {
     public UserDTO findByNumeroCellulare(long numeroCellullare){
         return Optional.ofNullable(convertToDTO(userRepository.findByNumeroCellulare(numeroCellullare))).orElse(null);
     }
+
+    public UserDTO findByEmailAndUsernameAndNumeroCellulare(String email, String username, long numeroCellullare){
+        return Optional.ofNullable(convertToDTO(userRepository.findByEmailAndUsernameAndNumeroCellulare(email, username, numeroCellullare))).orElse(null);
+    }
 }

@@ -1,8 +1,9 @@
 package com.ginogipsy.magicbusV2.controller;
 
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.ginogipsy.magicbusV2.dto.UserDTO;
-import com.ginogipsy.magicbusV2.request.InserisciIndirizzoRequest;
+import com.ginogipsy.magicbusV2.request.usercontroller.InserisciIndirizzoRequest;
+import com.ginogipsy.magicbusV2.request.usercontroller.ModificaPasswordRequest;
+import com.ginogipsy.magicbusV2.request.usercontroller.ModificaUserRequest;
 import com.ginogipsy.magicbusV2.securityModel.MyUserDetails;
 import com.ginogipsy.magicbusV2.service.UserService;
 import org.springframework.core.convert.ConversionFailedException;
@@ -23,7 +24,8 @@ public class UserController {
     }
 
     @PutMapping("/modificaUser")
-    public ResponseEntity<UserDTO> modificaUser(@RequestBody UserDTO userDTO, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> modificaUser(@RequestBody ModificaUserRequest modificaUserRequest, @AuthenticationPrincipal MyUserDetails myUserDetails){
+        UserDTO userDTO = creazioneUserDTO(modificaUserRequest);
         UserDTO user = userService.modificaUtente(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -36,8 +38,11 @@ public class UserController {
 
     @PutMapping("/inserisciIndirizzo")
     public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal MyUserDetails myUserDetails,  BindingResult bindingResult){
-        UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        if(!bindingResult.hasErrors()) {
+            UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
+            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        }else
+            throw new RuntimeException();
     }
 
     @PutMapping("/inserisciNomeCognome")
@@ -58,6 +63,12 @@ public class UserController {
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
+    @PutMapping("/modificaPassword")
+    public ResponseEntity<UserDTO> modificaPassword(@RequestBody @Validated ModificaPasswordRequest modificaPasswordRequest, BindingResult bindingResult){
+        UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getUsername(), modificaPasswordRequest.getNumeroCellulare(), modificaPasswordRequest.getNuovaPassword());
+        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+    }
+
     @PutMapping("/modificaCellulare")
     public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal MyUserDetails myUserDetails){
         Long numCell = null;
@@ -71,5 +82,20 @@ public class UserController {
         }
         UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numCell);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+    }
+
+    private UserDTO creazioneUserDTO(ModificaUserRequest modificaUserRequest){
+        UserDTO userDTO = new UserDTO();
+        if(modificaUserRequest.getEmail() != null) userDTO.setEmail(modificaUserRequest.getEmail());
+        if(modificaUserRequest.getUsername() != null) userDTO.setUsername(modificaUserRequest.getUsername());
+        if(modificaUserRequest.getNome() != null) userDTO.setNome(modificaUserRequest.getNome());
+        if(modificaUserRequest.getCognome() != null) userDTO.setCognome(modificaUserRequest.getCognome());
+        if(modificaUserRequest.getNumeroCellulare() != null) userDTO.setNumeroCellulare(modificaUserRequest.getNumeroCellulare());
+        if(modificaUserRequest.getIndirizzo() != null) userDTO.setIndirizzo(modificaUserRequest.getIndirizzo());
+        if(modificaUserRequest.getCivico() != null) userDTO.setCivico(modificaUserRequest.getCivico());
+        if(modificaUserRequest.getCitta() != null) userDTO.setCitta(modificaUserRequest.getCitta());
+        if(modificaUserRequest.getCap() != null) userDTO.setCap(modificaUserRequest.getCap());
+        if(modificaUserRequest.getCodiceFiscale() != null) userDTO.setCodiceFiscale(modificaUserRequest.getCodiceFiscale());
+        return userDTO;
     }
 }

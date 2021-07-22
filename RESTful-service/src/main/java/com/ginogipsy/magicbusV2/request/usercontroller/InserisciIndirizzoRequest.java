@@ -1,4 +1,4 @@
-package com.ginogipsy.magicbusV2.request;
+package com.ginogipsy.magicbusV2.request.usercontroller;
 
 import lombok.Data;
 

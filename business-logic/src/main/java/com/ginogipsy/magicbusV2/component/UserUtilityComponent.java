@@ -44,10 +44,16 @@ public class UserUtilityComponent implements UserUtility {
         }else{
             userDTO.setCap(userDTO.getCap().trim());
         }
-        userDTO.setUsername(userDTO.getUsername().toLowerCase().trim());
-        userDTO.setEmail(userDTO.getEmail().toLowerCase().trim());
-        userDTO.setPassword(userDTO.getPassword().trim());
+        if (userDTO.getUsername() != null){
+            userDTO.setUsername(userDTO.getUsername().toLowerCase().trim());
+        }
+        if(userDTO.getEmail() != null){
+            userDTO.setEmail(userDTO.getEmail().toLowerCase().trim());
+        }
 
+        if(userDTO.getPassword() != null){
+            userDTO.setPassword(userDTO.getPassword().trim());
+        }
         return userDTO;
 
     }

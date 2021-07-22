@@ -104,51 +104,43 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO modificaEmail(UserDTO userDaModificare, String nuovaEmail) {
-
-        if (userMapper.findUserByEmail(nuovaEmail) != null) {
-            throw new RuntimeException("La nuova mail è già presente!");
-        }
-            userDaModificare.setEmail(nuovaEmail.toLowerCase().trim());
+            aggiornamentoEmail(userDaModificare, nuovaEmail);
             return userMapper.save(userDaModificare);
     }
 
     @Override
     public UserDTO modificaUsername(UserDTO userDaModificare, String username){
-            if(userMapper.findUserByUsername(username) != null){
-                throw new RuntimeException("il nuovo username è già presente!");
-            }
-            userDaModificare.setUsername(username.toLowerCase().trim());
-            return userMapper.save(userDaModificare);
+        aggiornamentoUsername(userDaModificare, username);
+        return userMapper.save(userDaModificare);
     }
 
     @Override
     public UserDTO modificaNumeroCellulare(UserDTO userDaModificare, Long numeroCellulare) {
-
-        if(userMapper.findByNumeroCellulare(numeroCellulare) != null){
-            throw new RuntimeException("il nuovo numero di cellulare è già presente!");
-        }
-        if(numeroCellulare.toString().length() != 10) {
-            throw new RuntimeException("il numero di cellulare deve avere 10 cifre!");
-        }
-
-        userDaModificare.setNumeroCellulare(numeroCellulare);
+        aggiornamentoNumeroCellulare(userDaModificare, numeroCellulare);
         return userMapper.save(userDaModificare);
     }
 
-    private UserDTO trovaUserPerEmail(String email){
-        Optional<UserDTO> userDTO = Optional.ofNullable(userMapper.findUserByEmail(email));
-        if(userDTO.isPresent()){
-            return userDTO.get();
-        }else{
-            throw new RuntimeException("L'user con email "+email+" non è stato trovato!");
+    @Override
+    public UserDTO modificaPassword(String email, String username, long numeroCellulare, String nuovaPassword) {
+        Optional<UserDTO> userDTO = Optional.ofNullable(userMapper.findByEmailAndUsernameAndNumeroCellulare(email, username, numeroCellulare));
+        if(userDTO.isEmpty()){
+            throw new RuntimeException("Utente a cui modificare la password non trovata!");
         }
+        userDTO.get().setPassword(passwordEncoder.encode(nuovaPassword));
+        return userMapper.save(userDTO.get());
     }
 
     private void modificaCredenziali(UserDTO userDaModificare, UserDTO userModificato){
 
-        modificaEmail(userDaModificare, userModificato.getEmail());
-        modificaUsername(userDaModificare, userModificato.getUsername());
-        modificaNumeroCellulare(userDaModificare, userModificato.getNumeroCellulare());
+        if(userModificato.getEmail() != null) {
+            aggiornamentoEmail(userDaModificare, userModificato.getEmail());
+        }
+        if(userModificato.getUsername() != null) {
+            aggiornamentoUsername(userDaModificare, userModificato.getUsername());
+        }
+        if(userModificato.getNumeroCellulare() != null) {
+            aggiornamentoNumeroCellulare(userDaModificare, userModificato.getNumeroCellulare());
+        }
 
         if(userModificato.getCodiceFiscale() != null) {
             if (stringUtility.controlloCodiceFiscale(userModificato.getCodiceFiscale())) {
@@ -157,6 +149,30 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("Codice fiscale non corretto");
             }
         }
+    }
+
+    private void aggiornamentoEmail(UserDTO userDaModificare, String nuovaEmail){
+        if (userMapper.findUserByEmail(nuovaEmail) != null) {
+            throw new RuntimeException("La nuova mail è già presente!");
+        }
+        userDaModificare.setEmail(nuovaEmail.toLowerCase().trim());
+    }
+
+    private void aggiornamentoUsername(UserDTO userDaModificare, String username){
+        if(userMapper.findUserByUsername(username) != null){
+            throw new RuntimeException("il nuovo username è già presente!");
+        }
+        userDaModificare.setUsername(username.toLowerCase().trim());
+    }
+
+    private void aggiornamentoNumeroCellulare(UserDTO userDaModificare, Long numeroCellulare){
+        if(userMapper.findByNumeroCellulare(numeroCellulare) != null){
+            throw new RuntimeException("il nuovo numero di cellulare è già presente!");
+        }
+        if(numeroCellulare.toString().length() != 10) {
+            throw new RuntimeException("il numero di cellulare deve avere 10 cifre!");
+        }
+        userDaModificare.setNumeroCellulare(numeroCellulare);
     }
 
     private void aggiornamentoCodiceFiscale(UserDTO userDaModificare, String nuovoCodiceFiscale){
@@ -174,6 +190,5 @@ public class UserServiceImpl implements UserService {
             }
         }
         userDaModificare.setCodiceFiscale(nuovoCodiceFiscale.toUpperCase().trim());
-
     }
 }
