@@ -4,4 +4,7 @@ import com.ginogipsy.magicbus.domain.Fritto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FrittoRepository extends JpaRepository<Fritto, Integer> {
+
+    Fritto findByNome(String nome);
+    Fritto findByStatus(String status);
 }

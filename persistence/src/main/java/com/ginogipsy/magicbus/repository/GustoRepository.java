@@ -16,4 +16,5 @@ public interface GustoRepository extends JpaRepository<Gusto, Integer> {
     List<Gusto> findByDisponibileAndStatus(Boolean disponibile, Status status);
     List<Gusto> findByGustoUtente_InseritaDaUtente(Boolean inseritaDaUtente);
     List<Gusto> findByGustoUtente_InseritaDaUtenteAndStatus(Boolean inseritaDaUtente, Status status);
+    List<Gusto> findByTipologiaMenuAndDisponibile(TipologiaMenu tipologiaMenu, Boolean disponibile);
 }

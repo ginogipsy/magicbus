@@ -1,10 +1,7 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.component.utilityenum.BaseUtility;
-import com.ginogipsy.magicbus.component.utilityenum.CategoriaProdottoUtility;
-import com.ginogipsy.magicbus.component.utilityenum.PeriodoDisponibilitaUtility;
-import com.ginogipsy.magicbus.component.utilityenum.StatusUtility;
+import com.ginogipsy.magicbus.component.utilityenum.*;
 import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
@@ -22,14 +19,16 @@ public class GustoServiceImpl implements GustoService {
     private final CategoriaProdottoUtility categoriaProdottoUtility;
     private final PeriodoDisponibilitaUtility periodoDisponibilitaUtility;
     private final StringUtility stringUtility;
+    private final TipologiaMenuUtility tipologiaMenuUtility;
 
-    public GustoServiceImpl(MapperFactory mapperFactory, StatusUtility statusUtility, BaseUtility baseUtility, CategoriaProdottoUtility categoriaProdottoUtility, PeriodoDisponibilitaUtility periodoDisponibilitaUtility, StringUtility stringUtility) {
+    public GustoServiceImpl(MapperFactory mapperFactory, StatusUtility statusUtility, BaseUtility baseUtility, CategoriaProdottoUtility categoriaProdottoUtility, PeriodoDisponibilitaUtility periodoDisponibilitaUtility, StringUtility stringUtility, TipologiaMenuUtility tipologiaMenuUtility) {
         this.mapperFactory = mapperFactory;
         this.statusUtility = statusUtility;
         this.baseUtility = baseUtility;
         this.categoriaProdottoUtility = categoriaProdottoUtility;
         this.periodoDisponibilitaUtility = periodoDisponibilitaUtility;
         this.stringUtility = stringUtility;
+        this.tipologiaMenuUtility = tipologiaMenuUtility;
     }
 
     @Override
@@ -60,12 +59,12 @@ public class GustoServiceImpl implements GustoService {
 
     @Override
     public List<GustoDTO> findByDisponibilita(Boolean disponibile, String status) throws StatusProductsNotFoundException {
-        return mapperFactory.getGustoMapper().findByDisponibilita(Optional.ofNullable(disponibile).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta della disponibilità!")), statusUtility.statusVerify(status));
+        return mapperFactory.getGustoMapper().findByDisponibilita(verifyDisponibilita(disponibile), statusUtility.statusVerify(status));
     }
 
     @Override
     public List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(Boolean disponibile, String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException {
-        return mapperFactory.getGustoMapper().findByDisponibileAndPeriodoDisponibilita(Optional.ofNullable(disponibile).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta della disponibilità!")), periodoDisponibilitaUtility.verifyPeriodoDisponibilita(periodoDisponibilita));
+        return mapperFactory.getGustoMapper().findByDisponibileAndPeriodoDisponibilita(verifyDisponibilita(disponibile), periodoDisponibilitaUtility.verifyPeriodoDisponibilita(periodoDisponibilita));
     }
 
     @Override
@@ -76,5 +75,14 @@ public class GustoServiceImpl implements GustoService {
     @Override
     public List<GustoDTO> findByInseritaDaUtenteAndStatus(Boolean inseritaDaUtente, String status) throws StatusProductsNotFoundException {
         return mapperFactory.getGustoMapper().findByInseritaDaUtenteAndStatus(Optional.ofNullable(inseritaDaUtente).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta: Inserito Da Utente!")), statusUtility.statusVerify(status));
+    }
+
+    @Override
+    public List<GustoDTO> findByTipologiaMenuAndDisponibile(String tipologiaMenu, Boolean disponibile) throws TipologiaMenuNotFoundException {
+        return mapperFactory.getGustoMapper().findByTipologiaMenuAndDisponibile(tipologiaMenuUtility.verifytipologiaMenu(tipologiaMenu), verifyDisponibilita(disponibile));
+    }
+
+    private Boolean verifyDisponibilita(final Boolean disponibile){
+        return Optional.ofNullable(disponibile).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta della disponibilità!"));
     }
 }

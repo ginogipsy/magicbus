@@ -104,6 +104,16 @@ public class GustoMapper {
         return gusti;
     }
 
+    public List<GustoDTO> findByTipologiaMenuAndDisponibile(final String tipologiaMenu, final Boolean disponibile) {
+        final List<GustoDTO> gusti = new ArrayList<>();
+        gustoRepository.findByTipologiaMenuAndDisponibile(TipologiaMenu.valueOf(tipologiaMenu), disponibile).forEach(gusto -> {
+            GustoDTO g = convertToDTO(gusto);
+            gusti.add(g);
+        });
+
+        return gusti;
+    }
+
     public GustoDTO convertToDTO(final Gusto gusto){
         return (gusto != null) ? modelMapper.map(gusto, GustoDTO.class) : null;
     }
