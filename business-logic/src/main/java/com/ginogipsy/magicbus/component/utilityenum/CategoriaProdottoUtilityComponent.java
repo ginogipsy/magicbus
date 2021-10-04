@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.Arrays;
-import java.util.Optional;
+
 
 @Component
 public class CategoriaProdottoUtilityComponent implements CategoriaProdottoUtility {
@@ -20,11 +20,7 @@ public class CategoriaProdottoUtilityComponent implements CategoriaProdottoUtili
 
     @Override
     public String verifyCategoriaProdotto(final String categoriaProdotto) throws CategoriaProdottoNotFoundException {
-        final String cp = Optional.ofNullable(stringUtility.formattataMaiuscConSpaziaturaCorretta(categoriaProdotto)).orElseThrow(() -> new CategoriaProdottoNotFoundException("Categoria prodotto risulta NULL!"));
-        if(Arrays.stream(CategoriaProdotto.values()).anyMatch(categoria -> categoria.toString().equals(cp))){
-            return cp;
-        }else{
-            throw new CategoriaProdottoNotFoundException("Categoria prodotto "+cp+" non trovata!");
-        }
+        return Arrays.stream(CategoriaProdotto.values()).filter(categoriaProdotto1 -> categoriaProdotto1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(categoriaProdotto))).findFirst().orElseThrow(() -> new CategoriaProdottoNotFoundException("Base " + categoriaProdotto + " non trovata!")).toString();
+
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.Arrays;
-import java.util.Optional;
+
 
 @Component
 public class BaseUtilityComponent implements BaseUtility {
@@ -20,11 +20,15 @@ public class BaseUtilityComponent implements BaseUtility {
 
     @Override
     public String verifyBase(final String base) throws BaseNotFoundException {
-        final String b = Optional.ofNullable(stringUtility.formattataMaiuscConSpaziaturaCorretta(base)).orElseThrow(() -> new BaseNotFoundException("Base risulta NULL!"));
+        /*final String b = Optional.ofNullable(stringUtility.formattataMaiuscConSpaziaturaCorretta(base)).orElseThrow(() -> new BaseNotFoundException("Base risulta NULL!"));
         if(Arrays.stream(Base.values()).anyMatch(base1 -> base1.toString().equals(b))){
             return b;
         }else {
             throw new BaseNotFoundException("Base " + b + " non trovata!");
         }
+        **FUNZIONANO ENTRAMBI -> sono la stessa cosa**
+        */
+
+        return Arrays.stream(Base.values()).filter(base1 -> base1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(base))).findFirst().orElseThrow(() -> new BaseNotFoundException("Base " + base + " non trovata!")).toString();
     }
 }

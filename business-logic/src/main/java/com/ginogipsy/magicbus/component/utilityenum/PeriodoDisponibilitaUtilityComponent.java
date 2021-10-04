@@ -6,7 +6,7 @@ import com.ginogipsy.magicbus.domain.PeriodoDisponibilita;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Optional;
+
 
 @Component
 public class PeriodoDisponibilitaUtilityComponent implements PeriodoDisponibilitaUtility {
@@ -19,11 +19,7 @@ public class PeriodoDisponibilitaUtilityComponent implements PeriodoDisponibilit
 
     @Override
     public String verifyPeriodoDisponibilita(final String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException {
-        final String pd = Optional.ofNullable(stringUtility.formattataMaiuscConSpaziaturaCorretta(periodoDisponibilita)).orElseThrow(() -> new PeriodoDisponibilitaNotFoundException("Periodo disponibilità risulta NULL!"));
-        if(Arrays.stream(PeriodoDisponibilita.values()).anyMatch(pDisponibilita -> pDisponibilita.toString().equals(pd))){
-            return pd;
-        }else{
-            throw new PeriodoDisponibilitaNotFoundException("Periodo disponibilità "+pd+" non trovato!");
-        }
+        return Arrays.stream(PeriodoDisponibilita.values()).filter(periodoDisponibilita1 -> periodoDisponibilita1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(periodoDisponibilita))).findFirst().orElseThrow(() -> new PeriodoDisponibilitaNotFoundException("Base " + periodoDisponibilita + " non trovata!")).toString();
+
     }
 }

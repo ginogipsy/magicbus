@@ -6,7 +6,7 @@ import com.ginogipsy.magicbus.domain.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Optional;
+
 
 @Component
 public class StatusUtilityComponent implements StatusUtility {
@@ -19,12 +19,7 @@ public class StatusUtilityComponent implements StatusUtility {
 
     @Override
     public String statusVerify(String status) throws StatusProductsNotFoundException {
-        final String s = Optional.ofNullable(stringUtility.formattataMaiuscConSpaziaturaCorretta(status)).orElseThrow(() -> new StatusProductsNotFoundException("Lo status risulta NULL!"));
+        return Arrays.stream(Status.values()).filter(status1 -> status1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(status))).findFirst().orElseThrow(() -> new StatusProductsNotFoundException("Base " + status + " non trovata!")).toString();
 
-        if((Arrays.stream(Status.values()).anyMatch(status1 -> status1.toString().equals(s)))){
-            return s;
-        }else{
-            throw new StatusProductsNotFoundException("Status "+s+" non trovato!");
-        }
     }
 }
