@@ -24,11 +24,10 @@ public class BaseUtilityComponent implements BaseUtility {
         if(Arrays.stream(Base.values()).anyMatch(base1 -> base1.toString().equals(b))){
             return b;
         }else {
-            throw new BaseNotFoundException("Base " + b + " non trovata!");
-        }
-        **FUNZIONANO ENTRAMBI -> sono la stessa cosa**
-        */
-
-        return Arrays.stream(Base.values()).filter(base1 -> base1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(base))).findFirst().orElseThrow(() -> new BaseNotFoundException("Base " + base + " non trovata!")).toString();
+            throw new BaseNotFoundException("Base " + b + " non trovata!");*/
+        return Arrays.stream(Base.values())
+                .filter(base1 -> base1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(base)))
+                .findFirst()
+                .orElseThrow(() -> new BaseNotFoundException("Base " + base + " non trovata!")).toString();
     }
 }
