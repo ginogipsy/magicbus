@@ -3,6 +3,8 @@ package com.ginogipsy.magicbus.component;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserUtilityComponent implements UserUtility {
 
@@ -14,46 +16,18 @@ public class UserUtilityComponent implements UserUtility {
 
     @Override
     public UserDTO ristruttrazioneFormattazioneUserDTO(UserDTO userDTO) {
-        if(userDTO.getNome() != null){
-            userDTO.setNome(stringUtility.formattazionePrimaMaiusc(userDTO.getNome()));
-        }
-        if(userDTO.getCognome() != null){
-            userDTO.setCognome(stringUtility.formattazionePrimaMaiusc(userDTO.getCognome()));
-        }
-        if(userDTO.getCodiceFiscale() != null){
-            if(stringUtility.controlloCodiceFiscale(userDTO.getCodiceFiscale())){
-                userDTO.setCodiceFiscale(userDTO.getCodiceFiscale().toUpperCase());
-            }else{
-                userDTO.setCodiceFiscale(null);
-            }
-        }
-        if(userDTO.getIndirizzo() != null){
-            userDTO.setIndirizzo(stringUtility.formattazionePrimaMaiusc(userDTO.getIndirizzo()));
-        }
 
-        if(userDTO.getCitta() != null){
-            userDTO.setCitta(stringUtility.formattazionePrimaMaiusc(userDTO.getCitta()));
-        }
+        Optional.ofNullable(userDTO.getNome()).ifPresent(nome -> userDTO.setNome(stringUtility.formattazionePrimaMaiusc(nome)));
+        Optional.ofNullable(userDTO.getCognome()).ifPresent(cognome -> userDTO.setCognome(stringUtility.formattazionePrimaMaiusc(cognome)));
+        Optional.ofNullable(userDTO.getCodiceFiscale()).ifPresent(cf -> userDTO.setCodiceFiscale(cf.toUpperCase()));
+        Optional.ofNullable(userDTO.getIndirizzo()).ifPresent(ind -> userDTO.setIndirizzo(stringUtility.formattazionePrimaMaiusc(ind)));
+        Optional.ofNullable(userDTO.getCitta()).ifPresent(citta -> userDTO.setCitta(stringUtility.formattataMaiuscConSpaziaturaCorretta(citta)));
+        Optional.ofNullable(userDTO.getCivico()).ifPresent(civico -> userDTO.setCivico(civico.trim()));
+        Optional.ofNullable(userDTO.getCap()).ifPresent(cap -> userDTO.setCap(cap.trim()));
+        Optional.of(userDTO.getUsername()).ifPresent(username -> userDTO.setUsername(username.toLowerCase().trim()));
+        Optional.of(userDTO.getEmail()).ifPresent(email -> userDTO.setEmail(email.toLowerCase().trim()));
+        Optional.of(userDTO.getPassword()).ifPresent(password -> userDTO.setPassword(password.trim()));
 
-        if(userDTO.getCivico() != null){
-            userDTO.setCivico(userDTO.getCivico().trim());
-        }
-
-        if(userDTO.getCap() != null && !stringUtility.capCorretto(userDTO.getCap().trim())){
-            userDTO.setCap(null);
-        }else{
-            userDTO.setCap(userDTO.getCap().trim());
-        }
-        if (userDTO.getUsername() != null){
-            userDTO.setUsername(userDTO.getUsername().toLowerCase().trim());
-        }
-        if(userDTO.getEmail() != null){
-            userDTO.setEmail(userDTO.getEmail().toLowerCase().trim());
-        }
-
-        if(userDTO.getPassword() != null){
-            userDTO.setPassword(userDTO.getPassword().trim());
-        }
         return userDTO;
 
     }

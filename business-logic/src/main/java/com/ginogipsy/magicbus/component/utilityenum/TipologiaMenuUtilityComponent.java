@@ -20,7 +20,11 @@ public class TipologiaMenuUtilityComponent implements TipologiaMenuUtility {
     @Override
     public String verifytipologiaMenu(final String tipologiaMenu) throws TipologiaMenuNotFoundException {
 
-        return Arrays.stream(TipologiaMenu.values()).filter(tipologiaMenu1 -> tipologiaMenu1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(tipologiaMenu))).findFirst().orElseThrow(() -> new TipologiaMenuNotFoundException("Base " + tipologiaMenu + " non trovata!")).toString();
+        return Arrays.stream(TipologiaMenu.values())
+                .filter(tipologiaMenu1 -> tipologiaMenu1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(tipologiaMenu)))
+                .findFirst()
+                .orElseThrow(() -> new TipologiaMenuNotFoundException("Base " + tipologiaMenu + " non trovata!"))
+                .toString();
 
     }
 }

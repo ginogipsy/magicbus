@@ -19,7 +19,11 @@ public class StatusUtilityComponent implements StatusUtility {
 
     @Override
     public String statusVerify(String status) throws StatusProductsNotFoundException {
-        return Arrays.stream(Status.values()).filter(status1 -> status1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(status))).findFirst().orElseThrow(() -> new StatusProductsNotFoundException("Base " + status + " non trovata!")).toString();
+        return Arrays.stream(Status.values())
+                .filter(status1 -> status1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(status)))
+                .findFirst()
+                .orElseThrow(() -> new StatusProductsNotFoundException("Base " + status + " non trovata!"))
+                .toString();
 
     }
 }

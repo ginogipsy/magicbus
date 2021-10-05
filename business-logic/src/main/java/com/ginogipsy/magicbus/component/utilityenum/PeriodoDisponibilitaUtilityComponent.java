@@ -19,7 +19,11 @@ public class PeriodoDisponibilitaUtilityComponent implements PeriodoDisponibilit
 
     @Override
     public String verifyPeriodoDisponibilita(final String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException {
-        return Arrays.stream(PeriodoDisponibilita.values()).filter(periodoDisponibilita1 -> periodoDisponibilita1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(periodoDisponibilita))).findFirst().orElseThrow(() -> new PeriodoDisponibilitaNotFoundException("Base " + periodoDisponibilita + " non trovata!")).toString();
+        return Arrays.stream(PeriodoDisponibilita.values())
+                .filter(periodoDisponibilita1 -> periodoDisponibilita1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(periodoDisponibilita)))
+                .findFirst()
+                .orElseThrow(() -> new PeriodoDisponibilitaNotFoundException("Base " + periodoDisponibilita + " non trovata!"))
+                .toString();
 
     }
 }

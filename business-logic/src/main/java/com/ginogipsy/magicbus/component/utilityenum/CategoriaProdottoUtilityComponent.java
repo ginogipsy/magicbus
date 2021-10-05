@@ -20,7 +20,11 @@ public class CategoriaProdottoUtilityComponent implements CategoriaProdottoUtili
 
     @Override
     public String verifyCategoriaProdotto(final String categoriaProdotto) throws CategoriaProdottoNotFoundException {
-        return Arrays.stream(CategoriaProdotto.values()).filter(categoriaProdotto1 -> categoriaProdotto1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(categoriaProdotto))).findFirst().orElseThrow(() -> new CategoriaProdottoNotFoundException("Base " + categoriaProdotto + " non trovata!")).toString();
+        return Arrays.stream(CategoriaProdotto.values())
+                .filter(categoriaProdotto1 -> categoriaProdotto1.toString().equals(stringUtility.formattataMaiuscConSpaziaturaCorretta(categoriaProdotto)))
+                .findFirst()
+                .orElseThrow(() -> new CategoriaProdottoNotFoundException("Base " + categoriaProdotto + " non trovata!"))
+                .toString();
 
     }
 }
