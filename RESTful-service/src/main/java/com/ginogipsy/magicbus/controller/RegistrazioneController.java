@@ -1,5 +1,7 @@
 package com.ginogipsy.magicbus.controller;
 
+import com.ginogipsy.magicbus.customexception.user.CellPhoneIsPresentException;
+import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class RegistrazioneController {
     }
 
     @PostMapping("/registrazioneUtente")
-    public ResponseEntity<UserDTO> registrazioneUtente(@RequestBody UserDTO userDTO, BindingResult result){
+    public ResponseEntity<UserDTO> registrazioneUtente(@RequestBody UserDTO userDTO, BindingResult result) throws CellPhoneNotCorrectException, CellPhoneIsPresentException {
 
         if(!result.hasErrors()){
             UserDTO user =  userService.registrazioneUtente(userDTO);

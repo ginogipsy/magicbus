@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Non ho trovato il gusto!")
-public class GustoNotFoundException extends Exception {
+public class GustoNotFoundException extends RuntimeException {
 
     public GustoNotFoundException(String message){
         super(message);
