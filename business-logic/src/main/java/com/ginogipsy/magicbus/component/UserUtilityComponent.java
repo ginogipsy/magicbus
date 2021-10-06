@@ -15,7 +15,7 @@ public class UserUtilityComponent implements UserUtility {
     }
 
     @Override
-    public UserDTO ristruttrazioneFormattazioneUserDTO(UserDTO userDTO) {
+    public UserDTO ristruttrazioneFormattazioneUserDTO(final UserDTO userDTO) {
 
         Optional.ofNullable(userDTO.getNome()).ifPresent(nome -> userDTO.setNome(stringUtility.formattazionePrimaMaiusc(nome)));
         Optional.ofNullable(userDTO.getCognome()).ifPresent(cognome -> userDTO.setCognome(stringUtility.formattazionePrimaMaiusc(cognome)));

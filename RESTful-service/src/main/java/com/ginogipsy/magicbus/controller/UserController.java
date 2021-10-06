@@ -1,5 +1,7 @@
 package com.ginogipsy.magicbus.controller;
 
+import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
+import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.request.usercontroller.InserisciIndirizzoRequest;
 import com.ginogipsy.magicbus.request.usercontroller.ModificaPasswordRequest;
@@ -42,7 +44,7 @@ public class UserController {
             UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
-            throw new RuntimeException();
+            throw new DataNotCorrectException("Indirizzo inserito non corretto");
     }
 
     @PutMapping("/inserisciNomeCognome")
@@ -65,8 +67,11 @@ public class UserController {
 
     @PutMapping("/modificaPassword")
     public ResponseEntity<UserDTO> modificaPassword(@RequestBody @Validated ModificaPasswordRequest modificaPasswordRequest, BindingResult bindingResult){
-        UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getUsername(), modificaPasswordRequest.getNumeroCellulare(), modificaPasswordRequest.getNuovaPassword());
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        if(!bindingResult.hasErrors()) {
+            UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
+            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        }else
+            throw new DataNotCorrectException("Indirizzo inserito non corretto");
     }
 
     @PutMapping("/modificaCellulare")
@@ -77,7 +82,7 @@ public class UserController {
             try {
                 numCell = Long.parseLong(numeroCellulare);
             }catch (ConversionFailedException e){
-                throw new RuntimeException("il numero deve essere composto da 10 cifre numeriche!");
+                throw new CellPhoneNotCorrectException("il numero deve essere composto da 10 cifre numeriche!");
             }
         }
         UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numCell);

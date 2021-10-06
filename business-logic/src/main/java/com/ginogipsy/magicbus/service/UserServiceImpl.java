@@ -30,32 +30,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO registrazioneUtente(UserDTO userDTO) {
-        userDTO = userUtility.ristruttrazioneFormattazioneUserDTO(userDTO);
-        if(mapperFactory.getUserMapper().findByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail()) == null){
-            if(userDTO.getCodiceFiscale() != null && mapperFactory.getUserMapper().findByCodiceFiscale(userDTO.getCodiceFiscale()) != null){
-                userDTO.setCodiceFiscale(null);
+    public UserDTO registrazioneUtente(final UserDTO userDTO) {
+        final UserDTO user = userUtility.ristruttrazioneFormattazioneUserDTO(userDTO);
+        if(mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()) == null){
+            if(user.getCodiceFiscale() != null && mapperFactory.getUserMapper().findByCodiceFiscale(user.getCodiceFiscale()) != null){
+                user.setCodiceFiscale(null);
             }
-            if(userDTO.getNumeroCellulare().toString().length() != 10){
+            if(user.getNumeroCellulare().toString().length() != 10){
                 throw new CellPhoneNotCorrectException("Il numero non rispetta i parametri!");
             }
-            if(mapperFactory.getUserMapper().findByNumeroCellulare(userDTO.getNumeroCellulare()) != null){
+            if(mapperFactory.getUserMapper().findByNumeroCellulare(user.getNumeroCellulare()) != null){
                 throw new CellPhoneIsPresentException("il numero è già presente");
             }
 
-            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             Set<RoleDTO> role = new HashSet<>();
             RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo(Profilo.USER);
             role.add(roleDTO);
-            userDTO.setRoles(role);
-            userDTO.setIsEnabled(true);
-            return mapperFactory.getUserMapper().save(userDTO);
+            user.setRoles(role);
+            user.setIsEnabled(true);
+            return mapperFactory.getUserMapper().save(user);
         }
         throw new UsernameOrEmailArePresent("Username o email già presenti");
     }
 
     @Override
-    public UserDTO inserimentoCodiceFiscale(UserDTO userDaModificare, String codiceFiscale) {
+    public UserDTO inserimentoCodiceFiscale(final UserDTO userDaModificare,final String codiceFiscale) {
         if (stringUtility.controlloCodiceFiscale(codiceFiscale)) {
                 aggiornamentoCodiceFiscale(userDaModificare, codiceFiscale);
                 return mapperFactory.getUserMapper().save(userDaModificare);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO inserimentoIndirizzo(UserDTO userDaModificare, String indirizzo, String civico, String citta, String cap){
+    public UserDTO inserimentoIndirizzo(final UserDTO userDaModificare,final String indirizzo,final String civico,final String citta,final String cap){
         userDaModificare.setIndirizzo(stringUtility.formattazionePrimaMaiusc(indirizzo));
         userDaModificare.setCivico(civico);
         userDaModificare.setCitta(stringUtility.formattazionePrimaMaiusc(citta));
@@ -79,24 +79,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO inserimentoNomeCognome(UserDTO userDaModificare, String nome, String cognome){
+    public UserDTO inserimentoNomeCognome(final UserDTO userDaModificare,final String nome,final String cognome){
         userDaModificare.setNome(stringUtility.formattazionePrimaMaiusc(nome));
         userDaModificare.setCognome(stringUtility.formattazionePrimaMaiusc(cognome));
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
     @Override
-    public UserDTO modificaUtente(UserDTO userDaModificare, UserDTO userModificato){
+    public UserDTO modificaUtente(final UserDTO userDaModificare,final UserDTO userModificato){
 
-        userModificato = userUtility.ristruttrazioneFormattazioneUserDTO(userModificato);
+        final UserDTO user = userUtility.ristruttrazioneFormattazioneUserDTO(userModificato);
 
-        modificaCredenziali(userDaModificare, userModificato);
-        Optional.ofNullable(userModificato.getNome()).ifPresent(userDaModificare::setNome);
-        Optional.ofNullable(userModificato.getCognome()).ifPresent(userDaModificare::setCognome);
-        Optional.ofNullable(userModificato.getIndirizzo()).ifPresent(userDaModificare::setIndirizzo);
-        Optional.ofNullable(userModificato.getCivico()).ifPresent(userDaModificare::setCivico);
-        Optional.ofNullable(userModificato.getCitta()).ifPresent(userDaModificare::setCivico);
-        Optional.ofNullable(userModificato.getCap()).ifPresent(cap -> {
+        modificaCredenziali(userDaModificare, user);
+        Optional.ofNullable(user.getNome()).ifPresent(userDaModificare::setNome);
+        Optional.ofNullable(user.getCognome()).ifPresent(userDaModificare::setCognome);
+        Optional.ofNullable(user.getIndirizzo()).ifPresent(userDaModificare::setIndirizzo);
+        Optional.ofNullable(user.getCivico()).ifPresent(userDaModificare::setCivico);
+        Optional.ofNullable(user.getCitta()).ifPresent(userDaModificare::setCivico);
+        Optional.ofNullable(user.getCap()).ifPresent(cap -> {
             if(stringUtility.capCorretto(cap)) {
                 userDaModificare.setCap(cap);
             }
@@ -106,34 +106,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO modificaEmail(UserDTO userDaModificare, String nuovaEmail) {
+    public UserDTO modificaEmail(final UserDTO userDaModificare,final String nuovaEmail) {
             aggiornamentoEmail(userDaModificare, nuovaEmail);
             return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
     @Override
-    public UserDTO modificaUsername(UserDTO userDaModificare, String username){
+    public UserDTO modificaUsername(final UserDTO userDaModificare,final String username){
         aggiornamentoUsername(userDaModificare, username);
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
     @Override
-    public UserDTO modificaNumeroCellulare(UserDTO userDaModificare, Long numeroCellulare) {
+    public UserDTO modificaNumeroCellulare(final UserDTO userDaModificare, final Long numeroCellulare) {
         aggiornamentoNumeroCellulare(userDaModificare, numeroCellulare);
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
     @Override
-    public UserDTO modificaPassword(String email, String username, long numeroCellulare, String nuovaPassword) {
-        Optional<UserDTO> userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findByEmailAndUsernameAndNumeroCellulare(email, username, numeroCellulare));
-        if(userDTO.isEmpty()){
-            throw new UserNotFoundException("Utente a cui modificare la password non trovato!");
+    public UserDTO modificaPassword(final String email, final String vecchiaPassword, final String nuovaPassword) {
+        UserDTO userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
+        if(passwordEncoder.matches(userDTO.getPassword(), vecchiaPassword)){
+            userDTO.setPassword(nuovaPassword);
+            return mapperFactory.getUserMapper().save(userDTO);
         }
-        userDTO.get().setPassword(passwordEncoder.encode(nuovaPassword));
-        return mapperFactory.getUserMapper().save(userDTO.get());
+        throw new PassowordNotMatchException("La password non corrisponde!");
+
     }
 
-    private void modificaCredenziali(UserDTO userDaModificare, UserDTO userModificato){
+    private void modificaCredenziali(final UserDTO userDaModificare,final UserDTO userModificato){
 
         Optional.of(userModificato.getEmail()).ifPresent(email -> aggiornamentoEmail(userDaModificare, email));
         Optional.of(userModificato.getUsername()).ifPresent(username -> aggiornamentoUsername(userDaModificare, username));
@@ -148,22 +149,21 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private void aggiornamentoEmail(UserDTO userDaModificare, String nuovaEmail){
-
+    private void aggiornamentoEmail(final UserDTO userDaModificare, final String nuovaEmail){
         if (mapperFactory.getUserMapper().findUserByEmail(nuovaEmail) != null) {
             throw new EmailIsPresentException("La nuova mail è già presente!");
         }
         userDaModificare.setEmail(nuovaEmail.toLowerCase().trim());
     }
 
-    private void aggiornamentoUsername(UserDTO userDaModificare, String username){
+    private void aggiornamentoUsername(final UserDTO userDaModificare, final String username){
         if(mapperFactory.getUserMapper().findUserByUsername(username) != null){
             throw new UsernameIsPresentException("il nuovo username è già presente!");
         }
         userDaModificare.setUsername(username.toLowerCase().trim());
     }
 
-    private void aggiornamentoNumeroCellulare(UserDTO userDaModificare, Long numeroCellulare){
+    private void aggiornamentoNumeroCellulare(final UserDTO userDaModificare,final Long numeroCellulare){
         if(mapperFactory.getUserMapper().findByNumeroCellulare(numeroCellulare) != null){
             throw new CellPhoneIsPresentException("il nuovo numero di cellulare è già presente!");
         }
@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
         userDaModificare.setNumeroCellulare(numeroCellulare);
     }
 
-    private void aggiornamentoCodiceFiscale(UserDTO userDaModificare, String nuovoCodiceFiscale) {
+    private void aggiornamentoCodiceFiscale(final UserDTO userDaModificare,final String nuovoCodiceFiscale) {
         UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByCodiceFiscale(nuovoCodiceFiscale);
 
         if (userOfNewCodiceFiscale != null) {

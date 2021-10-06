@@ -7,7 +7,6 @@ public class ModificaPasswordRequest {
 
 
     private String email;
-    private String username;
-    private long numeroCellulare;
+    private String vecchiaPassword;
     private String nuovaPassword;
 }
