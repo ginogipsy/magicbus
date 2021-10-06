@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.util.Optional.*;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private final MapperFactory mapperFactory;
-
     private final PasswordEncoder passwordEncoder;
     private final StringUtility stringUtility;
     private final UserUtility userUtility;
@@ -91,12 +92,12 @@ public class UserServiceImpl implements UserService {
         final UserDTO user = userUtility.ristruttrazioneFormattazioneUserDTO(userModificato);
 
         modificaCredenziali(userDaModificare, user);
-        Optional.ofNullable(user.getNome()).ifPresent(userDaModificare::setNome);
-        Optional.ofNullable(user.getCognome()).ifPresent(userDaModificare::setCognome);
-        Optional.ofNullable(user.getIndirizzo()).ifPresent(userDaModificare::setIndirizzo);
-        Optional.ofNullable(user.getCivico()).ifPresent(userDaModificare::setCivico);
-        Optional.ofNullable(user.getCitta()).ifPresent(userDaModificare::setCivico);
-        Optional.ofNullable(user.getCap()).ifPresent(cap -> {
+        ofNullable(user.getNome()).ifPresent(userDaModificare::setNome);
+        ofNullable(user.getCognome()).ifPresent(userDaModificare::setCognome);
+        ofNullable(user.getIndirizzo()).ifPresent(userDaModificare::setIndirizzo);
+        ofNullable(user.getCivico()).ifPresent(userDaModificare::setCivico);
+        ofNullable(user.getCitta()).ifPresent(userDaModificare::setCivico);
+        ofNullable(user.getCap()).ifPresent(cap -> {
             if(stringUtility.capCorretto(cap)) {
                 userDaModificare.setCap(cap);
             }
@@ -125,9 +126,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO modificaPassword(final String email, final String vecchiaPassword, final String nuovaPassword) {
-        UserDTO userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
-        if(passwordEncoder.matches(vecchiaPassword, userDTO.getPassword())){
-            userDTO.setPassword(passwordEncoder.encode(nuovaPassword));
+        UserDTO userDTO = ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
+        if(passwordEncoder.matches(vecchiaPassword.trim(), userDTO.getPassword())){
+            userDTO.setPassword(passwordEncoder.encode(nuovaPassword.trim()));
             return mapperFactory.getUserMapper().save(userDTO);
         }
         throw new PassowordNotMatchException("La password non corrisponde!");
@@ -136,10 +137,10 @@ public class UserServiceImpl implements UserService {
 
     private void modificaCredenziali(final UserDTO userDaModificare,final UserDTO userModificato){
 
-        Optional.of(userModificato.getEmail()).ifPresent(email -> aggiornamentoEmail(userDaModificare, email));
-        Optional.of(userModificato.getUsername()).ifPresent(username -> aggiornamentoUsername(userDaModificare, username));
-        Optional.of(userModificato.getNumeroCellulare()).ifPresent(numCell -> aggiornamentoNumeroCellulare(userDaModificare, numCell));
-        Optional.ofNullable(userModificato.getCodiceFiscale()).ifPresent(cf -> {
+        of(userModificato.getEmail()).ifPresent(email -> aggiornamentoEmail(userDaModificare, email));
+        of(userModificato.getUsername()).ifPresent(username -> aggiornamentoUsername(userDaModificare, username));
+        of(userModificato.getNumeroCellulare()).ifPresent(numCell -> aggiornamentoNumeroCellulare(userDaModificare, numCell));
+        ofNullable(userModificato.getCodiceFiscale()).ifPresent(cf -> {
             if (stringUtility.controlloCodiceFiscale(cf)) {
                 aggiornamentoCodiceFiscale(userDaModificare, cf);
             }else {

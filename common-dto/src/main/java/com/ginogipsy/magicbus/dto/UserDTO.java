@@ -44,4 +44,6 @@ public class UserDTO {
     private Set<BirraDTO> birrePreferite;
     private Set<OrdineDTO> ordini;
 
+
+
 }
