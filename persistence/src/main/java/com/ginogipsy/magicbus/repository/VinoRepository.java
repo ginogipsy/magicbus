@@ -13,7 +13,7 @@ public interface VinoRepository extends JpaRepository<Vino, Integer> {
     List<Vino> findByCantina_Nome(String nomeCantina);
     List<Vino> findByQualitaVino(QualitaVino qualitaVino);
     List<Vino> findByDisponibile(Boolean disponibile);
-    List<Vino> findByDisponibileAndCantina_Nome(String nomeCantina);
+    List<Vino> findByDisponibileAndCantina_Nome(Boolean disponibile, String nomeCantina);
     List<Vino> findByDisponibileAndQualitaVino(Boolean disponibile, QualitaVino qualitaVino);
 
 }

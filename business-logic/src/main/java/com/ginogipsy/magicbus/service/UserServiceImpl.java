@@ -126,8 +126,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO modificaPassword(final String email, final String vecchiaPassword, final String nuovaPassword) {
         UserDTO userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
-        if(passwordEncoder.matches(userDTO.getPassword(), vecchiaPassword)){
-            userDTO.setPassword(nuovaPassword);
+        if(passwordEncoder.matches(vecchiaPassword, userDTO.getPassword())){
+            userDTO.setPassword(passwordEncoder.encode(nuovaPassword));
             return mapperFactory.getUserMapper().save(userDTO);
         }
         throw new PassowordNotMatchException("La password non corrisponde!");
