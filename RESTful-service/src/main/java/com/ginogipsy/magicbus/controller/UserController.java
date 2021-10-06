@@ -3,9 +3,9 @@ package com.ginogipsy.magicbus.controller;
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
 import com.ginogipsy.magicbus.dto.UserDTO;
-import com.ginogipsy.magicbus.request.usercontroller.InserisciIndirizzoRequest;
-import com.ginogipsy.magicbus.request.usercontroller.ModificaPasswordRequest;
-import com.ginogipsy.magicbus.request.usercontroller.ModificaUserRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.InserisciIndirizzoRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaPasswordRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaUserRequest;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import org.springframework.core.convert.ConversionFailedException;
@@ -34,6 +34,8 @@ public class UserController {
 
     @PutMapping("/inserisciCodiceFiscale")
     public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        System.out.println(myUserDetails.getAuthorities());
+        System.out.println(myUserDetails.getUserDTO().getRoles());
         UserDTO user = userService.inserimentoCodiceFiscale(myUserDetails.getUserDTO(), codiceFiscale);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }

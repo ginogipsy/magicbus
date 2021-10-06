@@ -58,7 +58,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO inserimentoCodiceFiscale(final UserDTO userDaModificare,final String codiceFiscale) {
         if (stringUtility.controlloCodiceFiscale(codiceFiscale)) {
-                aggiornamentoCodiceFiscale(userDaModificare, codiceFiscale);
+                //aggiornamentoCodiceFiscale(userDaModificare, codiceFiscale);
+            userDaModificare.setCodiceFiscale(codiceFiscale.toUpperCase().trim());
                 return mapperFactory.getUserMapper().save(userDaModificare);
             }
 
@@ -174,7 +175,7 @@ public class UserServiceImpl implements UserService {
         userDaModificare.setNumeroCellulare(numeroCellulare);
     }
 
-    private void aggiornamentoCodiceFiscale(final UserDTO userDaModificare,final String nuovoCodiceFiscale) {
+    private void aggiornamentoCodiceFiscale(UserDTO userDaModificare,final String nuovoCodiceFiscale) {
         UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByCodiceFiscale(nuovoCodiceFiscale);
 
         if (userOfNewCodiceFiscale != null) {
