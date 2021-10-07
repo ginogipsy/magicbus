@@ -25,6 +25,10 @@ public class UserMapper {
         return convertToDTO(userRepository.findByUsername(username));
     }
 
+    public UserDTO findById(Integer id){
+        return convertToDTO(userRepository.findById(id).get());
+    }
+
     public Boolean existsByUsername(String username){
         return userRepository.existsByUsername(username);
     }

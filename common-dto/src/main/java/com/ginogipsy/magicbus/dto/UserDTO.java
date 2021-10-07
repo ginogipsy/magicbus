@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 public class UserDTO {
-
 
     private int id;
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -70,10 +71,10 @@ public class UserDetailsImpl implements UserDetails {
         return username;
     }
 
-
     public UserDTO getUserDTO() {
         return userDTO;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

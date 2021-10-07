@@ -32,8 +32,9 @@ public class MapperFactory {
     private final TipologiaPagamentoMapper tipologiaPagamentoMapper;
     private final UserMapper userMapper;
     private final VinoMapper vinoMapper;
+    private final RefreshTokenMapper refreshTokenMapper;
 
-    public MapperFactory(AllergeneMapper allergeneMapper, BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, GustoUtenteMapper gustoUtenteMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrarioDisponibileMapper orarioDisponibileMapper, OrdineBibitaMapper ordineBibitaMapper, OrdineBirraMapper ordineBirraMapper, OrdineFrittoMapper ordineFrittoMapper, OrdineGustoMapper ordineGustoMapper, OrdineMapper ordineMapper, OrdineVinoMapper ordineVinoMapper, PosizioneMagicBusMapper posizioneMagicBusMapper, RoleMapper roleMapper, TipologiaPagamentoMapper tipologiaPagamentoMapper, UserMapper userMapper, VinoMapper vinoMapper) {
+    public MapperFactory(AllergeneMapper allergeneMapper, BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, GustoUtenteMapper gustoUtenteMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrarioDisponibileMapper orarioDisponibileMapper, OrdineBibitaMapper ordineBibitaMapper, OrdineBirraMapper ordineBirraMapper, OrdineFrittoMapper ordineFrittoMapper, OrdineGustoMapper ordineGustoMapper, OrdineMapper ordineMapper, OrdineVinoMapper ordineVinoMapper, PosizioneMagicBusMapper posizioneMagicBusMapper, RoleMapper roleMapper, TipologiaPagamentoMapper tipologiaPagamentoMapper, UserMapper userMapper, VinoMapper vinoMapper, RefreshTokenMapper refreshTokenMapper) {
         this.allergeneMapper = allergeneMapper;
         this.bibitaMapper = bibitaMapper;
         this.birraMapper = birraMapper;
@@ -61,6 +62,7 @@ public class MapperFactory {
         this.tipologiaPagamentoMapper = tipologiaPagamentoMapper;
         this.userMapper = userMapper;
         this.vinoMapper = vinoMapper;
+        this.refreshTokenMapper = refreshTokenMapper;
     }
 
     public AllergeneMapper getAllergeneMapper() {
@@ -97,6 +99,10 @@ public class MapperFactory {
 
     public GustoMapper getGustoMapper() {
         return gustoMapper;
+    }
+
+    public RefreshTokenMapper getRefreshTokenMapper() {
+        return refreshTokenMapper;
     }
 
     public GustoUtenteMapper getGustoUtenteMapper() {

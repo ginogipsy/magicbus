@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
+
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
 import com.ginogipsy.magicbus.dto.UserDTO;
@@ -34,8 +35,6 @@ public class UserController {
 
     @PutMapping("/inserisciCodiceFiscale")
     public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        System.out.println(myUserDetails.getAuthorities());
-        System.out.println(myUserDetails.getUserDTO().getRoles());
         UserDTO user = userService.inserimentoCodiceFiscale(myUserDetails.getUserDTO(), codiceFiscale);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -73,10 +72,11 @@ public class UserController {
             UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
-            throw new DataNotCorrectException("Indirizzo inserito non corretto");
+            throw new DataNotCorrectException("Dati non corretti");
     }
 
     @PutMapping("/modificaCellulare")
+    @ExceptionHandler(value = CellPhoneNotCorrectException.class)
     public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         Long numCell = null;
 
