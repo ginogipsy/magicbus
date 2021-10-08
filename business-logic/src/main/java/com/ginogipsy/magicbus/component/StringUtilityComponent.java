@@ -30,7 +30,7 @@ public class StringUtilityComponent implements StringUtility {
         StringBuilder result = new StringBuilder();
         for (String s: parole
              ) {
-            s = s.substring(0, 1).toUpperCase() + s.substring(1);
+            s = s.substring(0, 1).toUpperCase() + formattataMinuscConSpaziaturaCorretta(s.substring(1));
             result.append(s).append(" ");
         }
         return result.toString().trim();
