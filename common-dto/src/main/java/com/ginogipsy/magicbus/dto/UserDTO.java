@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import java.io.Serializable;
 import java.util.Set;
 
 @Data
@@ -27,7 +26,7 @@ public class UserDTO {
     private String cognome;
 
     @NonNull
-    private Long numeroCellulare;
+    private String numeroCellulare;
     private String indirizzo;
     private String civico;
     private String citta;

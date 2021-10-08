@@ -2,14 +2,13 @@ package com.ginogipsy.magicbus.controller;
 
 
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
+import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.InserisciIndirizzoRequest;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaPasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaUserRequest;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
-import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -55,6 +54,7 @@ public class UserController {
     }
 
     @PutMapping("/modificaEmail")
+    @ExceptionHandler(value = EmailIsPresentException.class)
     public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
             UserDTO user = userService.modificaEmail(myUserDetails.getUserDTO(), nuovaEmail);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
@@ -72,23 +72,13 @@ public class UserController {
             UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
-            throw new DataNotCorrectException("Dati non corretti");
+            throw new DataNotCorrectException("i dati inseriti non sono corretti");
     }
 
     @PutMapping("/modificaCellulare")
-    @ExceptionHandler(value = CellPhoneNotCorrectException.class)
     public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        Long numCell = null;
-
-        if(numeroCellulare.length() != 10){
-            try {
-                numCell = Long.parseLong(numeroCellulare);
-            }catch (ConversionFailedException e){
-                throw new CellPhoneNotCorrectException("il numero deve essere composto da 10 cifre numeriche!");
-            }
-        }
-        UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numCell);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numeroCellulare);
+        return ResponseEntity.ok().body(user);
     }
 
     private UserDTO creazioneUserDTO(ModificaUserRequest modificaUserRequest){

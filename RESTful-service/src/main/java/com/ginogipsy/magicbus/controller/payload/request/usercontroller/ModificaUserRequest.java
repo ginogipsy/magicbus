@@ -9,7 +9,7 @@ public class ModificaUserRequest {
     private String username;
     private String nome;
     private String cognome;
-    private Long numeroCellulare;
+    private String numeroCellulare;
     private String indirizzo;
     private String civico;
     private String citta;

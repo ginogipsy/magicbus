@@ -21,7 +21,7 @@ public class SignupRequest {
     private String cognome;
 
     @NotBlank
-    private Long numeroCellulare;
+    private String numeroCellulare;
     private String indirizzo;
     private String civico;
     private String citta;
