@@ -37,9 +37,7 @@ public class UserServiceImpl implements UserService {
             if(user.getCodiceFiscale() != null && mapperFactory.getUserMapper().findByCodiceFiscale(user.getCodiceFiscale()) != null){
                 user.setCodiceFiscale(null);
             }
-            if(user.getNumeroCellulare().toString().length() != 10){
-                throw new CellPhoneNotCorrectException("Il numero non rispetta i parametri!");
-            }
+
             if(mapperFactory.getUserMapper().findByNumeroCellulare(user.getNumeroCellulare()) != null){
                 throw new CellPhoneIsPresentException("il numero è già presente");
             }
@@ -55,16 +53,7 @@ public class UserServiceImpl implements UserService {
         throw new UsernameOrEmailArePresent("Username o email già presenti");
     }
 
-    @Override
-    public UserDTO inserimentoCodiceFiscale(final UserDTO userDaModificare,final String codiceFiscale) {
-        if (stringUtility.controlloCodiceFiscale(codiceFiscale)) {
-                //aggiornamentoCodiceFiscale(userDaModificare, codiceFiscale);
-            userDaModificare.setCodiceFiscale(codiceFiscale.toUpperCase().trim());
-                return mapperFactory.getUserMapper().save(userDaModificare);
-            }
 
-            throw new CodiceFiscaleNotCorrectException("Codice fiscale non corretto");
-    }
 
     @Override
     public UserDTO inserimentoIndirizzo(final UserDTO userDaModificare,final String indirizzo,final String civico,final String citta,final String cap){
@@ -114,13 +103,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO inserimentoCodiceFiscale(final UserDTO userDaModificare,final String nuovoCodiceFiscale) {
+        if (stringUtility.controlloCodiceFiscale(nuovoCodiceFiscale)) {
+            aggiornamentoCodiceFiscale(userDaModificare, nuovoCodiceFiscale);
+            return mapperFactory.getUserMapper().save(userDaModificare);
+        }
+
+        throw new CodiceFiscaleNotCorrectException("Codice fiscale non corretto");
+    }
+
+    @Override
     public UserDTO modificaUsername(final UserDTO userDaModificare,final String username){
         aggiornamentoUsername(userDaModificare, username);
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
     @Override
-    public UserDTO modificaNumeroCellulare(final UserDTO userDaModificare, final Long numeroCellulare) {
+    public UserDTO modificaNumeroCellulare(final UserDTO userDaModificare, final String numeroCellulare) {
         aggiornamentoNumeroCellulare(userDaModificare, numeroCellulare);
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
@@ -165,25 +164,21 @@ public class UserServiceImpl implements UserService {
         userDaModificare.setUsername(username.toLowerCase().trim());
     }
 
-    private void aggiornamentoNumeroCellulare(final UserDTO userDaModificare,final Long numeroCellulare){
+    private void aggiornamentoNumeroCellulare(final UserDTO userDaModificare,final String numeroCellulare){
+
         if(mapperFactory.getUserMapper().findByNumeroCellulare(numeroCellulare) != null){
             throw new CellPhoneIsPresentException("il nuovo numero di cellulare è già presente!");
         }
-        if(numeroCellulare.toString().length() != 10) {
-            throw new CellPhoneNotCorrectException("il numero di cellulare deve avere 10 cifre!");
-        }
+
         userDaModificare.setNumeroCellulare(numeroCellulare);
     }
 
     private void aggiornamentoCodiceFiscale(UserDTO userDaModificare,final String nuovoCodiceFiscale) {
         UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByCodiceFiscale(nuovoCodiceFiscale);
 
-        if (userOfNewCodiceFiscale != null) {
-            if (!userDaModificare.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
-                throw new CodiceFiscaleIsPresentException("Codice Fiscale " + nuovoCodiceFiscale + " già presente");
-            }
-
-            userDaModificare.setCodiceFiscale(nuovoCodiceFiscale.toUpperCase().trim());
+        if (userOfNewCodiceFiscale != null && !userDaModificare.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
+            throw new CodiceFiscaleIsPresentException("Codice Fiscale " + nuovoCodiceFiscale + " già presente");
         }
+            userDaModificare.setCodiceFiscale(nuovoCodiceFiscale.toUpperCase().trim());
     }
 }

@@ -12,6 +12,6 @@ public interface UserService {
     UserDTO modificaUtente(UserDTO userDaModificare, UserDTO userModificato);
     UserDTO modificaEmail(UserDTO userDaModificare, String nuovaEmail);
     UserDTO modificaUsername(UserDTO userDaModificare, String username);
-    UserDTO modificaNumeroCellulare(UserDTO userDaModificare, Long numeroCellulare);
+    UserDTO modificaNumeroCellulare(UserDTO userDaModificare, String numeroCellulare);
     UserDTO modificaPassword(String username, String vecchiaPassword, String nuovaPassword);
 }

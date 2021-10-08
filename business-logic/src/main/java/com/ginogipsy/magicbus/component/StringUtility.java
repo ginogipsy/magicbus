@@ -7,4 +7,5 @@ public interface StringUtility {
     String formattataMaiuscConSpaziaturaCorretta(String string);
     String formattazionePrimaMaiusc(String string);
     boolean capCorretto(String cap);
+
 }
