@@ -1,12 +1,13 @@
 package com.ginogipsy.magicbus.controller;
 
+
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.user.CellPhoneNotCorrectException;
 import com.ginogipsy.magicbus.dto.UserDTO;
-import com.ginogipsy.magicbus.request.usercontroller.InserisciIndirizzoRequest;
-import com.ginogipsy.magicbus.request.usercontroller.ModificaPasswordRequest;
-import com.ginogipsy.magicbus.request.usercontroller.ModificaUserRequest;
-import com.ginogipsy.magicbus.securityModel.MyUserDetails;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.InserisciIndirizzoRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaPasswordRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaUserRequest;
+import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.ResponseEntity;
@@ -26,20 +27,20 @@ public class UserController {
     }
 
     @PutMapping("/modificaUser")
-    public ResponseEntity<UserDTO> modificaUser(@RequestBody ModificaUserRequest modificaUserRequest, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> modificaUser(@RequestBody ModificaUserRequest modificaUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO userDTO = creazioneUserDTO(modificaUserRequest);
         UserDTO user = userService.modificaUtente(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciCodiceFiscale")
-    public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO user = userService.inserimentoCodiceFiscale(myUserDetails.getUserDTO(), codiceFiscale);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciIndirizzo")
-    public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal MyUserDetails myUserDetails,  BindingResult bindingResult){
+    public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails,  BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
             UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
@@ -48,19 +49,19 @@ public class UserController {
     }
 
     @PutMapping("/inserisciNomeCognome")
-    public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO user = userService.inserimentoNomeCognome(myUserDetails.getUserDTO(), nome, cognome);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaEmail")
-    public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
             UserDTO user = userService.modificaEmail(myUserDetails.getUserDTO(), nuovaEmail);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaUsername")
-    public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO user = userService.modificaUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -71,11 +72,12 @@ public class UserController {
             UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
-            throw new DataNotCorrectException("Indirizzo inserito non corretto");
+            throw new DataNotCorrectException("Dati non corretti");
     }
 
     @PutMapping("/modificaCellulare")
-    public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal MyUserDetails myUserDetails){
+    @ExceptionHandler(value = CellPhoneNotCorrectException.class)
+    public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         Long numCell = null;
 
         if(numeroCellulare.length() != 10){

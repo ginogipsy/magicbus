@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByCodiceFiscale(String codiceFiscale);
     User findByNumeroCellulare(long numeroCellulare);
     User findByEmailAndUsernameAndNumeroCellulare(String email, String username, long numeroCellulare);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }
