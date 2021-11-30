@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             Set<RoleDTO> role = new HashSet<>();
-            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo(Profilo.USER);
+            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo(Profilo.getProfilo("USER"));
             role.add(roleDTO);
             user.setRoles(role);
             user.setIsEnabled(true);

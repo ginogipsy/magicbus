@@ -1,14 +1,17 @@
 package com.ginogipsy.magicbus.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 
-@Data
-@EqualsAndHashCode(exclude = "birrificio", callSuper = false)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity(name = "birra")
 public class Birra{
 
@@ -39,8 +42,22 @@ public class Birra{
     private Birrificio birrificio;
 
     @ManyToMany(mappedBy = "birrePreferite")
+    @ToString.Exclude
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
     private Boolean disponibile;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Birra birra = (Birra) o;
+        return id != null && Objects.equals(id, birra.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
