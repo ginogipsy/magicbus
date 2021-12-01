@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
+import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.domain.User;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.repository.UserRepository;
@@ -23,6 +24,18 @@ public class UserMapper {
 
     public UserDTO findUserByUsername(String username){
         return convertToDTO(userRepository.findByUsername(username));
+    }
+
+    public UserDTO findById(Integer id){
+        return convertToDTO(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Utente non trovato!")));
+    }
+
+    public Boolean existsByUsername(String username){
+        return userRepository.existsByUsername(username);
+    }
+
+    public Boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 
     public UserDTO findUserByEmail(String email){
@@ -50,11 +63,8 @@ public class UserMapper {
         return Optional.ofNullable(convertToDTO(userRepository.findByCodiceFiscale(codiceFiscale))).orElse(null);
     }
 
-    public UserDTO findByNumeroCellulare(long numeroCellullare){
+    public UserDTO findByNumeroCellulare(String numeroCellullare){
         return Optional.ofNullable(convertToDTO(userRepository.findByNumeroCellulare(numeroCellullare))).orElse(null);
     }
 
-    public UserDTO findByEmailAndUsernameAndNumeroCellulare(String email, String username, long numeroCellullare){
-        return Optional.ofNullable(convertToDTO(userRepository.findByEmailAndUsernameAndNumeroCellulare(email, username, numeroCellullare))).orElse(null);
-    }
 }

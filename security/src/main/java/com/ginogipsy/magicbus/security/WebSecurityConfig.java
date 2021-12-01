@@ -1,7 +1,9 @@
-package com.ginogipsy.magicbus.configuration;
+package com.ginogipsy.magicbus.security;
 
-import com.ginogipsy.magicbus.securityModel.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ginogipsy.magicbus.security.jwt.AuthEntryPointJwt;
+import com.ginogipsy.magicbus.security.jwt.AuthTokenFilter;
+import com.ginogipsy.magicbus.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,16 +25,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final AuthTokenFilter authTokenFilter;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
-
-
-    @Bean
-    public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter();
+    public WebSecurityConfig(AuthTokenFilter authTokenFilter, UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+        this.authTokenFilter = authTokenFilter;
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
     }
 
     @Override
@@ -53,20 +53,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors()
+                .and()
+                .csrf()
+                .disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/api/editor/**").hasAnyAuthority("ADMIN","EDITOR")
-                .antMatchers("/api/user/**","/authenticated/**").hasAnyAuthority("ADMIN", "USER", "EDITOR", "MEZZ")
-                .antMatchers("/api/registrazione/**").permitAll()
-                .antMatchers("/api/ricercaPizze/**").permitAll()
-                .antMatchers("/resources/**","/js/**","/css/**", "/**").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagger-ui.html").permitAll()
-                .and().logout().permitAll();
+                .antMatchers("/api/user/**").hasAuthority("USER")
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/test/**").permitAll()
+                .anyRequest().authenticated();
 
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

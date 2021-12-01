@@ -36,12 +36,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-        <groupId>com.ginogipsy</groupId>
-        <artifactId>security</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <scope>compile</scope>
-    </dependency>
-        <dependency>
             <groupId>com.ginogipsy</groupId>
             <artifactId>exception</artifactId>
             <version>0.0.1-SNAPSHOT</version>

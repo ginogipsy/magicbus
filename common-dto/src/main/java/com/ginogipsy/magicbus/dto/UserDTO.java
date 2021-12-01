@@ -12,7 +12,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDTO {
 
-
     private int id;
 
     @NonNull
@@ -27,7 +26,7 @@ public class UserDTO {
     private String cognome;
 
     @NonNull
-    private Long numeroCellulare;
+    private String numeroCellulare;
     private String indirizzo;
     private String civico;
     private String citta;
@@ -43,5 +42,7 @@ public class UserDTO {
     private Set<VinoDTO> viniPreferiti;
     private Set<BirraDTO> birrePreferite;
     private Set<OrdineDTO> ordini;
+
+
 
 }
