@@ -23,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,15 +43,17 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
+    private final PasswordEncoder passwordEncoder;
 
 
 
-    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService) {
+    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.mapperFactory = mapperFactory;
         this.jwtUtils = jwtUtils;
         this.userService = userService;
         this.refreshTokenService = refreshTokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/signin")
@@ -107,7 +110,7 @@ public class AuthController {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(signUpRequest.getUsername());
         userDTO.setEmail(signUpRequest.getEmail());
-        userDTO.setPassword(signUpRequest.getPassword());
+        userDTO.setPassword(passwordEncoder.encode(signUpRequest.getPassword().trim()));
         userDTO.setNumeroCellulare(signUpRequest.getNumeroCellulare());
         Optional.ofNullable(signUpRequest.getNome()).ifPresent(userDTO::setNome);
         Optional.ofNullable(signUpRequest.getCognome()).ifPresent(userDTO::setCognome);
@@ -118,7 +121,7 @@ public class AuthController {
         Optional.ofNullable(signUpRequest.getCodiceFiscale()).ifPresent(userDTO::setCodiceFiscale);
 
         Set<RoleDTO> roles = new HashSet<>();
-        Set<String> strRoles = signUpRequest.getRoles();
+        Set<String> strRoles = Optional.ofNullable(signUpRequest.getRoles()).orElse(new HashSet<>());
         if(strRoles.isEmpty()){
             Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.USER))
                     .map(roles::add)

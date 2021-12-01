@@ -1,7 +1,6 @@
 package com.ginogipsy.magicbus.controller.payload.response;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
