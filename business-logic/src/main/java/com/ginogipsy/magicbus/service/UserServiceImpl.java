@@ -2,13 +2,11 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.customexception.user.*;
 import com.ginogipsy.magicbus.domain.Profilo;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,13 +17,11 @@ import static java.util.Optional.*;
 public class UserServiceImpl implements UserService {
 
     private final MapperFactory mapperFactory;
-    private final PasswordEncoder passwordEncoder;
     private final StringUtility stringUtility;
     private final UserUtility userUtility;
 
-    public UserServiceImpl(MapperFactory mapperFactory, PasswordEncoder passwordEncoder, StringUtility stringUtility, UserUtility userUtility) {
+    public UserServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
         this.mapperFactory = mapperFactory;
-        this.passwordEncoder = passwordEncoder;
         this.stringUtility = stringUtility;
         this.userUtility = userUtility;
     }
@@ -42,7 +38,7 @@ public class UserServiceImpl implements UserService {
                 throw new CellPhoneIsPresentException("il numero è già presente");
             }
 
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(user.getPassword());
             Set<RoleDTO> role = new HashSet<>();
             RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo(Profilo.USER);
             role.add(roleDTO);
@@ -126,12 +122,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO modificaPassword(final String email, final String vecchiaPassword, final String nuovaPassword) {
-        UserDTO userDTO = ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
+        /*UserDTO userDTO = ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
         if(passwordEncoder.matches(vecchiaPassword.trim(), userDTO.getPassword())){
             userDTO.setPassword(passwordEncoder.encode(nuovaPassword.trim()));
             return mapperFactory.getUserMapper().save(userDTO);
         }
-        throw new PassowordNotMatchException("La password non corrisponde!");
+        throw new PassowordNotMatchException("La password non corrisponde!");*/
+
+        return null;
 
     }
 
