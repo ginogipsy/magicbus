@@ -120,19 +120,6 @@ public class UserServiceImpl implements UserService {
         return mapperFactory.getUserMapper().save(userDaModificare);
     }
 
-    @Override
-    public UserDTO modificaPassword(final String email, final String vecchiaPassword, final String nuovaPassword) {
-        /*UserDTO userDTO = ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new UserNotFoundException("Utente a cui modificare la password non trovato!"));
-        if(passwordEncoder.matches(vecchiaPassword.trim(), userDTO.getPassword())){
-            userDTO.setPassword(passwordEncoder.encode(nuovaPassword.trim()));
-            return mapperFactory.getUserMapper().save(userDTO);
-        }
-        throw new PassowordNotMatchException("La password non corrisponde!");*/
-
-        return null;
-
-    }
-
     private void modificaCredenziali(final UserDTO userDaModificare,final UserDTO userModificato){
 
         of(userModificato.getEmail()).ifPresent(email -> aggiornamentoEmail(userDaModificare, email));

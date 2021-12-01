@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.controller;
 
+import com.ginogipsy.magicbus.controller.payload.request.ModificaPasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.TokenRefreshRequest;
 import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
 import com.ginogipsy.magicbus.customexception.TokenRefreshException;
+import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.notfound.RoleNotFoundException;
 import com.ginogipsy.magicbus.domain.Profilo;
 import com.ginogipsy.magicbus.dto.RefreshTokenDTO;
@@ -14,6 +16,7 @@ import com.ginogipsy.magicbus.controller.payload.request.SignupRequest;
 import com.ginogipsy.magicbus.controller.payload.response.JwtResponse;
 import com.ginogipsy.magicbus.controller.payload.response.MessageResponse;
 import com.ginogipsy.magicbus.security.jwt.JwtUtils;
+import com.ginogipsy.magicbus.service.ModificaPassword;
 import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
@@ -24,6 +27,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,16 +49,18 @@ public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final ModificaPassword modificaPassword;
 
 
 
-    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, ModificaPassword modificaPassword) {
         this.authenticationManager = authenticationManager;
         this.mapperFactory = mapperFactory;
         this.jwtUtils = jwtUtils;
         this.userService = userService;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.modificaPassword = modificaPassword;
     }
 
     @PostMapping("/signin")
@@ -159,6 +166,15 @@ public class AuthController {
         userService.registrazioneUtente(userDTO);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PutMapping("/modificaPassword")
+    public ResponseEntity<UserDTO> modificaPassword(@RequestBody @Validated ModificaPasswordRequest modificaPasswordRequest, BindingResult bindingResult){
+        if(!bindingResult.hasErrors()) {
+            UserDTO user = modificaPassword.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
+            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        }else
+            throw new DataNotCorrectException("i dati inseriti non sono corretti");
     }
 
 }

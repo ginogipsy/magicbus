@@ -5,7 +5,6 @@ import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException
 import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.InserisciIndirizzoRequest;
-import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaPasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaUserRequest;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
@@ -64,15 +63,6 @@ public class UserController {
     public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO user = userService.modificaUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
-    }
-
-    @PutMapping("/modificaPassword")
-    public ResponseEntity<UserDTO> modificaPassword(@RequestBody @Validated ModificaPasswordRequest modificaPasswordRequest, BindingResult bindingResult){
-        if(!bindingResult.hasErrors()) {
-            UserDTO user = userService.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
-            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
-        }else
-            throw new DataNotCorrectException("i dati inseriti non sono corretti");
     }
 
     @PutMapping("/modificaCellulare")
