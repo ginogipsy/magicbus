@@ -6,7 +6,6 @@ import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
 import com.ginogipsy.magicbus.customexception.TokenRefreshException;
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.notfound.RoleNotFoundException;
-import com.ginogipsy.magicbus.domain.Profilo;
 import com.ginogipsy.magicbus.dto.RefreshTokenDTO;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
@@ -130,30 +129,30 @@ public class AuthController {
         Set<RoleDTO> roles = new HashSet<>();
         Set<String> strRoles = Optional.ofNullable(signUpRequest.getRoles()).orElse(new HashSet<>());
         if(strRoles.isEmpty()){
-            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.USER))
+            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("USER"))
                     .map(roles::add)
                     .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
         }else{
             strRoles.forEach(role -> {
             switch (role){
-                case "admin":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.ADMIN))
+                case "admin", "ADMIN":
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("ADMIN"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role ADMIN is not found."));
                     break;
-                case "editor":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.EDITOR))
+                case "editor", "EDITOR":
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("EDITOR"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role EDITOR is not found."));
                     break;
                 default:
-                case "user":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.USER))
+                case "user", "USER":
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("USER"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
                     break;
-                case "mezz":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo(Profilo.MEZZ))
+                case "mezz","MEZZ":
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("MEZZ"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role MEZZ is not found."));
                     break;

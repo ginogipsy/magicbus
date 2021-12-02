@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 import com.ginogipsy.magicbus.customexception.notfound.BirraNotFoundException;
 import com.ginogipsy.magicbus.domain.Birra;
 
-import com.ginogipsy.magicbus.domain.TipologiaBirra;
+import com.ginogipsy.magicbus.domain.enums.TipologiaBirra;
 import com.ginogipsy.magicbus.dto.BirraDTO;
 import com.ginogipsy.magicbus.repository.BirraRepository;
 import org.modelmapper.ModelMapper;

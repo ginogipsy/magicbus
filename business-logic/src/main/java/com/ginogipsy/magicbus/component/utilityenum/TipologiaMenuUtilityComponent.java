@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.component.utilityenum;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.customexception.notfound.TipologiaMenuNotFoundException;
-import com.ginogipsy.magicbus.domain.TipologiaMenu;
+import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

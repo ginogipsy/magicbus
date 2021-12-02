@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.component.utilityenum;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.customexception.notfound.StatusProductsNotFoundException;
-import com.ginogipsy.magicbus.domain.Status;
+import com.ginogipsy.magicbus.domain.enums.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

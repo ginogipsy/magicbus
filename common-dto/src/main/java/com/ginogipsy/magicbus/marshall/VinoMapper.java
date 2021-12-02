@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 
 import com.ginogipsy.magicbus.customexception.notfound.VinoNotFoundException;
-import com.ginogipsy.magicbus.domain.QualitaVino;
+import com.ginogipsy.magicbus.domain.enums.QualitaVino;
 import com.ginogipsy.magicbus.domain.Vino;
 import com.ginogipsy.magicbus.dto.VinoDTO;
 import com.ginogipsy.magicbus.repository.VinoRepository;

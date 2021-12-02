@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.ginogipsy.magicbus.domain.enums.Profilo;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;

@@ -1,7 +1,6 @@
 package com.ginogipsy.magicbus.repository;
 
-import com.ginogipsy.magicbus.domain.Cantina;
-import com.ginogipsy.magicbus.domain.QualitaVino;
+import com.ginogipsy.magicbus.domain.enums.QualitaVino;
 import com.ginogipsy.magicbus.domain.Vino;
 import org.springframework.data.jpa.repository.JpaRepository;
 

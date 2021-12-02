@@ -2,8 +2,8 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.customexception.notfound.FrittoNotFoundException;
 import com.ginogipsy.magicbus.domain.Fritto;
-import com.ginogipsy.magicbus.domain.Status;
-import com.ginogipsy.magicbus.domain.TipologiaMenu;
+import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.repository.FrittoRepository;
 import org.modelmapper.ModelMapper;

@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.ginogipsy.magicbus.domain.enums.Status;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.repository;
 
 import com.ginogipsy.magicbus.domain.*;
+import com.ginogipsy.magicbus.domain.enums.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

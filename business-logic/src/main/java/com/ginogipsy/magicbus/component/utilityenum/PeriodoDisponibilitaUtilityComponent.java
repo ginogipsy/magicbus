@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.component.utilityenum;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.customexception.notfound.PeriodoDisponibilitaNotFoundException;
-import com.ginogipsy.magicbus.domain.PeriodoDisponibilita;
+import com.ginogipsy.magicbus.domain.enums.PeriodoDisponibilita;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

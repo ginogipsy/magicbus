@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.dto;
 
 
+import com.ginogipsy.magicbus.domain.enums.TipologiaBirra;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ public class BirraDTO {
     private String descrizione;
     private Double gradoAlcolico;
     private Double costo;
-    private String tipologiaBirra;
+    private TipologiaBirra tipologiaBirra;
     private BirrificioDTO birrificio;
     private Set<UserDTO> users;
     private Boolean disponibile;

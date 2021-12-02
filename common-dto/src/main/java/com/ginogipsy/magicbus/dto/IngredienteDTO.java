@@ -1,8 +1,9 @@
 package com.ginogipsy.magicbus.dto;
 
-import com.ginogipsy.magicbus.domain.PeriodoDisponibilita;
-import com.ginogipsy.magicbus.domain.TipologiaIngrediente;
-import com.ginogipsy.magicbus.domain.UnitaDiMisura;
+
+import com.ginogipsy.magicbus.domain.enums.PeriodoDisponibilita;
+import com.ginogipsy.magicbus.domain.enums.TipologiaIngrediente;
+import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
 import lombok.Data;
 
 import java.util.Set;

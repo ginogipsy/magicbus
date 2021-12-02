@@ -1,5 +1,9 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.TipologiaBibita;
+import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
+import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -24,7 +28,7 @@ public class Bibita {
 
     @Column(name = "tipologia")
     @Enumerated(EnumType.STRING)
-    private TipologiaBibite tipologia;
+    private TipologiaBibita tipologia;
 
     @Column(name = "descrizione")
     private String descrizione;

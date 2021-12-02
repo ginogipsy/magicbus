@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.*;
+import com.ginogipsy.magicbus.domain.enums.*;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import com.ginogipsy.magicbus.repository.GustoRepository;
 import org.modelmapper.ModelMapper;

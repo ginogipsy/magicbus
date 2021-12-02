@@ -3,7 +3,6 @@ package com.ginogipsy.magicbus.service;
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.user.*;
-import com.ginogipsy.magicbus.domain.Profilo;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
             user.setPassword(user.getPassword());
             Set<RoleDTO> role = new HashSet<>();
-            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo(Profilo.getProfilo("USER"));
+            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo("USER");
             role.add(roleDTO);
             user.setRoles(role);
             user.setIsEnabled(true);

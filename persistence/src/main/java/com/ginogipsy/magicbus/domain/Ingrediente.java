@@ -1,5 +1,8 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.ginogipsy.magicbus.domain.enums.PeriodoDisponibilita;
+import com.ginogipsy.magicbus.domain.enums.TipologiaIngrediente;
+import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.dto;
 
-import com.ginogipsy.magicbus.domain.Profilo;
+
+import com.ginogipsy.magicbus.domain.enums.Profilo;
 import lombok.Data;
 
 @Data

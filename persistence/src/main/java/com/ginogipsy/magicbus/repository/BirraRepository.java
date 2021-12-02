@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.repository;
 
 import com.ginogipsy.magicbus.domain.Birra;
-import com.ginogipsy.magicbus.domain.TipologiaBirra;
+import com.ginogipsy.magicbus.domain.enums.TipologiaBirra;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

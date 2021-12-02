@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.repository;
 
-import com.ginogipsy.magicbus.domain.Profilo;
+import com.ginogipsy.magicbus.domain.enums.Profilo;
 import com.ginogipsy.magicbus.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,8 +1,8 @@
 package com.ginogipsy.magicbus.repository;
 
 import com.ginogipsy.magicbus.domain.Fritto;
-import com.ginogipsy.magicbus.domain.Status;
-import com.ginogipsy.magicbus.domain.TipologiaMenu;
+import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

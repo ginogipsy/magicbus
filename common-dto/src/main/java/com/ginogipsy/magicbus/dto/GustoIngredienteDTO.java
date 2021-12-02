@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.dto;
 
-import com.ginogipsy.magicbus.domain.UnitaDiMisura;
+import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
 import lombok.Data;
 
 @Data
