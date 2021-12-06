@@ -4,9 +4,14 @@ import com.ginogipsy.magicbus.domain.*;
 import com.ginogipsy.magicbus.domain.enums.*;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import com.ginogipsy.magicbus.repository.GustoRepository;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
+import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +26,16 @@ public class GustoMapper {
         this.gustoRepository = gustoRepository;
     }
 
+    public List<GustoDTO> findByNomeContains(final String nome){
+        return gustoRepository.findByNomeContains(nome).stream().map(this::convertToDTO).toList();
+    }
+
     public GustoDTO findByNome(final String nome){
         return convertToDTO(gustoRepository.findByNome(nome));
     }
 
     public List<GustoDTO> findByStatus(final String status) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByStatus(Status.valueOf(status)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+        return gustoRepository.findByStatus(Status.getStatus(status)).stream().map(this::convertToDTO).toList();
     }
 
     public List<GustoDTO> findByBase(final String base) {
@@ -85,26 +88,6 @@ public class GustoMapper {
         return gusti;
     }
 
-    public List<GustoDTO> findByInseritaDaUtente(final Boolean inseritaDaUtente) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByGustoUtente_InseritaDaUtente(inseritaDaUtente).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
-    }
-
-    public List<GustoDTO> findByInseritaDaUtenteAndStatus(final Boolean inseritaDaUtente, final String status) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByGustoUtente_InseritaDaUtenteAndStatus(inseritaDaUtente, Status.valueOf(status)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
-    }
-
     public List<GustoDTO> findByTipologiaMenuAndDisponibile(final String tipologiaMenu, final Boolean disponibile) {
         final List<GustoDTO> gusti = new ArrayList<>();
         gustoRepository.findByTipologiaMenuAndDisponibile(TipologiaMenu.valueOf(tipologiaMenu), disponibile).forEach(gusto -> {
@@ -115,7 +98,25 @@ public class GustoMapper {
         return gusti;
     }
 
+    public List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente){
+        return gustoRepository.findByGustoUtente(inseritaDaUtente).stream().map(this::convertToDTO).toList();
+    }
+
+    public List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status){
+        return gustoRepository.findByGustoUtenteAndStatus(inseritaDaUtente, Status.getStatus(status)).stream().map(this::convertToDTO).toList();
+    }
+
+
+
     public GustoDTO convertToDTO(final Gusto gusto){
         return (gusto != null) ? modelMapper.map(gusto, GustoDTO.class) : null;
+    }
+
+    public Gusto convertToEntity(final GustoDTO gustoDTO){
+        return (gustoDTO != null) ? modelMapper.map(gustoDTO, Gusto.class) : null;
+    }
+
+    public GustoDTO save(final GustoDTO gustoDTO){
+        return convertToDTO(gustoRepository.save(convertToEntity(gustoDTO)));
     }
 }

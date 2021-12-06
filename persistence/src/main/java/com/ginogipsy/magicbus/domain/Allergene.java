@@ -25,7 +25,7 @@ public class Allergene {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ingrediente_allergene",
             joinColumns = @JoinColumn(name = "ingrediente_id"),
             inverseJoinColumns = @JoinColumn(name = "allergene_id"))

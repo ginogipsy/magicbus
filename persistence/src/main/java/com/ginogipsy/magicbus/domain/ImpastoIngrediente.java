@@ -17,11 +17,11 @@ public class ImpastoIngrediente {
     @Column(name = "impastoingrediente_id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "impasto_id")
     private Impasto impasto;
 

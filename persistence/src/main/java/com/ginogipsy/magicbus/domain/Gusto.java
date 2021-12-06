@@ -1,10 +1,13 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ginogipsy.magicbus.domain.enums.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.Set;
 
 @Data
@@ -41,10 +44,10 @@ public class Gusto {
     @Lob
     private Byte[] immagine;
 
-    @ManyToMany(mappedBy = "gustiPreferiti")
+    @ManyToMany(mappedBy = "gustiPreferiti", fetch = FetchType.LAZY)
     private Set<User> utenti;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto", fetch = FetchType.LAZY)
     private Set<GustoIngrediente> ingredienti;
 
     @Column(name = "tipologia_menu")
@@ -63,13 +66,18 @@ public class Gusto {
     @Enumerated(EnumType.STRING)
     private CategoriaProdotto categoriaProdotto;
 
-    @ManyToMany(mappedBy = "gustiPreferiti")
+    @ManyToMany(mappedBy = "gustiPreferiti", fetch = FetchType.LAZY)
     private Set<User> users;
 
-    @OneToOne(mappedBy = "gusto")
-    private GustoUtente gustoUtente;
-
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean disponibile;
+    private boolean disponibile;
+
+    @Column(name = "gusto_utente", columnDefinition = "TINYINT", length = 1)
+    private boolean gustoUtente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User userCreator;
 
 }

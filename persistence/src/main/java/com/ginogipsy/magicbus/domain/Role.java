@@ -23,7 +23,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private Profilo profilo;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users;
 
     @Override

@@ -34,7 +34,7 @@ public class Fornitore {
     @Column(name = "partita_iva")
     private String partitaIva;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "marca_fornitore",
             joinColumns = @JoinColumn(name = "marca_id"),
             inverseJoinColumns = @JoinColumn(name = "fornitore_id"))

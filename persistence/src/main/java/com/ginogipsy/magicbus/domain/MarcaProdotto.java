@@ -23,10 +23,10 @@ public class MarcaProdotto {
     @Column(name = "descrizione")
     private String descrizione;
 
-    @ManyToMany(mappedBy = "marche")
+    @ManyToMany(mappedBy = "marche", fetch = FetchType.LAZY)
     private Set<Fornitore> fornitore;
 
-    @OneToMany(mappedBy = "marca")
+    @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private Set<Ingrediente> ingredienti;
 
 

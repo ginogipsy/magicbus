@@ -38,11 +38,11 @@ public class Birra{
     @Enumerated(EnumType.STRING)
     private TipologiaBirra tipologiaBirra;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "birrificio_id")
     private Birrificio birrificio;
 
-    @ManyToMany(mappedBy = "birrePreferite")
+    @ManyToMany(mappedBy = "birrePreferite", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> users;
 

@@ -15,11 +15,11 @@ public class OrdineVino {
     @Column(name = "ordinevino_id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vino_id")
     private Vino vino;
 

@@ -17,15 +17,15 @@ public class OrdineGusto {
     @Column(name = "ordinegusto_id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gusto_id")
     private Gusto gusto;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "impasto_id")
     private Impasto impasto;
 

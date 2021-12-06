@@ -29,6 +29,6 @@ public class Cantina {
     @Column(name = "nazione")
     private String nazione;
 
-    @OneToMany(mappedBy = "cantina")
+    @OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
     private Set<Vino> vini;
 }

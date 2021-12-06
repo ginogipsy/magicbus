@@ -35,11 +35,11 @@ public class Vino{
     @Column(name = "costo")
     private Double costo;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "cantina_id")
     private Cantina cantina;
 
-    @ManyToMany(mappedBy = "viniPreferiti")
+    @ManyToMany(mappedBy = "viniPreferiti", fetch = FetchType.LAZY)
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)

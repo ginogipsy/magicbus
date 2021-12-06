@@ -34,7 +34,7 @@ public class Fritto {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fritto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fritto", fetch = FetchType.EAGER)
     private Set<FrittoIngrediente> ingredienti;
 
     @Column(name = "immagine")

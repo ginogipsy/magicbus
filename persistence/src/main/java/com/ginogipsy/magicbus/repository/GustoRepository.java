@@ -9,13 +9,15 @@ import java.util.List;
 public interface GustoRepository extends JpaRepository<Gusto, Integer> {
 
     Gusto findByNome(String nome);
+    List<Gusto> findByNomeContains(String nome);
+    List<Gusto> findByNomeContainsAndStatus(String nome, Status status);
     List<Gusto> findByStatus(Status status);
     List<Gusto> findByBase(Base base);
     List<Gusto> findByPeriodoDisponibilita(PeriodoDisponibilita periodoDisponibilita);
     List<Gusto> findByCategoriaProdotto(CategoriaProdotto categoriaProdotto);
     List<Gusto> findByDisponibileAndPeriodoDisponibilita(Boolean disponibile, PeriodoDisponibilita periodoDisponibilita);
     List<Gusto> findByDisponibileAndStatus(Boolean disponibile, Status status);
-    List<Gusto> findByGustoUtente_InseritaDaUtente(Boolean inseritaDaUtente);
-    List<Gusto> findByGustoUtente_InseritaDaUtenteAndStatus(Boolean inseritaDaUtente, Status status);
     List<Gusto> findByTipologiaMenuAndDisponibile(TipologiaMenu tipologiaMenu, Boolean disponibile);
+    List<Gusto> findByGustoUtente(boolean gustoUtente);
+    List<Gusto> findByGustoUtenteAndStatus(boolean inseritaDaUtente, Status status);
 }

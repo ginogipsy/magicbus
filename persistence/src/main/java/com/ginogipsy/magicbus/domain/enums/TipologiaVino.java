@@ -1,4 +1,4 @@
-package com.ginogipsy.magicbus.domain;
+package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
 

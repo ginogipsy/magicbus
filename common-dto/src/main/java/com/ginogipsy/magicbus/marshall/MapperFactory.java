@@ -15,7 +15,6 @@ public class MapperFactory {
     private final FrittoMapper frittoMapper;
     private final GustoIngredienteMapper gustoIngredienteMapper;
     private final GustoMapper gustoMapper;
-    private final GustoUtenteMapper gustoUtenteMapper;
     private final ImpastoIngredienteMapper impastoIngredienteMapper;
     private final ImpastoMapper impastoMapper;
     private final IngredienteMapper ingredienteMapper;
@@ -34,7 +33,7 @@ public class MapperFactory {
     private final VinoMapper vinoMapper;
     private final RefreshTokenMapper refreshTokenMapper;
 
-    public MapperFactory(AllergeneMapper allergeneMapper, BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, GustoUtenteMapper gustoUtenteMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrarioDisponibileMapper orarioDisponibileMapper, OrdineBibitaMapper ordineBibitaMapper, OrdineBirraMapper ordineBirraMapper, OrdineFrittoMapper ordineFrittoMapper, OrdineGustoMapper ordineGustoMapper, OrdineMapper ordineMapper, OrdineVinoMapper ordineVinoMapper, PosizioneMagicBusMapper posizioneMagicBusMapper, RoleMapper roleMapper, TipologiaPagamentoMapper tipologiaPagamentoMapper, UserMapper userMapper, VinoMapper vinoMapper, RefreshTokenMapper refreshTokenMapper) {
+    public MapperFactory(AllergeneMapper allergeneMapper, BibitaMapper bibitaMapper, BirraMapper birraMapper, BirrificioMapper birrificioMapper, CantinaMapper cantinaMapper, FornitoreMapper fornitoreMapper, FrittoIngredienteMapper frittoIngredienteMapper, FrittoMapper frittoMapper, GustoIngredienteMapper gustoIngredienteMapper, GustoMapper gustoMapper, ImpastoIngredienteMapper impastoIngredienteMapper, ImpastoMapper impastoMapper, IngredienteMapper ingredienteMapper, MarcaProdottoMapper marcaProdottoMapper, OrarioDisponibileMapper orarioDisponibileMapper, OrdineBibitaMapper ordineBibitaMapper, OrdineBirraMapper ordineBirraMapper, OrdineFrittoMapper ordineFrittoMapper, OrdineGustoMapper ordineGustoMapper, OrdineMapper ordineMapper, OrdineVinoMapper ordineVinoMapper, PosizioneMagicBusMapper posizioneMagicBusMapper, RoleMapper roleMapper, TipologiaPagamentoMapper tipologiaPagamentoMapper, UserMapper userMapper, VinoMapper vinoMapper, RefreshTokenMapper refreshTokenMapper) {
         this.allergeneMapper = allergeneMapper;
         this.bibitaMapper = bibitaMapper;
         this.birraMapper = birraMapper;
@@ -45,7 +44,6 @@ public class MapperFactory {
         this.frittoMapper = frittoMapper;
         this.gustoIngredienteMapper = gustoIngredienteMapper;
         this.gustoMapper = gustoMapper;
-        this.gustoUtenteMapper = gustoUtenteMapper;
         this.impastoIngredienteMapper = impastoIngredienteMapper;
         this.impastoMapper = impastoMapper;
         this.ingredienteMapper = ingredienteMapper;
@@ -103,10 +101,6 @@ public class MapperFactory {
 
     public RefreshTokenMapper getRefreshTokenMapper() {
         return refreshTokenMapper;
-    }
-
-    public GustoUtenteMapper getGustoUtenteMapper() {
-        return gustoUtenteMapper;
     }
 
     public ImpastoIngredienteMapper getImpastoIngredienteMapper() {

@@ -26,7 +26,7 @@ public class Impasto {
     @Column(name = "costo_aggiuntivo")
     private Double costoAggiuntivo;
 
-    @OneToMany(mappedBy = "impasto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "impasto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ImpastoIngrediente> ingredienti;
 
 }

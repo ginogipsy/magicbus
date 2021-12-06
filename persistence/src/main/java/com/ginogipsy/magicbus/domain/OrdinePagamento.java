@@ -17,11 +17,11 @@ public class OrdinePagamento {
     @Column(name = "ordinepagamento_id")
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipologiapagamento_id")
     private TipologiaPagamento tipologiaPagamento;
 

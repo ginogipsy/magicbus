@@ -23,6 +23,6 @@ public class OrarioDisponibile {
     @Column(name = "minuti", nullable = false)
     private Integer minuti;
 
-    @OneToMany(mappedBy = "orarioDisponibile")
+    @OneToMany(mappedBy = "orarioDisponibile", fetch = FetchType.LAZY)
     private Set<Ordine> ordini;
 }

@@ -38,7 +38,7 @@ public class Ingrediente {
     @Enumerated(EnumType.STRING)
     private UnitaDiMisura unitaDiMisura;
 
-    @ManyToMany(mappedBy = "ingredienti")
+    @ManyToMany(mappedBy = "ingredienti", fetch = FetchType.LAZY)
     private Set<Allergene> tipoAllergene;
 
     @Column(name = "tipologia_ingrediente")
@@ -49,17 +49,17 @@ public class Ingrediente {
     @Enumerated(EnumType.STRING)
     private PeriodoDisponibilita periodoDisponibilita;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id")
     private MarcaProdotto marca;
 
-    @OneToMany(mappedBy = "ingrediente")
+    @OneToMany(mappedBy = "ingrediente",fetch = FetchType.LAZY)
     private Set<GustoIngrediente> gusti;
 
-    @OneToMany(mappedBy = "ingrediente")
+    @OneToMany(mappedBy = "ingrediente", fetch = FetchType.LAZY)
     private Set<FrittoIngrediente> fritti;
 
-    @OneToMany(mappedBy = "ingrediente")
+    @OneToMany(mappedBy = "ingrediente", fetch = FetchType.LAZY)
     private Set<ImpastoIngrediente> impasti;
 
 
