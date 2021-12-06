@@ -1,6 +1,5 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 
@@ -15,8 +14,8 @@ public interface GustoService {
     List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto);
     List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita);
     List<GustoDTO> findByDisponibilita(boolean disponibilita, String status);
-    List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException;
+    List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita);
     List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente);
-    List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status) throws StatusProductsNotFoundException;
+    List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status);
     GustoDTO insertGusto(GustoDTO gustoDTO, UserDTO userDTO);
 }
