@@ -1,7 +1,6 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.component.utilityenum.*;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
 import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.domain.enums.Status;
@@ -17,21 +16,11 @@ import java.util.Optional;
 public class GustoServiceImpl implements GustoService {
 
     private final MapperFactory mapperFactory;
-    private final StatusUtility statusUtility;
-    private final BaseUtility baseUtility;
-    private final CategoriaProdottoUtility categoriaProdottoUtility;
-    private final PeriodoDisponibilitaUtility periodoDisponibilitaUtility;
     private final StringUtility stringUtility;
-    private final TipologiaMenuUtility tipologiaMenuUtility;
 
-    public GustoServiceImpl(MapperFactory mapperFactory, StatusUtility statusUtility, BaseUtility baseUtility, CategoriaProdottoUtility categoriaProdottoUtility, PeriodoDisponibilitaUtility periodoDisponibilitaUtility, StringUtility stringUtility, TipologiaMenuUtility tipologiaMenuUtility) {
+    public GustoServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility) {
         this.mapperFactory = mapperFactory;
-        this.statusUtility = statusUtility;
-        this.baseUtility = baseUtility;
-        this.categoriaProdottoUtility = categoriaProdottoUtility;
-        this.periodoDisponibilitaUtility = periodoDisponibilitaUtility;
         this.stringUtility = stringUtility;
-        this.tipologiaMenuUtility = tipologiaMenuUtility;
     }
 
     @Override
@@ -43,7 +32,8 @@ public class GustoServiceImpl implements GustoService {
     public GustoDTO findGustoByNome(final String nomeGusto) throws GustoNotFoundException {
         final String n = Optional.ofNullable(stringUtility.formattataMinuscConSpaziaturaCorretta(nomeGusto))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
-        return Optional.ofNullable(mapperFactory.getGustoMapper().findByNome(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+nomeGusto+" non trovato!"));
+        return Optional.ofNullable(mapperFactory.getGustoMapper()
+                .findByNome(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+nomeGusto+" non trovato!"));
     }
 
     @Override
@@ -55,42 +45,37 @@ public class GustoServiceImpl implements GustoService {
 
     @Override
     public List<GustoDTO> findByBase(final String base) throws BaseNotFoundException {
-        return mapperFactory.getGustoMapper().findByBase(baseUtility.verifyBase(base));
+        return mapperFactory.getGustoMapper().findByBase(base);
     }
 
     @Override
-    public List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto) throws CategoriaProdottoNotFoundException {
-        return mapperFactory.getGustoMapper().findByCategoriaProdotto(categoriaProdottoUtility.verifyCategoriaProdotto(categoriaProdotto));
+    public List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto) {
+        return mapperFactory.getGustoMapper().findByCategoriaProdotto(categoriaProdotto);
     }
 
     @Override
-    public List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException {
-        return mapperFactory.getGustoMapper().findByPeriodoDisponibilita(periodoDisponibilitaUtility.verifyPeriodoDisponibilita(periodoDisponibilita));
+    public List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita) {
+        return mapperFactory.getGustoMapper().findByPeriodoDisponibilita(periodoDisponibilita);
     }
 
     @Override
-    public List<GustoDTO> findByDisponibilita(Boolean disponibile, String status) throws StatusProductsNotFoundException {
-        return mapperFactory.getGustoMapper().findByDisponibilita(verifyDisponibilita(disponibile), statusUtility.statusVerify(status));
+    public List<GustoDTO> findByDisponibilita(boolean disponibile, String status) {
+        return mapperFactory.getGustoMapper().findByDisponibilita(disponibile, status);
     }
 
     @Override
-    public List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(Boolean disponibile, String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException {
-        return mapperFactory.getGustoMapper().findByDisponibileAndPeriodoDisponibilita(verifyDisponibilita(disponibile), periodoDisponibilitaUtility.verifyPeriodoDisponibilita(periodoDisponibilita));
+    public List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita) {
+        return mapperFactory.getGustoMapper().findByDisponibileAndPeriodoDisponibilita(disponibile, periodoDisponibilita);
     }
 
     @Override
-    public List<GustoDTO> findByInseritaDaUtente(Boolean inseritaDaUtente) {
-        return mapperFactory.getGustoMapper().findByInseritaDaUtente(Optional.ofNullable(inseritaDaUtente).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta: Inserito Da Utente!")));
+    public List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente) {
+        return mapperFactory.getGustoMapper().findByInseritaDaUtente(inseritaDaUtente);
     }
 
     @Override
-    public List<GustoDTO> findByInseritaDaUtenteAndStatus(Boolean inseritaDaUtente, String status) throws StatusProductsNotFoundException {
-        return mapperFactory.getGustoMapper().findByInseritaDaUtenteAndStatus(Optional.ofNullable(inseritaDaUtente).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta: Inserito Da Utente!")), status);
-    }
-
-    @Override
-    public List<GustoDTO> findByTipologiaMenuAndDisponibile(String tipologiaMenu, Boolean disponibile) throws TipologiaMenuNotFoundException {
-        return mapperFactory.getGustoMapper().findByTipologiaMenuAndDisponibile(tipologiaMenuUtility.verifytipologiaMenu(tipologiaMenu), verifyDisponibilita(disponibile));
+    public List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status) {
+        return mapperFactory.getGustoMapper().findByInseritaDaUtenteAndStatus(inseritaDaUtente, status);
     }
 
     @Override
@@ -115,11 +100,5 @@ public class GustoServiceImpl implements GustoService {
         gustoDTO.setUserCreator(userDTO);
         return mapperFactory.getGustoMapper().save(gustoDTO);
 
-
-    }
-
-
-    private Boolean verifyDisponibilita(final Boolean disponibile){
-        return Optional.ofNullable(disponibile).orElseThrow(() -> new NullPointerException("Non risulta inserita la scelta della disponibilità!"));
     }
 }

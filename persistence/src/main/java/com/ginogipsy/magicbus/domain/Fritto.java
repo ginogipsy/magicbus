@@ -2,7 +2,6 @@ package com.ginogipsy.magicbus.domain;
 
 import com.ginogipsy.magicbus.domain.enums.CategoriaProdotto;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,10 +39,6 @@ public class Fritto {
     @Column(name = "immagine")
     @Lob
     private Byte[] immagine;
-
-    @Column(name = "tipologia_menu")
-    @Enumerated(EnumType.STRING)
-    private TipologiaMenu tipologiaMenu;
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)

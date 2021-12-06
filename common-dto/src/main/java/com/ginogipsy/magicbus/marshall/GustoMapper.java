@@ -39,63 +39,27 @@ public class GustoMapper {
     }
 
     public List<GustoDTO> findByBase(final String base) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByBase(Base.valueOf(base)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+        return gustoRepository.findByBase(Base.valueOf(base)).stream().map(this::convertToDTO).toList();
     }
 
     public List<GustoDTO> findByPeriodoDisponibilita(final String periodoDisponibilita) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByPeriodoDisponibilita(PeriodoDisponibilita.valueOf(periodoDisponibilita)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+        return gustoRepository.findByPeriodoDisponibilita(PeriodoDisponibilita.getPeriodoDisponibilita(periodoDisponibilita))
+                .stream().map(this::convertToDTO).toList();
     }
 
     public List<GustoDTO> findByCategoriaProdotto(final String categoriaProdotto) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByCategoriaProdotto(CategoriaProdotto.valueOf(categoriaProdotto)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+        return gustoRepository.findByCategoriaProdotto(CategoriaProdotto.valueOf(categoriaProdotto))
+                .stream().map(this::convertToDTO).toList();
     }
 
-    public List<GustoDTO> findByDisponibilita(final Boolean disponibile, final String status) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByDisponibileAndStatus(disponibile, Status.valueOf(status)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+    public List<GustoDTO> findByDisponibilita(final boolean disponibile, final String status) {
+        return gustoRepository.findByDisponibileAndStatus(disponibile, Status.getStatus(status))
+                .stream().map(this::convertToDTO).toList();
     }
 
-    public List<GustoDTO> findByDisponibileAndPeriodoDisponibilita(final Boolean disponibile, final String periodoDisponibilita) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByDisponibileAndPeriodoDisponibilita(disponibile, PeriodoDisponibilita.valueOf(periodoDisponibilita)).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
-    }
-
-    public List<GustoDTO> findByTipologiaMenuAndDisponibile(final String tipologiaMenu, final Boolean disponibile) {
-        final List<GustoDTO> gusti = new ArrayList<>();
-        gustoRepository.findByTipologiaMenuAndDisponibile(TipologiaMenu.valueOf(tipologiaMenu), disponibile).forEach(gusto -> {
-            GustoDTO g = convertToDTO(gusto);
-            gusti.add(g);
-        });
-
-        return gusti;
+    public List<GustoDTO> findByDisponibileAndPeriodoDisponibilita(final boolean disponibile, final String periodoDisponibilita) {
+        return gustoRepository.findByDisponibileAndPeriodoDisponibilita(disponibile, PeriodoDisponibilita.valueOf(periodoDisponibilita))
+                .stream().map(this::convertToDTO).toList();
     }
 
     public List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente){
@@ -105,8 +69,6 @@ public class GustoMapper {
     public List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status){
         return gustoRepository.findByGustoUtenteAndStatus(inseritaDaUtente, Status.getStatus(status)).stream().map(this::convertToDTO).toList();
     }
-
-
 
     public GustoDTO convertToDTO(final Gusto gusto){
         return (gusto != null) ? modelMapper.map(gusto, GustoDTO.class) : null;

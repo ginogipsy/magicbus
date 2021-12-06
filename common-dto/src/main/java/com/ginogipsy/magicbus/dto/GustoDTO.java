@@ -32,7 +32,6 @@ public class GustoDTO {
 
     @JsonIgnore
     private Byte[] immagine;
-    private TipologiaMenu tipologiaMenu;
     private Base base;
     private PeriodoDisponibilita periodoDisponibilita;
     private CategoriaProdotto categoriaProdotto;

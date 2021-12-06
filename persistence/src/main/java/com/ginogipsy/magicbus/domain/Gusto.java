@@ -50,10 +50,6 @@ public class Gusto {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto", fetch = FetchType.LAZY)
     private Set<GustoIngrediente> ingredienti;
 
-    @Column(name = "tipologia_menu")
-    @Enumerated(EnumType.STRING)
-    private TipologiaMenu tipologiaMenu;
-
     @Column(name = "base")
     @Enumerated(EnumType.STRING)
     private Base base;

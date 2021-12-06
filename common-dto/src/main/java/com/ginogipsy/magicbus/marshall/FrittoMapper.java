@@ -3,7 +3,6 @@ package com.ginogipsy.magicbus.marshall;
 import com.ginogipsy.magicbus.customexception.notfound.FrittoNotFoundException;
 import com.ginogipsy.magicbus.domain.Fritto;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.repository.FrittoRepository;
 import org.modelmapper.ModelMapper;
@@ -40,7 +39,4 @@ public class FrittoMapper {
         return Optional.of(frittoRepository.findByStatus(Status.valueOf(status)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new FrittoNotFoundException("Fritto non trovato"));
     }
 
-    public List<FrittoDTO> findByCategoria(final String tipologiaMenu, final Boolean disponibile){
-        return Optional.of(frittoRepository.findByTipologiaMenuAndDisponibile(TipologiaMenu.valueOf(tipologiaMenu), disponibile).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new FrittoNotFoundException("Fritto non trovato"));
-    }
 }

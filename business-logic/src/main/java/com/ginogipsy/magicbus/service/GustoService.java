@@ -8,16 +8,15 @@ import java.util.List;
 
 public interface GustoService {
 
-    List<GustoDTO> findGustiByStatus(String status) throws StatusProductsNotFoundException;
-    GustoDTO findGustoByNome(String nome) throws GustoNotFoundException;
-    List<GustoDTO> findGustiNameContains(String nome) throws GustoNotFoundException;
-    List<GustoDTO> findByBase(String base) throws BaseNotFoundException;
-    List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto) throws CategoriaProdottoNotFoundException;
-    List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException;
-    List<GustoDTO> findByDisponibilita(Boolean disponibilita, String status) throws StatusProductsNotFoundException;
-    List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(Boolean disponibile, String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException;
-    List<GustoDTO> findByInseritaDaUtente(Boolean inseritaDaUtente);
-    List<GustoDTO> findByInseritaDaUtenteAndStatus(Boolean inseritaDaUtente, String status) throws StatusProductsNotFoundException;
-    List<GustoDTO> findByTipologiaMenuAndDisponibile(String tipologiaMenu, Boolean disponibile) throws TipologiaMenuNotFoundException;
+    List<GustoDTO> findGustiByStatus(String status);
+    GustoDTO findGustoByNome(String nome);
+    List<GustoDTO> findGustiNameContains(String nome);
+    List<GustoDTO> findByBase(String base);
+    List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto);
+    List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita);
+    List<GustoDTO> findByDisponibilita(boolean disponibilita, String status);
+    List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita) throws PeriodoDisponibilitaNotFoundException;
+    List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente);
+    List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status) throws StatusProductsNotFoundException;
     GustoDTO insertGusto(GustoDTO gustoDTO, UserDTO userDTO);
 }

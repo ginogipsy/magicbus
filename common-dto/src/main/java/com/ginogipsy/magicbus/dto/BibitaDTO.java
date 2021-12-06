@@ -3,7 +3,6 @@ package com.ginogipsy.magicbus.dto;
 
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.domain.enums.TipologiaBibita;
-import com.ginogipsy.magicbus.domain.enums.TipologiaMenu;
 import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
 import lombok.Data;
 
@@ -19,5 +18,4 @@ public class BibitaDTO {
     private UnitaDiMisura unitaDiMisura;
     private Double costo;
     private Status status;
-    private TipologiaMenu tipologiaMenu;
 }
