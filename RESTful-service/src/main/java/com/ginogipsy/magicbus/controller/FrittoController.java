@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
+import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.service.FrittoService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
@@ -23,8 +24,13 @@ public class FrittoController {
 
     @PutMapping("/insert")
     public ResponseEntity<FrittoDTO> insertFritto(@RequestBody FrittoDTO frittoDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+
         if(result.hasErrors()){
             return ResponseEntity.badRequest().build();
+        }
+
+        if(myUserDetails == null){
+            throw new UserNotFoundException("Utente non trovato!");
         }
         return ResponseEntity.ok(frittoService.insertFritto(frittoDTO, myUserDetails.getUserDTO()));
     }
