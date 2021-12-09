@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(exclude = {"ordine", "birra"})
 @Entity(name = "ordine_birra")
-public class OrdineBirra {
+public class BeerOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,22 +17,22 @@ public class OrdineBirra {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
-    private Ordine ordine;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "birra_id")
-    private Birra birra;
+    private Beer beer;
 
     @Column(name = "quantita")
-    private Integer quantita;
+    private Integer quantity;
 
     @Column(name = "annullato", columnDefinition = "TINYINT", length = 1)
-    private Boolean annullato;
+    private Boolean canceled;
 
     @Column(name = "costo_totale")
-    private Double costoTotale;
+    private Double totalCost;
 
     public void setCostoTotale(){
-        this.costoTotale = this.quantita * this.birra.getCosto();
+        this.totalCost = this.quantity * this.beer.getCost();
     }
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "posizione_magicbus")
 @Data
-public class PosizioneMagicBus {
+public class MagicbusLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,28 +15,28 @@ public class PosizioneMagicBus {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "via")
-    private String via;
+    private String street;
 
     @Column(name = "civico")
-    private String civico;
+    private String number;
 
     @Column(name = "cap")
-    private String cap;
+    private String postalCode;
 
     @Column(name = "citta")
-    private String citta;
+    private String city;
 
     @Column(name = "provincia")
-    private String provincia;
+    private String province;
 
     @Column(name = "nazione")
-    private String nazione;
+    private String country;
 
 }
 

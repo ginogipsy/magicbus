@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.FrittoIngrediente;
+import com.ginogipsy.magicbus.domain.FriedIngredient;
 import com.ginogipsy.magicbus.dto.FrittoIngredienteDTO;
 import com.ginogipsy.magicbus.repository.FrittoIngredienteRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class FrittoIngredienteMapper {
         this.frittoIngredienteRepository = frittoIngredienteRepository;
     }
 
-    public FrittoIngrediente convertToEntity(FrittoIngredienteDTO frittoIngredienteDTO){
-        return (frittoIngredienteDTO != null) ? modelMapper.map(frittoIngredienteDTO, FrittoIngrediente.class) : null;
+    public FriedIngredient convertToEntity(FrittoIngredienteDTO frittoIngredienteDTO){
+        return (frittoIngredienteDTO != null) ? modelMapper.map(frittoIngredienteDTO, FriedIngredient.class) : null;
     }
 
-    public FrittoIngredienteDTO convertToDTO(FrittoIngrediente frittoIngrediente){
-        return (frittoIngrediente != null) ? modelMapper.map(frittoIngrediente, FrittoIngredienteDTO.class) : null;
+    public FrittoIngredienteDTO convertToDTO(FriedIngredient friedIngredient){
+        return (friedIngredient != null) ? modelMapper.map(friedIngredient, FrittoIngredienteDTO.class) : null;
     }
 }

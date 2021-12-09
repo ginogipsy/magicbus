@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.customexception.notfound.VinoNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.WineQuality;
-import com.ginogipsy.magicbus.domain.Vino;
+import com.ginogipsy.magicbus.domain.Wine;
 import com.ginogipsy.magicbus.dto.VinoDTO;
 import com.ginogipsy.magicbus.repository.VinoRepository;
 import org.modelmapper.ModelMapper;
@@ -25,12 +25,12 @@ public class VinoMapper {
         this.vinoRepository = vinoRepository;
     }
 
-    public Vino convertToEntity(VinoDTO vinoDTO){
-        return (vinoDTO != null) ? modelMapper.map(vinoDTO, Vino.class) : null;
+    public Wine convertToEntity(VinoDTO vinoDTO){
+        return (vinoDTO != null) ? modelMapper.map(vinoDTO, Wine.class) : null;
     }
 
-    public VinoDTO convertToDTO(Vino vino){
-        return (vino != null) ? modelMapper.map(vino, VinoDTO.class) : null;
+    public VinoDTO convertToDTO(Wine wine){
+        return (wine != null) ? modelMapper.map(wine, VinoDTO.class) : null;
     }
 
     public VinoDTO findByNome(String nome){

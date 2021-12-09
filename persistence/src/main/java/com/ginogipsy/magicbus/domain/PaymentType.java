@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tipologia_pagamento")
 @Data
-public class TipologiaPagamento {
+public class PaymentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +15,9 @@ public class TipologiaPagamento {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 }
 

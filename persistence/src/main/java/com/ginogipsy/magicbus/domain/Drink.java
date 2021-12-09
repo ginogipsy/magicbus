@@ -15,7 +15,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Table(name = "bibita")
-public class Bibita {
+public class Drink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,27 +23,27 @@ public class Bibita {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "tipologia")
     @Enumerated(EnumType.STRING)
-    private DrinkType tipologia;
+    private DrinkType type;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "costo_al_litro")
-    private Double costoAlLitro;
+    private Double literCost;
 
     @Column(name = "formato")
-    private Double formato;
+    private Double size;
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
     private MeasureUnit measureUnit;
 
     @Column(name = "costo")
-    private Double costo;
+    private Double cost;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -53,8 +53,8 @@ public class Bibita {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Bibita bibita = (Bibita) o;
-        return id != null && Objects.equals(id, bibita.id);
+        Drink drink = (Drink) o;
+        return id != null && Objects.equals(id, drink.id);
     }
 
     @Override

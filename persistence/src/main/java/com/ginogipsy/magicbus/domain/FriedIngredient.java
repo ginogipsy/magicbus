@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "fritto_ingrediente")
 @Data
 @EqualsAndHashCode(exclude = {"fritto","ingrediente"})
-public class FrittoIngrediente {
+public class FriedIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +19,14 @@ public class FrittoIngrediente {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fritto_id")
-    private Fritto fritto;
+    private Fried fried;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ingrediente_id")
-    private Ingrediente ingrediente;
+    private Ingredient ingredient;
 
     @Column(name = "quantita")
-    private Double quantita;
+    private Double quantity;
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)

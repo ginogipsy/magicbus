@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.Gusto;
+import com.ginogipsy.magicbus.domain.Taste;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -44,7 +44,7 @@ public class UserDTO {
     private Set<VinoDTO> viniPreferiti;
     private Set<BirraDTO> birrePreferite;
     private Set<OrdineDTO> ordini;
-    private Set<Gusto> gustiInseriti;
+    private Set<Taste> gustiInseriti;
 
 
 

@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.OrdineBibita;
+import com.ginogipsy.magicbus.domain.DrinkOrder;
 import com.ginogipsy.magicbus.dto.OrdineBibitaDTO;
 import com.ginogipsy.magicbus.repository.OrdineBibitaRepository;
 import org.modelmapper.ModelMapper;
@@ -17,12 +17,12 @@ public class OrdineBibitaMapper {
         this.ordineBibitaRepository = ordineBibitaRepository;
     }
 
-    public OrdineBibita convertToEntity(OrdineBibitaDTO ordineBibitaDTO){
-        return (ordineBibitaDTO != null) ? modelMapper.map(ordineBibitaDTO, OrdineBibita.class) : null;
+    public DrinkOrder convertToEntity(OrdineBibitaDTO ordineBibitaDTO){
+        return (ordineBibitaDTO != null) ? modelMapper.map(ordineBibitaDTO, DrinkOrder.class) : null;
     }
 
-    public OrdineBibitaDTO convertToDTO(OrdineBibita ordineBibita){
-        return (ordineBibita != null) ? modelMapper.map(ordineBibita, OrdineBibitaDTO.class) : null;
+    public OrdineBibitaDTO convertToDTO(DrinkOrder drinkOrder){
+        return (drinkOrder != null) ? modelMapper.map(drinkOrder, OrdineBibitaDTO.class) : null;
     }
 }
 

@@ -65,12 +65,12 @@ public class GustoMapper {
         return gustoRepository.findByGustoUtenteAndStatus(inseritaDaUtente, Status.getStatus(status)).stream().map(this::convertToDTO).toList();
     }
 
-    public GustoDTO convertToDTO(final Gusto gusto){
-        return (gusto != null) ? modelMapper.map(gusto, GustoDTO.class) : null;
+    public GustoDTO convertToDTO(final Taste taste){
+        return (taste != null) ? modelMapper.map(taste, GustoDTO.class) : null;
     }
 
-    public Gusto convertToEntity(final GustoDTO gustoDTO){
-        return (gustoDTO != null) ? modelMapper.map(gustoDTO, Gusto.class) : null;
+    public Taste convertToEntity(final GustoDTO gustoDTO){
+        return (gustoDTO != null) ? modelMapper.map(gustoDTO, Taste.class) : null;
     }
 
     public GustoDTO save(final GustoDTO gustoDTO){

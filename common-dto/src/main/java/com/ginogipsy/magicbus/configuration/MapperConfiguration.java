@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.configuration;
 
-import com.ginogipsy.magicbus.domain.Fritto;
-import com.ginogipsy.magicbus.domain.Gusto;
+import com.ginogipsy.magicbus.domain.Fried;
+import com.ginogipsy.magicbus.domain.Taste;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import org.modelmapper.ModelMapper;
@@ -15,7 +15,7 @@ public class MapperConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.createTypeMap(Gusto.class, GustoDTO.class)
+        modelMapper.createTypeMap(Taste.class, GustoDTO.class)
                 .addMapping(g -> g.getUserCreator().getUsername(), GustoDTO::setUsername)
                 .addMappings(new PropertyMap<>() {
                     @Override
@@ -24,7 +24,7 @@ public class MapperConfiguration {
                     }
                 });
 
-        modelMapper.createTypeMap(Fritto.class, FrittoDTO.class)
+        modelMapper.createTypeMap(Fried.class, FrittoDTO.class)
                 .addMapping(f -> f.getUserCreator().getUsername(), FrittoDTO::setUsername)
                 .addMappings(new PropertyMap<>() {
                     @Override

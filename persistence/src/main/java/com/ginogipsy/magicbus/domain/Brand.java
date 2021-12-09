@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"fornitore", "descrizione"})
 @Table(name = "marca_prodotto")
-public class MarcaProdotto {
+public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +18,16 @@ public class MarcaProdotto {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
-    @ManyToMany(mappedBy = "marche", fetch = FetchType.LAZY)
-    private Set<Fornitore> fornitore;
+    @ManyToMany(mappedBy = "brands", fetch = FetchType.LAZY)
+    private Set<Supplier> suppliers;
 
-    @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
-    private Set<Ingrediente> ingredienti;
+    @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
+    private Set<Ingredient> ingredients;
 
 
 

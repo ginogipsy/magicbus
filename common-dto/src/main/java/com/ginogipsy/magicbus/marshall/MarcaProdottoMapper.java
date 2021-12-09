@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.MarcaProdotto;
+import com.ginogipsy.magicbus.domain.Brand;
 import com.ginogipsy.magicbus.dto.MarcaProdottoDTO;
 import com.ginogipsy.magicbus.repository.MarcaProdottoRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class MarcaProdottoMapper {
         this.marcaProdottoRepository = marcaProdottoRepository;
     }
 
-    public MarcaProdotto convertToEntity(MarcaProdottoDTO marcaProdottoDTO){
-        return (marcaProdottoDTO != null) ? modelMapper.map(marcaProdottoDTO, MarcaProdotto.class) : null;
+    public Brand convertToEntity(MarcaProdottoDTO marcaProdottoDTO){
+        return (marcaProdottoDTO != null) ? modelMapper.map(marcaProdottoDTO, Brand.class) : null;
     }
 
-    public MarcaProdottoDTO convertToDTO(MarcaProdotto marcaProdotto){
-        return (marcaProdotto != null) ? modelMapper.map(marcaProdotto, MarcaProdottoDTO.class) : null;
+    public MarcaProdottoDTO convertToDTO(Brand brand){
+        return (brand != null) ? modelMapper.map(brand, MarcaProdottoDTO.class) : null;
     }
 }

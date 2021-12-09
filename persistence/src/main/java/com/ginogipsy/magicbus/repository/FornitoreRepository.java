@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.repository;
 
-import com.ginogipsy.magicbus.domain.Fornitore;
+import com.ginogipsy.magicbus.domain.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FornitoreRepository extends JpaRepository<Fornitore, Integer> {
+public interface FornitoreRepository extends JpaRepository<Supplier, Integer> {
 }

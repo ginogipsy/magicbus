@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.OrarioDisponibile;
+import com.ginogipsy.magicbus.domain.AvailableTime;
 import com.ginogipsy.magicbus.dto.OrarioDisponibileDTO;
 import com.ginogipsy.magicbus.repository.OrarioDisponibileRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +18,11 @@ public class OrarioDisponibileMapper {
         this.orarioDisponibileRepository = orarioDisponibileRepository;
     }
 
-    public OrarioDisponibile convertToEntity(OrarioDisponibileDTO orarioDisponibileDTO){
-        return (orarioDisponibileDTO != null) ? modelMapper.map(orarioDisponibileDTO, OrarioDisponibile.class) : null;
+    public AvailableTime convertToEntity(OrarioDisponibileDTO orarioDisponibileDTO){
+        return (orarioDisponibileDTO != null) ? modelMapper.map(orarioDisponibileDTO, AvailableTime.class) : null;
     }
 
-    public OrarioDisponibileDTO convertToDTO(OrarioDisponibile orarioDisponibile){
-        return (orarioDisponibile != null) ? modelMapper.map(orarioDisponibile, OrarioDisponibileDTO.class) : null;
+    public OrarioDisponibileDTO convertToDTO(AvailableTime availableTime){
+        return (availableTime != null) ? modelMapper.map(availableTime, OrarioDisponibileDTO.class) : null;
     }
 }

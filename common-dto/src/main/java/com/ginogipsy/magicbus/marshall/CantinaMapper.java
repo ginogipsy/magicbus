@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.Cantina;
+import com.ginogipsy.magicbus.domain.Winery;
 import com.ginogipsy.magicbus.dto.CantinaDTO;
 import com.ginogipsy.magicbus.repository.CantinaRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +18,11 @@ public class CantinaMapper {
         this.cantinaRepository = cantinaRepository;
     }
 
-    public Cantina convertToEntity(CantinaDTO cantinaDTO){
-        return (cantinaDTO != null) ? modelMapper.map(cantinaDTO, Cantina.class) : null;
+    public Winery convertToEntity(CantinaDTO cantinaDTO){
+        return (cantinaDTO != null) ? modelMapper.map(cantinaDTO, Winery.class) : null;
     }
 
-    public CantinaDTO convertToDTO(Cantina cantina){
-        return (cantina != null) ? modelMapper.map(cantina, CantinaDTO.class) : null;
+    public CantinaDTO convertToDTO(Winery winery){
+        return (winery != null) ? modelMapper.map(winery, CantinaDTO.class) : null;
     }
 }

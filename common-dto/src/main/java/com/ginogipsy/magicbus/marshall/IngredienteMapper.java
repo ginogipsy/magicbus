@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.Ingrediente;
+import com.ginogipsy.magicbus.domain.Ingredient;
 
 import com.ginogipsy.magicbus.dto.IngredienteDTO;
 import com.ginogipsy.magicbus.repository.IngredienteRepository;
@@ -19,11 +19,11 @@ public class IngredienteMapper {
         this.ingredienteRepository = ingredienteRepository;
     }
 
-    public Ingrediente convertToEntity(IngredienteDTO ingredienteDTO){
-        return (ingredienteDTO != null) ? modelMapper.map(ingredienteDTO, Ingrediente.class) : null;
+    public Ingredient convertToEntity(IngredienteDTO ingredienteDTO){
+        return (ingredienteDTO != null) ? modelMapper.map(ingredienteDTO, Ingredient.class) : null;
     }
 
-    public IngredienteDTO convertToDTO(Ingrediente ingrediente){
-        return (ingrediente != null) ? modelMapper.map(ingrediente, IngredienteDTO.class) : null;
+    public IngredienteDTO convertToDTO(Ingredient ingredient){
+        return (ingredient != null) ? modelMapper.map(ingredient, IngredienteDTO.class) : null;
     }
 }

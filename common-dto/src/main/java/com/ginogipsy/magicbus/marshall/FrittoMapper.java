@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.Fritto;
+import com.ginogipsy.magicbus.domain.Fried;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.repository.FrittoRepository;
@@ -22,12 +22,12 @@ public class FrittoMapper {
         this.frittoRepository = frittoRepository;
     }
 
-    public Fritto convertToEntity(final FrittoDTO frittoDTO){
-        return (frittoDTO != null) ? modelMapper.map(frittoDTO, Fritto.class) : null;
+    public Fried convertToEntity(final FrittoDTO frittoDTO){
+        return (frittoDTO != null) ? modelMapper.map(frittoDTO, Fried.class) : null;
     }
 
-    public FrittoDTO convertToDTO(final Fritto fritto){
-        return (fritto != null) ? modelMapper.map(fritto, FrittoDTO.class) : null;
+    public FrittoDTO convertToDTO(final Fried fried){
+        return (fried != null) ? modelMapper.map(fried, FrittoDTO.class) : null;
     }
 
     public FrittoDTO findByName(final String nome){

@@ -13,32 +13,32 @@ import java.util.Set;
 @Table(name = "ingrediente")
 @Data
 @EqualsAndHashCode(exclude = {"tipoAllergene", "marca", "gusti", "fritti", "impasti"})
-public class Ingrediente {
+public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingrediente_id")
     private Integer id;
 
     @Column(name = "nome")
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean disponibile;
+    private Boolean available;
 
     @Column(name = "costo_aggiunta_cliente")
-    private Double costoAggiuntaCliente;
+    private Double additionalCostForClient;
 
     @Column(name = "costo_acquisto")
-    private Double costoDiAcquisto;
+    private Double purchaseCost;
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
     private MeasureUnit measureUnit;
 
-    @ManyToMany(mappedBy = "ingredienti", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
     private Set<Allergen> tipoAllergen;
 
     @Column(name = "tipologia_ingrediente")
@@ -51,16 +51,16 @@ public class Ingrediente {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id")
-    private MarcaProdotto marca;
+    private Brand brand;
 
-    @OneToMany(mappedBy = "ingrediente",fetch = FetchType.LAZY)
-    private Set<GustoIngrediente> gusti;
+    @OneToMany(mappedBy = "ingredient",fetch = FetchType.LAZY)
+    private Set<TasteIngredient> tastesIngredients;
 
-    @OneToMany(mappedBy = "ingrediente", fetch = FetchType.LAZY)
-    private Set<FrittoIngrediente> fritti;
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+    private Set<FriedIngredient> friedIngredients;
 
-    @OneToMany(mappedBy = "ingrediente", fetch = FetchType.LAZY)
-    private Set<ImpastoIngrediente> impasti;
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+    private Set<DoughIngredient> doughIngredients;
 
 
 }

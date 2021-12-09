@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.repository;
 
-import com.ginogipsy.magicbus.domain.OrdineFritto;
+import com.ginogipsy.magicbus.domain.FriedOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrdineFrittoRepository extends JpaRepository<OrdineFritto, Integer> {
+public interface OrdineFrittoRepository extends JpaRepository<FriedOrder, Integer> {
 }

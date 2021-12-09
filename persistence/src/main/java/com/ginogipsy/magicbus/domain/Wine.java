@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = "cantina", callSuper = false)
 @Entity(name = "vino")
-public class Vino{
+public class Wine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,27 +23,27 @@ public class Vino{
     private WineQuality wineQuality;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     //@Lob(per grosse quantita' di stringhe, da implementare
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "grado_alcolico")
-    private Double gradoAlcolico;
+    private Double alcoholicContent;
 
     @Column(name = "costo")
-    private Double costo;
+    private Double cost;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "cantina_id")
-    private Cantina cantina;
+    private Winery winery;
 
     @ManyToMany(mappedBy = "viniPreferiti", fetch = FetchType.LAZY)
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean disponibile;
+    private Boolean available;
 
 
 

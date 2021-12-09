@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.OrdineGusto;
+import com.ginogipsy.magicbus.domain.TasteOrder;
 import com.ginogipsy.magicbus.dto.OrdineGustoDTO;
 import com.ginogipsy.magicbus.repository.OrdineGustoRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class OrdineGustoMapper {
         this.ordineGustoRepository = ordineGustoRepository;
     }
 
-    public OrdineGusto convertToEntity(OrdineGustoDTO ordineGustoDTO){
-        return (ordineGustoDTO != null) ? modelMapper.map(ordineGustoDTO, OrdineGusto.class) : null;
+    public TasteOrder convertToEntity(OrdineGustoDTO ordineGustoDTO){
+        return (ordineGustoDTO != null) ? modelMapper.map(ordineGustoDTO, TasteOrder.class) : null;
     }
 
-    public OrdineGustoDTO convertToDTO(OrdineGusto ordineGusto){
-        return (ordineGusto != null) ? modelMapper.map(ordineGusto, OrdineGustoDTO.class) : null;
+    public OrdineGustoDTO convertToDTO(TasteOrder tasteOrder){
+        return (tasteOrder != null) ? modelMapper.map(tasteOrder, OrdineGustoDTO.class) : null;
     }
 }

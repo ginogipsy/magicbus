@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.GustoIngrediente;
+import com.ginogipsy.magicbus.domain.TasteIngredient;
 import com.ginogipsy.magicbus.dto.GustoIngredienteDTO;
 import com.ginogipsy.magicbus.repository.GustoIngredienteRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +18,11 @@ public class GustoIngredienteMapper {
         this.gustoIngredienteRepository = gustoIngredienteRepository;
     }
 
-    public GustoIngrediente convertToEntity(GustoIngredienteDTO gustoIngredienteDTO){
-        return (gustoIngredienteDTO != null) ? modelMapper.map(gustoIngredienteDTO, GustoIngrediente.class) : null;
+    public TasteIngredient convertToEntity(GustoIngredienteDTO gustoIngredienteDTO){
+        return (gustoIngredienteDTO != null) ? modelMapper.map(gustoIngredienteDTO, TasteIngredient.class) : null;
     }
 
-    public GustoIngredienteDTO convertToDTO(GustoIngrediente gustoIngrediente){
-        return (gustoIngrediente != null) ? modelMapper.map(gustoIngrediente, GustoIngredienteDTO.class) : null;
+    public GustoIngredienteDTO convertToDTO(TasteIngredient tasteIngredient){
+        return (tasteIngredient != null) ? modelMapper.map(tasteIngredient, GustoIngredienteDTO.class) : null;
     }
 }

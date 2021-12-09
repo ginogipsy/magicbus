@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "ordine_gusto")
 @Data
 @EqualsAndHashCode(exclude = {"ordine", "gusto", "impasto"})
-public class OrdineGusto {
+public class TasteOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,33 +19,33 @@ public class OrdineGusto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
-    private Ordine ordine;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gusto_id")
-    private Gusto gusto;
+    private Taste taste;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "impasto_id")
-    private Impasto impasto;
+    private Dough dough;
 
     @Column(name = "quantita")
-    private Double quantita;
+    private Double quantity;
 
     @Column(name = "annullato", columnDefinition = "TINYINT", length = 1)
-    private Boolean annullato;
+    private Boolean canceled;
 
     @Column(name = "costo_totale")
-    private Double costoTotale;
+    private Double totalCost;
 
     public void setCostoTotale(){
-        this.costoTotale = this.quantita * this.gusto.getCosto();
+        this.totalCost = this.quantity * this.taste.getCost();
     }
 
-    public void setImpasto(Impasto impasto){
-        if(gusto.getProductCategory().equals(ProductCategory.PIZZA) || gusto.getProductCategory().equals(ProductCategory.CALZONE) || gusto.getProductCategory().equals(ProductCategory.PANINO)){
-            this.impasto = impasto;
-            this.costoTotale = costoTotale + impasto.getCostoAggiuntivo()*this.quantita;
+    public void setDough(Dough dough){
+        if(taste.getProductCategory().equals(ProductCategory.PIZZA) || taste.getProductCategory().equals(ProductCategory.CALZONE) || taste.getProductCategory().equals(ProductCategory.PANINO)){
+            this.dough = dough;
+            this.totalCost = totalCost + dough.getAdditionalCost()*this.quantity;
         }
     }
 }

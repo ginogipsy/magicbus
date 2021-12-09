@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.Fornitore;
+import com.ginogipsy.magicbus.domain.Supplier;
 import com.ginogipsy.magicbus.dto.FornitoreDTO;
 import com.ginogipsy.magicbus.repository.FornitoreRepository;
 import org.modelmapper.ModelMapper;
@@ -19,11 +19,11 @@ public class FornitoreMapper {
         this.fornitoreRepository = fornitoreRepository;
     }
 
-    public Fornitore convertToEntity(FornitoreDTO fornitoreDTO){
-        return (fornitoreDTO != null) ? modelMapper.map(fornitoreDTO, Fornitore.class) : null;
+    public Supplier convertToEntity(FornitoreDTO fornitoreDTO){
+        return (fornitoreDTO != null) ? modelMapper.map(fornitoreDTO, Supplier.class) : null;
     }
 
-    public FornitoreDTO convertToDTO(Fornitore fornitore){
-        return (fornitore != null) ? modelMapper.map(fornitore, FornitoreDTO.class) : null;
+    public FornitoreDTO convertToDTO(Supplier supplier){
+        return (supplier != null) ? modelMapper.map(supplier, FornitoreDTO.class) : null;
     }
 }

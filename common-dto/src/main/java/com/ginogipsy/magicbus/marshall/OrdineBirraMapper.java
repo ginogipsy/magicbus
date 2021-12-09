@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.OrdineBirra;
+import com.ginogipsy.magicbus.domain.BeerOrder;
 import com.ginogipsy.magicbus.dto.OrdineBirraDTO;
 import com.ginogipsy.magicbus.repository.OrdineBirraRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +18,11 @@ public class OrdineBirraMapper {
         this.ordineBirraRepository = ordineBirraRepository;
     }
 
-    public OrdineBirra convertToEntity(OrdineBirraDTO ordineBirraDTO){
-        return (ordineBirraDTO != null) ? modelMapper.map(ordineBirraDTO, OrdineBirra.class) : null;
+    public BeerOrder convertToEntity(OrdineBirraDTO ordineBirraDTO){
+        return (ordineBirraDTO != null) ? modelMapper.map(ordineBirraDTO, BeerOrder.class) : null;
     }
 
-    public OrdineBirraDTO convertToDTO(OrdineBirra ordineBirra){
-        return (ordineBirra != null) ? modelMapper.map(ordineBirra, OrdineBirraDTO.class) : null;
+    public OrdineBirraDTO convertToDTO(BeerOrder beerOrder){
+        return (beerOrder != null) ? modelMapper.map(beerOrder, OrdineBirraDTO.class) : null;
     }
 }

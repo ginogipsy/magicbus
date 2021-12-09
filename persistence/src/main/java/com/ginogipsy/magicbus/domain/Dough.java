@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "impasto")
 @Data
 @EqualsAndHashCode(exclude = {"ingredienti"})
-public class Impasto {
+public class Dough {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +18,15 @@ public class Impasto {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "costo_aggiuntivo")
-    private Double costoAggiuntivo;
+    private Double additionalCost;
 
-    @OneToMany(mappedBy = "impasto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ImpastoIngrediente> ingredienti;
+    @OneToMany(mappedBy = "dough", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<DoughIngredient> ingredients;
 
 }

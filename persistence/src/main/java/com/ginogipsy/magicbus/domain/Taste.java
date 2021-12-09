@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "gusto")
-public class Gusto {
+public class Taste {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,31 +21,31 @@ public class Gusto {
     private Integer id;
 
     @Column(name ="nome", unique = true)
-    private String nome;
+    private String name;
 
     //@Lob da implementare per descrizioni grosse
     @Column(name = "descrizione_gusto")
-    private String descrizioneGusto;
+    private String tasteDescription;
 
     @Column(name = "tradizionale", columnDefinition = "TINYINT", length = 1)
-    private Boolean tradizionale;
+    private Boolean traditional;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(name = "costo")
-    private Double costo;
+    private Double cost;
 
     @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean versioneVeganaDisponibile;
+    private Boolean veganAvailable;
 
     @Column(name = "immagine")
     @Lob
-    private Byte[] immagine;
+    private Byte[] image;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto", fetch = FetchType.LAZY)
-    private Set<GustoIngrediente> ingredienti;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taste", fetch = FetchType.LAZY)
+    private Set<TasteIngredient> ingredients;
 
     @Column(name = "base")
     @Enumerated(EnumType.STRING)
@@ -64,10 +64,10 @@ public class Gusto {
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private boolean disponibile;
+    private boolean available;
 
     @Column(name = "gusto_utente", columnDefinition = "TINYINT", length = 1)
-    private boolean gustoUtente;
+    private boolean userEntered;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

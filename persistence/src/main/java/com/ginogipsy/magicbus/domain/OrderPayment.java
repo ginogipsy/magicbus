@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name = "ordine_pagamento")
 @Data
 @EqualsAndHashCode(exclude = {"ordine", "tipologiaPagamento"})
-public class OrdinePagamento {
+public class OrderPayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +19,18 @@ public class OrdinePagamento {
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id")
-    private Ordine ordine;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipologiapagamento_id")
-    private TipologiaPagamento tipologiaPagamento;
+    private PaymentType paymentType;
 
     @Column(name = "pagato", columnDefinition = "TINYINT", length = 1)
-    private Boolean pagato;
+    private Boolean paid;
 
     @Column(name = "ora_pagamento")
-    private Date oraPagamento;
+    private Date paymentTime;
 
     @Column(name = "codice_fiscale")
-    private String codiceFiscale;
+    private String fiscalCode;
 }

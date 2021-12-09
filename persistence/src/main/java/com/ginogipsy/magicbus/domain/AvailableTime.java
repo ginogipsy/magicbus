@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @Table(name = "orario_disponibile")
 @EqualsAndHashCode(exclude = {"id","ordini"})
-public class OrarioDisponibile {
+public class AvailableTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,11 @@ public class OrarioDisponibile {
     private Integer id;
 
     @Column(name = "ora", nullable = false)
-    private Integer ora;
+    private Integer hour;
 
     @Column(name = "minuti", nullable = false)
-    private Integer minuti;
+    private Integer minutes;
 
-    @OneToMany(mappedBy = "orarioDisponibile", fetch = FetchType.LAZY)
-    private Set<Ordine> ordini;
+    @OneToMany(mappedBy = "availableTime", fetch = FetchType.LAZY)
+    private Set<Order> orders;
 }

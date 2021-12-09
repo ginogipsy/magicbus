@@ -7,28 +7,29 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "gusto_ingrediente")
+@Table(name = "impasto_ingrediente")
 @Data
-@EqualsAndHashCode(exclude = {"gusto", "ingrediente"})
-public class GustoIngrediente {
+@EqualsAndHashCode(exclude = {"ingrediente", "impasto"})
+public class DoughIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gustoingrediente_id")
+    @Column(name = "impastoingrediente_id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "gusto_id")
-    private Gusto gusto;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingrediente_id")
-    private Ingrediente ingrediente;
+    private Ingredient ingredient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "impasto_id")
+    private Dough dough;
 
     @Column(name = "quantita")
-    private Double quantita;
+    private Double quantity;
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
     private MeasureUnit measureUnit;
 }
+

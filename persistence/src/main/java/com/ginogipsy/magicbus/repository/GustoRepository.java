@@ -6,18 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface GustoRepository extends JpaRepository<Gusto, Integer> {
+public interface GustoRepository extends JpaRepository<Taste, Integer> {
 
-    Gusto findByNome(String nome);
-    List<Gusto> findByNomeContains(String nome);
-    List<Gusto> findByNomeContainsAndStatus(String nome, Status status);
-    List<Gusto> findByStatus(Status status);
-    List<Gusto> findByBase(Base base);
-    List<Gusto> findByPeriodoDisponibilita(AvailabilityPeriod availabilityPeriod);
-    List<Gusto> findByCategoriaProdotto(ProductCategory productCategory);
-    List<Gusto> findByDisponibileAndPeriodoDisponibilita(Boolean disponibile, AvailabilityPeriod availabilityPeriod);
-    List<Gusto> findByDisponibileAndStatus(Boolean disponibile, Status status);
+    Taste findByNome(String nome);
+    List<Taste> findByNomeContains(String nome);
+    List<Taste> findByNomeContainsAndStatus(String nome, Status status);
+    List<Taste> findByStatus(Status status);
+    List<Taste> findByBase(Base base);
+    List<Taste> findByPeriodoDisponibilita(AvailabilityPeriod availabilityPeriod);
+    List<Taste> findByCategoriaProdotto(ProductCategory productCategory);
+    List<Taste> findByDisponibileAndPeriodoDisponibilita(Boolean disponibile, AvailabilityPeriod availabilityPeriod);
+    List<Taste> findByDisponibileAndStatus(Boolean disponibile, Status status);
 
-    List<Gusto> findByGustoUtente(boolean gustoUtente);
-    List<Gusto> findByGustoUtenteAndStatus(boolean inseritaDaUtente, Status status);
+    List<Taste> findByGustoUtente(boolean gustoUtente);
+    List<Taste> findByGustoUtenteAndStatus(boolean inseritaDaUtente, Status status);
 }

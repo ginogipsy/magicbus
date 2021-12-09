@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.Impasto;
+import com.ginogipsy.magicbus.domain.Dough;
 import com.ginogipsy.magicbus.dto.ImpastoDTO;
 import com.ginogipsy.magicbus.repository.ImpastoRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class ImpastoMapper {
         this.impastoRepository = impastoRepository;
     }
 
-    public Impasto convertToEntity(ImpastoDTO impastoDTO){
-        return (impastoDTO != null) ? modelMapper.map(impastoDTO, Impasto.class) : null;
+    public Dough convertToEntity(ImpastoDTO impastoDTO){
+        return (impastoDTO != null) ? modelMapper.map(impastoDTO, Dough.class) : null;
     }
 
-    public ImpastoDTO convertToDTO(Impasto impasto){
-        return (impasto != null) ? modelMapper.map(impasto, ImpastoDTO.class) : null;
+    public ImpastoDTO convertToDTO(Dough dough){
+        return (dough != null) ? modelMapper.map(dough, ImpastoDTO.class) : null;
     }
 }

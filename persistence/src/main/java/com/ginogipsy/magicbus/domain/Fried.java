@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "fritto")
-public class Fritto {
+public class Fried {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,25 +21,25 @@ public class Fritto {
     private Integer id;
 
     @Column(name = "nome")
-    private String nome;
+    private String name;
 
     //@Lob da implementare per grosse dimensioni
     @Column(name = "descrizione_fritto")
-    private String descrizioneFritto;
+    private String friedDescription;
 
     @Column(name = "costo")
-    private Double costo;
+    private Double cost;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fritto", fetch = FetchType.EAGER)
-    private Set<FrittoIngrediente> ingredienti;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fried", fetch = FetchType.EAGER)
+    private Set<FriedIngredient> ingredients;
 
     @Column(name = "immagine")
     @Lob
-    private Byte[] immagine;
+    private Byte[] image;
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
@@ -50,10 +50,10 @@ public class Fritto {
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean disponibile;
+    private Boolean available;
 
     @Column(name = "fritto_utente", columnDefinition = "TINYINT", length = 1)
-    private boolean frittoUtente;
+    private boolean userEntered;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

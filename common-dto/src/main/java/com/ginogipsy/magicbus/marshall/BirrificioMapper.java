@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 
-import com.ginogipsy.magicbus.domain.Birrificio;
+import com.ginogipsy.magicbus.domain.Brewery;
 import com.ginogipsy.magicbus.dto.BirrificioDTO;
 import com.ginogipsy.magicbus.repository.BirrificioRepository;
 import org.modelmapper.ModelMapper;
@@ -18,11 +18,11 @@ public class BirrificioMapper {
         this.birrificioRepository = birrificioRepository;
     }
 
-    public Birrificio convertToEntity(BirrificioDTO birrificioDTO){
-        return (birrificioDTO != null) ? modelMapper.map(birrificioDTO, Birrificio.class) : null;
+    public Brewery convertToEntity(BirrificioDTO birrificioDTO){
+        return (birrificioDTO != null) ? modelMapper.map(birrificioDTO, Brewery.class) : null;
     }
 
-    public BirrificioDTO convertToDTO(Birrificio birrificio){
-        return (birrificio != null) ? modelMapper.map(birrificio, BirrificioDTO.class) : null;
+    public BirrificioDTO convertToDTO(Brewery brewery){
+        return (brewery != null) ? modelMapper.map(brewery, BirrificioDTO.class) : null;
     }
 }

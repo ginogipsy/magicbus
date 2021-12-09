@@ -29,7 +29,7 @@ public class Allergen {
     @JoinTable(name = "ingrediente_allergene",
             joinColumns = @JoinColumn(name = "ingrediente_id"),
             inverseJoinColumns = @JoinColumn(name = "allergene_id"))
-    private Set<Ingrediente> ingrediants;
+    private Set<Ingredient> ingredients;
 
     @Override
     public boolean equals(Object o) {

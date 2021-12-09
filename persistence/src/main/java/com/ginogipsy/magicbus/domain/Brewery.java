@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "birrificio")
 @Data
 @EqualsAndHashCode(exclude = "birrificio")
-public class Birrificio {
+public class Brewery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,17 +18,17 @@ public class Birrificio {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "ubicazione")
-    private String ubicazione;
+    private String location;
 
     @Column(name = "nazione")
-    private String nazione;
+    private String nationality;
 
-    @OneToMany(mappedBy = "birrificio", fetch = FetchType.LAZY)
-    private Set<Birra> birre;
+    @OneToMany(mappedBy = "brewery", fetch = FetchType.LAZY)
+    private Set<Beer> beers;
 }

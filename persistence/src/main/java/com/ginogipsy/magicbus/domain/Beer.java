@@ -11,10 +11,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Entity(name = "birra")
-public class Birra{
+public class Beer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +21,17 @@ public class Birra{
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     //@Lob
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @Column(name = "grado_alcolico")
-    private Double gradoAlcolico;
+    private Double alcoholContent;
 
     @Column(name = "costo")
-    private Double costo;
+    private Double cost;
 
     @Column(name = "tipologia_birra")
     @Enumerated(EnumType.STRING)
@@ -40,21 +39,21 @@ public class Birra{
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "birrificio_id")
-    private Birrificio birrificio;
+    private Brewery brewery;
 
     @ManyToMany(mappedBy = "birrePreferite", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean disponibile;
+    private Boolean available;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Birra birra = (Birra) o;
-        return id != null && Objects.equals(id, birra.id);
+        Beer beer = (Beer) o;
+        return id != null && Objects.equals(id, beer.id);
     }
 
     @Override

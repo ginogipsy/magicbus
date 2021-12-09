@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.customexception.notfound.BibitaNotFoundException;
-import com.ginogipsy.magicbus.domain.Bibita;
+import com.ginogipsy.magicbus.domain.Drink;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.domain.enums.DrinkType;
 import com.ginogipsy.magicbus.dto.BibitaDTO;
@@ -23,12 +23,12 @@ public class BibitaMapper {
         this.bibitaRepository = bibitaRepository;
     }
 
-    public Bibita convertToEntity(BibitaDTO bibitaDTO){
-        return (bibitaDTO != null) ? modelMapper.map(bibitaDTO, Bibita.class) : null;
+    public Drink convertToEntity(BibitaDTO bibitaDTO){
+        return (bibitaDTO != null) ? modelMapper.map(bibitaDTO, Drink.class) : null;
     }
 
-    public BibitaDTO convertToDTO(Bibita bibita){
-        return (bibita != null) ? modelMapper.map(bibita, BibitaDTO.class) : null;
+    public BibitaDTO convertToDTO(Drink drink){
+        return (drink != null) ? modelMapper.map(drink, BibitaDTO.class) : null;
     }
 
     public BibitaDTO findByNome(String nome){

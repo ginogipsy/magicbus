@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.PosizioneMagicBus;
+import com.ginogipsy.magicbus.domain.MagicbusLocation;
 import com.ginogipsy.magicbus.dto.PosizioneMagicBusDTO;
 import com.ginogipsy.magicbus.repository.PosizioneMagicBusRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class PosizioneMagicBusMapper {
         this.posizioneMagicBusRepository = posizioneMagicBusRepository;
     }
 
-    public PosizioneMagicBus convertToEntity(PosizioneMagicBusDTO posizioneMagicBusDTO){
-        return (posizioneMagicBusDTO != null) ? modelMapper.map(posizioneMagicBusDTO, PosizioneMagicBus.class) : null;
+    public MagicbusLocation convertToEntity(PosizioneMagicBusDTO posizioneMagicBusDTO){
+        return (posizioneMagicBusDTO != null) ? modelMapper.map(posizioneMagicBusDTO, MagicbusLocation.class) : null;
     }
 
-    public PosizioneMagicBusDTO convertToDTO(PosizioneMagicBus posizioneMagicBus){
-        return (posizioneMagicBus != null) ? modelMapper.map(posizioneMagicBus, PosizioneMagicBusDTO.class) : null;
+    public PosizioneMagicBusDTO convertToDTO(MagicbusLocation magicbusLocation){
+        return (magicbusLocation != null) ? modelMapper.map(magicbusLocation, PosizioneMagicBusDTO.class) : null;
     }
 }

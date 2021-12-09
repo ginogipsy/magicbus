@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.customexception.notfound.BirraNotFoundException;
-import com.ginogipsy.magicbus.domain.Birra;
+import com.ginogipsy.magicbus.domain.Beer;
 
 import com.ginogipsy.magicbus.domain.enums.BeerType;
 import com.ginogipsy.magicbus.dto.BirraDTO;
@@ -24,12 +24,12 @@ public class BirraMapper {
         this.birraRepository = birraRepository;
     }
 
-    public Birra convertToEntity(BirraDTO birraDTO){
-        return (birraDTO != null) ? modelMapper.map(birraDTO, Birra.class) : null;
+    public Beer convertToEntity(BirraDTO birraDTO){
+        return (birraDTO != null) ? modelMapper.map(birraDTO, Beer.class) : null;
     }
 
-    public BirraDTO convertToDTO(Birra birra){
-        return (birra != null) ? modelMapper.map(birra, BirraDTO.class) : null;
+    public BirraDTO convertToDTO(Beer beer){
+        return (beer != null) ? modelMapper.map(beer, BirraDTO.class) : null;
     }
 
     public BirraDTO findByNome(String nome){

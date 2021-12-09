@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.TipologiaPagamento;
+import com.ginogipsy.magicbus.domain.PaymentType;
 import com.ginogipsy.magicbus.dto.TipologiaPagamentoDTO;
 import com.ginogipsy.magicbus.repository.TipologiaPagamentoRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class TipologiaPagamentoMapper {
         this.tipologiaPagamentoRepository = tipologiaPagamentoRepository;
     }
 
-    public TipologiaPagamento convertToEntity(TipologiaPagamentoDTO tipologiaPagamentoDTO){
-        return (tipologiaPagamentoDTO != null) ? modelMapper.map(tipologiaPagamentoDTO, TipologiaPagamento.class) : null;
+    public PaymentType convertToEntity(TipologiaPagamentoDTO tipologiaPagamentoDTO){
+        return (tipologiaPagamentoDTO != null) ? modelMapper.map(tipologiaPagamentoDTO, PaymentType.class) : null;
     }
 
-    public TipologiaPagamentoDTO convertToDTO(TipologiaPagamento tipologiaPagamento){
-        return (tipologiaPagamento != null) ? modelMapper.map(tipologiaPagamento, TipologiaPagamentoDTO.class) : null;
+    public TipologiaPagamentoDTO convertToDTO(PaymentType paymentType){
+        return (paymentType != null) ? modelMapper.map(paymentType, TipologiaPagamentoDTO.class) : null;
     }
 }
