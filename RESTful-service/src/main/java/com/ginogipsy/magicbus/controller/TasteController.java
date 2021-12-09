@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/gusto")
+@RequestMapping("/api/taste")
 public class TasteController {
 
     private final TasteService tasteService;

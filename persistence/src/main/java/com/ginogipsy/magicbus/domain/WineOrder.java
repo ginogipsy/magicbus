@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(exclude = {"ordine", "vino"})
+@EqualsAndHashCode(exclude = {"order", "wine"})
 @Entity(name = "ordine_vino")
 public class WineOrder {
 
@@ -33,6 +33,6 @@ public class WineOrder {
     private Double totalCost;
 
     public void setCostoTotale(){
-        this.totalCost = this.quantity * this.wine.getCosto();
+        this.totalCost = this.quantity * this.wine.getCost();
     }
 }

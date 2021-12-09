@@ -7,6 +7,7 @@ import com.ginogipsy.magicbus.domain.enums.ProductCategory;
 import com.ginogipsy.magicbus.domain.enums.Status;
 
 import lombok.*;
+import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
@@ -14,12 +15,13 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class FriedDTO {
 
     private Integer id;
-    @NotEmpty
+    @NonNull
     private String name;
-    @NotEmpty
+    @NonNull
     private String friedDescription;
     private Double cost;
     private Status status;
