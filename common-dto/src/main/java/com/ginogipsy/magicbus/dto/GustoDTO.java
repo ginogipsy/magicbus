@@ -36,6 +36,8 @@ public class GustoDTO {
     private Base base;
     private PeriodoDisponibilita periodoDisponibilita;
     private CategoriaProdotto categoriaProdotto;
+
+    @JsonIgnore
     private Set<UserDTO> users;
     private boolean disponibile;
     private boolean gustoUtente;
@@ -43,6 +45,7 @@ public class GustoDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserDTO userCreator;
     private String username;
+    private Integer appreciations;
 
 
 

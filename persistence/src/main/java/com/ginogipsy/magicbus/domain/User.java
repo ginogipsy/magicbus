@@ -2,6 +2,7 @@ package com.ginogipsy.magicbus.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
@@ -66,8 +67,8 @@ public class User {
     @JsonIgnore
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "gusto_id"))
     private Set<Gusto> gustiPreferiti;
@@ -79,27 +80,24 @@ public class User {
     private Set<Fritto> frittiPreferiti;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "birra_utente", joinColumns = @JoinColumn(name = "birra_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnore
     private Set<Birra> birrePreferite;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "vino_utente", joinColumns = @JoinColumn(name = "vino_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonIgnore
     private Set<Vino> viniPreferiti;
 
     @OneToMany(mappedBy = "user")
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     private Set<Ordine> ordini;
 
     @OneToMany(mappedBy = "userCreator")
     @JsonIgnore
-    private Set<Gusto> gusti;
+    private Set<Gusto> gustiInseriti;
 
 }
 

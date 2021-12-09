@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
+import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
 import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.domain.enums.Status;
@@ -17,10 +18,12 @@ public class GustoServiceImpl implements GustoService {
 
     private final MapperFactory mapperFactory;
     private final StringUtility stringUtility;
+    private final UserUtility userUtility;
 
-    public GustoServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility) {
+    public GustoServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
         this.mapperFactory = mapperFactory;
         this.stringUtility = stringUtility;
+        this.userUtility = userUtility;
     }
 
     @Override
@@ -80,7 +83,7 @@ public class GustoServiceImpl implements GustoService {
 
     @Override
     public GustoDTO insertGusto(GustoDTO gustoDTO, UserDTO userDTO){
-        if(userDTO.getRoles().size() == 1 && userDTO.getRoles().contains(mapperFactory.getRoleMapper().findByProfilo("USER"))){
+        if(userUtility.isOnlyAnUser(userDTO)){
             gustoDTO.setGustoUtente(true);
             gustoDTO.setDisponibile(false);
             gustoDTO.setStatus(Status.INSERITO);
@@ -99,6 +102,5 @@ public class GustoServiceImpl implements GustoService {
         gustoDTO.setDescrizioneGusto(stringUtility.formattataMinuscConSpaziaturaCorretta(gustoDTO.getDescrizioneGusto()));
         gustoDTO.setUserCreator(userDTO);
         return mapperFactory.getGustoMapper().save(gustoDTO);
-
     }
 }

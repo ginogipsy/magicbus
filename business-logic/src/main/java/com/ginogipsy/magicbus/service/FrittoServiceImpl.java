@@ -3,11 +3,15 @@ package com.ginogipsy.magicbus.service;
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
+import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FrittoServiceImpl implements FrittoService {
@@ -44,5 +48,18 @@ public class FrittoServiceImpl implements FrittoService {
         frittoDTO.setDescrizioneFritto(stringUtility.formattataMinuscConSpaziaturaCorretta(frittoDTO.getDescrizioneFritto()));
         frittoDTO.setUserCreator(userDTO);
         return mapperFactory.getFrittoMapper().save(frittoDTO);
+    }
+
+    @Override
+    public FrittoDTO findByNome(String nomeFritto) {
+        final String n = Optional.ofNullable(stringUtility.formattataMinuscConSpaziaturaCorretta(nomeFritto))
+                .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
+        return Optional.ofNullable(mapperFactory.getFrittoMapper()
+                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+nomeFritto+" non trovato!"));
+    }
+
+    @Override
+    public List<FrittoDTO> findByStatus(String status) {
+        return mapperFactory.getFrittoMapper().findByStatus(status).stream().toList();
     }
 }

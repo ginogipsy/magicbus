@@ -28,11 +28,11 @@ public class FrittoDTO {
     @JsonIgnore
     private Byte[] immagine;
     private CategoriaProdotto categoriaProdotto;
-    private Set<UserDTO> users;
     private Boolean disponibile;
     private boolean frittoUtente;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserDTO userCreator;
     private String username;
+    private int appreciations;
 }

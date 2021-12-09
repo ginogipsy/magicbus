@@ -39,13 +39,12 @@ public class UserDTO {
 
     @JsonIgnore
     private Set<RoleDTO> roles;
-    @JsonIgnore
     private Set<GustoDTO> gustiPreferiti;
     private Set<FrittoDTO> frittiPreferiti;
     private Set<VinoDTO> viniPreferiti;
     private Set<BirraDTO> birrePreferite;
     private Set<OrdineDTO> ordini;
-    private Set<Gusto> gusti;
+    private Set<Gusto> gustiInseriti;
 
 
 
