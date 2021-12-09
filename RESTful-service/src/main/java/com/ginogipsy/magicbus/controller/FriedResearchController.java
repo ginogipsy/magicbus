@@ -21,12 +21,12 @@ public class FriedResearchController {
     }
 
     @GetMapping(value = "/byName", params = "friedName")
-    public ResponseEntity<FriedDTO> ricercaPizzaSpecifica(@RequestParam String friedName){
+    public ResponseEntity<FriedDTO> findByName(@RequestParam String friedName){
         return ResponseEntity.ok().body(friedService.findByName(friedName));
     }
 
     @GetMapping(value = "/byStatus")
-    public ResponseEntity<List<FriedDTO>> findGustiByStatus(@RequestParam(defaultValue = "DISPONIBILE") String status){
+    public ResponseEntity<List<FriedDTO>> findByStatus(@RequestParam(defaultValue = "DISPONIBILE") String status){
         return ResponseEntity.ok(friedService.findByStatus(status));
     }
 }

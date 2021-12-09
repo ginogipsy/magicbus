@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/registrazione")
-public class RegistrazioneController {
+@RequestMapping("/api/signupUser")
+public class SignupController {
 
     private final UserService userService;
 
-    public RegistrazioneController(UserService userService) {
+    public SignupController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping("/registrazioneUtente")
-    public ResponseEntity<UserDTO> registrazioneUtente(@RequestBody UserDTO userDTO, BindingResult result) throws CellPhoneNotCorrectException, CellPhoneIsPresentException {
+    @PostMapping("/signup")
+    public ResponseEntity<UserDTO> signUp(@RequestBody UserDTO userDTO, BindingResult result) throws CellPhoneNotCorrectException, CellPhoneIsPresentException {
 
         if(!result.hasErrors()){
             UserDTO user =  userService.signUpUser(userDTO);

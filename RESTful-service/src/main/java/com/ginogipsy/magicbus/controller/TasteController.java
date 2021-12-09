@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/gusto")
-public class GustoController {
+public class TasteController {
 
     private final TasteService tasteService;
 
-    public GustoController(TasteService tasteService) {
+    public TasteController(TasteService tasteService) {
         this.tasteService = tasteService;
     }
 
     @PutMapping("/insert")
-    public ResponseEntity<TasteDTO> insertGusto(@RequestBody TasteDTO tasteDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+    public ResponseEntity<TasteDTO> insertTaste(@RequestBody TasteDTO tasteDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseEntity.badRequest().build();
@@ -30,6 +30,6 @@ public class GustoController {
         if(myUserDetails == null){
             throw new UserNotFoundException("Utente non trovato!");
         }
-        return ResponseEntity.ok(tasteService.insertGusto(tasteDTO, myUserDetails.getUserDTO()));
+        return ResponseEntity.ok(tasteService.insertTaste(tasteDTO, myUserDetails.getUserDTO()));
     }
 }

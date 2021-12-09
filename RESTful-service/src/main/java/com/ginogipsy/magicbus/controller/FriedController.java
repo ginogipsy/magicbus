@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/fritto")
-public class FrittoController {
+@RequestMapping("/api/fried")
+public class FriedController {
 
     private final FriedService friedService;
 
-    public FrittoController(FriedService friedService) {
+    public FriedController(FriedService friedService) {
         this.friedService = friedService;
     }
 
     @PutMapping("/insert")
-    public ResponseEntity<FriedDTO> insertFritto(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+    public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseEntity.badRequest().build();

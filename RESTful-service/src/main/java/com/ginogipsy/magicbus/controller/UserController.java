@@ -4,8 +4,8 @@ package com.ginogipsy.magicbus.controller;
 import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
 import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
 import com.ginogipsy.magicbus.dto.UserDTO;
-import com.ginogipsy.magicbus.controller.payload.request.usercontroller.InserisciIndirizzoRequest;
-import com.ginogipsy.magicbus.controller.payload.request.usercontroller.ModificaUserRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.AddAddressRequest;
+import com.ginogipsy.magicbus.controller.payload.request.usercontroller.UpdateUserRequest;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -24,65 +24,65 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping("/modificaUser")
-    public ResponseEntity<UserDTO> modificaUser(@RequestBody ModificaUserRequest modificaUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO userDTO = creazioneUserDTO(modificaUserRequest);
+    @PutMapping("/updateUser")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        UserDTO userDTO = createUserDTO(updateUserRequest);
         UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/inserisciCodiceFiscale")
-    public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), codiceFiscale);
+    @PutMapping("/addFiscalCode")
+    public ResponseEntity<UserDTO> addFiscalCode(@RequestParam String fiscalCode, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), fiscalCode);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/inserisciIndirizzo")
-    public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails,  BindingResult bindingResult){
+    @PutMapping("/addAddress")
+    public ResponseEntity<UserDTO> addAddress(@RequestBody @Validated AddAddressRequest addAddressRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
-            UserDTO user = userService.addAddress(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
+            UserDTO user = userService.addAddress(myUserDetails.getUserDTO(), addAddressRequest.getAddress(), addAddressRequest.getHouseNumber(), addAddressRequest.getCity(), addAddressRequest.getPostalCode());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
             throw new DataNotCorrectException("Indirizzo inserito non corretto");
     }
 
-    @PutMapping("/inserisciNomeCognome")
-    public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), nome, cognome);
+    @PutMapping("/addNameAndSurname")
+    public ResponseEntity<UserDTO> addNameAndSurname(@RequestParam String name, @RequestParam String surname, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), name, surname);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/modificaEmail")
+    @PutMapping("/updateEmail")
     @ExceptionHandler(value = EmailIsPresentException.class)
-    public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-            UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), nuovaEmail);
+    public ResponseEntity<UserDTO> updateEmail(@RequestParam String newEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+            UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), newEmail);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/modificaUsername")
-    public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    @PutMapping("/updateUsername")
+    public ResponseEntity<UserDTO> updateUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO user = userService.updateUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/modificaCellulare")
-    public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), numeroCellulare);
+    @PutMapping("/updateCellNumber")
+    public ResponseEntity<UserDTO> updateCellNumber(@RequestParam String newCellNumber, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), newCellNumber);
         return ResponseEntity.ok().body(user);
     }
 
-    private UserDTO creazioneUserDTO(ModificaUserRequest modificaUserRequest){
+    private UserDTO createUserDTO(UpdateUserRequest updateUserRequest){
         UserDTO userDTO = new UserDTO();
-        if(modificaUserRequest.getEmail() != null) userDTO.setEmail(modificaUserRequest.getEmail());
-        if(modificaUserRequest.getUsername() != null) userDTO.setUsername(modificaUserRequest.getUsername());
-        if(modificaUserRequest.getNome() != null) userDTO.setNome(modificaUserRequest.getNome());
-        if(modificaUserRequest.getCognome() != null) userDTO.setCognome(modificaUserRequest.getCognome());
-        if(modificaUserRequest.getNumeroCellulare() != null) userDTO.setNumeroCellulare(modificaUserRequest.getNumeroCellulare());
-        if(modificaUserRequest.getIndirizzo() != null) userDTO.setIndirizzo(modificaUserRequest.getIndirizzo());
-        if(modificaUserRequest.getCivico() != null) userDTO.setCivico(modificaUserRequest.getCivico());
-        if(modificaUserRequest.getCitta() != null) userDTO.setCitta(modificaUserRequest.getCitta());
-        if(modificaUserRequest.getCap() != null) userDTO.setCap(modificaUserRequest.getCap());
-        if(modificaUserRequest.getCodiceFiscale() != null) userDTO.setCodiceFiscale(modificaUserRequest.getCodiceFiscale());
+        if(updateUserRequest.getEmail() != null) userDTO.setEmail(updateUserRequest.getEmail());
+        if(updateUserRequest.getUsername() != null) userDTO.setUsername(updateUserRequest.getUsername());
+        if(updateUserRequest.getName() != null) userDTO.setName(updateUserRequest.getName());
+        if(updateUserRequest.getSurname() != null) userDTO.setSurname(updateUserRequest.getSurname());
+        if(updateUserRequest.getCellNumber() != null) userDTO.setCellNumber(updateUserRequest.getCellNumber());
+        if(updateUserRequest.getAddress() != null) userDTO.setAddress(updateUserRequest.getAddress());
+        if(updateUserRequest.getHouseNumber() != null) userDTO.setHouseNumber(updateUserRequest.getHouseNumber());
+        if(updateUserRequest.getCity() != null) userDTO.setCity(updateUserRequest.getCity());
+        if(updateUserRequest.getPostalCode() != null) userDTO.setPostalCode(updateUserRequest.getPostalCode());
+        if(updateUserRequest.getFiscalCode() != null) userDTO.setFiscalCode(updateUserRequest.getFiscalCode());
         return userDTO;
     }
 }
