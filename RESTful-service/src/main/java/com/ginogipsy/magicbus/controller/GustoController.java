@@ -10,16 +10,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/insert")
-public class InsertController {
+@RequestMapping("/api/gusto")
+public class GustoController {
 
     private final GustoService gustoService;
 
-    public InsertController(GustoService gustoService) {
+    public GustoController(GustoService gustoService) {
         this.gustoService = gustoService;
     }
 
-    @PutMapping("/gusto")
+    @PutMapping("/insert")
     public ResponseEntity<GustoDTO> insertGusto(@RequestBody GustoDTO gustoDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
         if(result.hasErrors()){
             return ResponseEntity.badRequest().build();

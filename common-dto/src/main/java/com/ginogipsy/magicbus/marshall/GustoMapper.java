@@ -1,22 +1,14 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
+
 import com.ginogipsy.magicbus.domain.*;
 import com.ginogipsy.magicbus.domain.enums.*;
 import com.ginogipsy.magicbus.dto.GustoDTO;
 import com.ginogipsy.magicbus.repository.GustoRepository;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.Option;
-import javax.xml.transform.Source;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class GustoMapper {
@@ -34,8 +26,7 @@ public class GustoMapper {
     }
 
     public GustoDTO findByNome(final String nome){
-        return Optional.ofNullable(convertToDTO(gustoRepository.findByNome(nome)))
-                .orElseThrow(() -> new GustoNotFoundException("il gusto non ha prodotto risultati!"));
+        return convertToDTO(gustoRepository.findByNome(nome));
     }
 
     public List<GustoDTO> findByStatus(final String status) {

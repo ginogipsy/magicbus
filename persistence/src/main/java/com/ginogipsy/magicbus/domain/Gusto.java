@@ -59,7 +59,7 @@ public class Gusto {
     @Enumerated(EnumType.STRING)
     private CategoriaProdotto categoriaProdotto;
 
-    @ManyToMany(mappedBy = "gustiPreferiti", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "gustiPreferiti" , fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users;
 

@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
@@ -62,37 +63,42 @@ public class User {
     @JoinTable(name = "user_role",
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             joinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
     private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "gusto_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
+    @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "gusto_id"))
     private Set<Gusto> gustiPreferiti;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name = "fritto_preferito", joinColumns = @JoinColumn(name = "fritto_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = "fritto_preferito", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "fritto_id"))
+    @JsonIgnore
     private Set<Fritto> frittiPreferiti;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "birra_utente", joinColumns = @JoinColumn(name = "birra_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
     private Set<Birra> birrePreferite;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "vino_utente", joinColumns = @JoinColumn(name = "vino_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
     private Set<Vino> viniPreferiti;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private Set<Ordine> ordini;
 
     @OneToMany(mappedBy = "userCreator")
+    @JsonIgnore
     private Set<Gusto> gusti;
 
 }

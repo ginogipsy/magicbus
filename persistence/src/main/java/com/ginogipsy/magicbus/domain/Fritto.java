@@ -45,7 +45,8 @@ public class Fritto {
     @Enumerated(EnumType.STRING)
     private CategoriaProdotto categoriaProdotto;
 
-    @ManyToMany(mappedBy = "frittiPreferiti")
+    @ManyToMany(mappedBy = "frittiPreferiti", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
