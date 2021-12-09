@@ -5,7 +5,7 @@ import com.ginogipsy.magicbus.domain.Drink;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.domain.enums.DrinkType;
 import com.ginogipsy.magicbus.dto.BibitaDTO;
-import com.ginogipsy.magicbus.repository.BibitaRepository;
+import com.ginogipsy.magicbus.repository.DrinkRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +16,11 @@ import java.util.Optional;
 public class BibitaMapper {
 
     private final ModelMapper modelMapper;
-    private final BibitaRepository bibitaRepository;
+    private final DrinkRepository drinkRepository;
 
-    public BibitaMapper(ModelMapper modelMapper, BibitaRepository bibitaRepository) {
+    public BibitaMapper(ModelMapper modelMapper, DrinkRepository drinkRepository) {
         this.modelMapper = modelMapper;
-        this.bibitaRepository = bibitaRepository;
+        this.drinkRepository = drinkRepository;
     }
 
     public Drink convertToEntity(BibitaDTO bibitaDTO){
@@ -32,26 +32,26 @@ public class BibitaMapper {
     }
 
     public BibitaDTO findByNome(String nome){
-        return Optional.ofNullable(bibitaRepository.findByNome(nome))
+        return Optional.ofNullable(drinkRepository.findByNome(nome))
                 .map(this::convertToDTO)
                 .orElseThrow(() -> new BibitaNotFoundException("Bibita "+nome+" non trovata!"));
     }
 
     List<BibitaDTO> findByTipologiaBibite(String tipologiaBibite){
-        return bibitaRepository.findByTipologia(DrinkType.valueOf(tipologiaBibite))
+        return drinkRepository.findByTipologia(DrinkType.valueOf(tipologiaBibite))
                 .stream().map(this::convertToDTO).toList();
 
     }
 
     List<BibitaDTO> findByStatus(String status){
-        return Optional.of(bibitaRepository.findByStatus(Status.valueOf(status)))
+        return Optional.of(drinkRepository.findByStatus(Status.valueOf(status)))
                 .map(list -> list.stream().map(this::convertToDTO).toList())
                 .orElseThrow(() -> new BibitaNotFoundException("Bibite per "+status+" non trovato!"));
     }
 
     List<BibitaDTO> findByStatusAndTipologiaBibite(String status, String tipologiaBibite){
 
-        return Optional.of(bibitaRepository.findByStatusAndTipologia(Status.valueOf(status), DrinkType.valueOf(tipologiaBibite)))
+        return Optional.of(drinkRepository.findByStatusAndTipologia(Status.valueOf(status), DrinkType.valueOf(tipologiaBibite)))
                 .map(list -> list.stream().map(this::convertToDTO).toList())
                 .orElseThrow(() -> new BibitaNotFoundException("Bibite per status "+status+" e tipologia "+tipologiaBibite+" non trovate!"));
     }

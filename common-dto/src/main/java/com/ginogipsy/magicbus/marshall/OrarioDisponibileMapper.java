@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.AvailableTime;
 import com.ginogipsy.magicbus.dto.OrarioDisponibileDTO;
-import com.ginogipsy.magicbus.repository.OrarioDisponibileRepository;
+import com.ginogipsy.magicbus.repository.AvailableTimeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class OrarioDisponibileMapper {
 
     private final ModelMapper modelMapper;
-    private final OrarioDisponibileRepository orarioDisponibileRepository;
+    private final AvailableTimeRepository availableTimeRepository;
 
-    public OrarioDisponibileMapper(ModelMapper modelMapper, OrarioDisponibileRepository orarioDisponibileRepository) {
+    public OrarioDisponibileMapper(ModelMapper modelMapper, AvailableTimeRepository availableTimeRepository) {
         this.modelMapper = modelMapper;
-        this.orarioDisponibileRepository = orarioDisponibileRepository;
+        this.availableTimeRepository = availableTimeRepository;
     }
 
     public AvailableTime convertToEntity(OrarioDisponibileDTO orarioDisponibileDTO){

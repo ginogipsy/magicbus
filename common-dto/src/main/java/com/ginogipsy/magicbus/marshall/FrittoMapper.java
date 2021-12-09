@@ -4,7 +4,7 @@ package com.ginogipsy.magicbus.marshall;
 import com.ginogipsy.magicbus.domain.Fried;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.FrittoDTO;
-import com.ginogipsy.magicbus.repository.FrittoRepository;
+import com.ginogipsy.magicbus.repository.FriedRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public class FrittoMapper {
 
     private final ModelMapper modelMapper;
-    private final FrittoRepository frittoRepository;
+    private final FriedRepository friedRepository;
 
-    public FrittoMapper(ModelMapper modelMapper, FrittoRepository frittoRepository) {
+    public FrittoMapper(ModelMapper modelMapper, FriedRepository friedRepository) {
         this.modelMapper = modelMapper;
-        this.frittoRepository = frittoRepository;
+        this.friedRepository = friedRepository;
     }
 
     public Fried convertToEntity(final FrittoDTO frittoDTO){
@@ -31,15 +31,15 @@ public class FrittoMapper {
     }
 
     public FrittoDTO findByName(final String nome){
-        return convertToDTO(frittoRepository.findByNome(nome));
+        return convertToDTO(friedRepository.findByNome(nome));
     }
 
     public List<FrittoDTO> findByStatus(final String status){
-        return frittoRepository.findByStatus(Status.getStatus(status)).stream().map(this::convertToDTO).toList();
+        return friedRepository.findByStatus(Status.getStatus(status)).stream().map(this::convertToDTO).toList();
     }
 
     public FrittoDTO save(final FrittoDTO frittoDTO){
-        return convertToDTO(frittoRepository.save(convertToEntity(frittoDTO)));
+        return convertToDTO(friedRepository.save(convertToEntity(frittoDTO)));
     }
 
 

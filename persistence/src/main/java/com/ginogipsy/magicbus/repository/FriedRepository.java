@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface FrittoRepository extends JpaRepository<Fried, Integer> {
+public interface FriedRepository extends JpaRepository<Fried, Integer> {
 
-    Fried findByNome(String nome);
+    Fried findByName(String name);
     List<Fried> findByStatus(Status status);
 
 }

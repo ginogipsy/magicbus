@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.MagicbusLocation;
 import com.ginogipsy.magicbus.dto.PosizioneMagicBusDTO;
-import com.ginogipsy.magicbus.repository.PosizioneMagicBusRepository;
+import com.ginogipsy.magicbus.repository.MagicbusLocationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class PosizioneMagicBusMapper {
 
     private final ModelMapper modelMapper;
-    private final PosizioneMagicBusRepository posizioneMagicBusRepository;
+    private final MagicbusLocationRepository magicbusLocationRepository;
 
-    public PosizioneMagicBusMapper(ModelMapper modelMapper, PosizioneMagicBusRepository posizioneMagicBusRepository) {
+    public PosizioneMagicBusMapper(ModelMapper modelMapper, MagicbusLocationRepository magicbusLocationRepository) {
         this.modelMapper = modelMapper;
-        this.posizioneMagicBusRepository = posizioneMagicBusRepository;
+        this.magicbusLocationRepository = magicbusLocationRepository;
     }
 
     public MagicbusLocation convertToEntity(PosizioneMagicBusDTO posizioneMagicBusDTO){

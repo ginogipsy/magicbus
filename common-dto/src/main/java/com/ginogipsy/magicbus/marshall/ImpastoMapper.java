@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Dough;
 import com.ginogipsy.magicbus.dto.ImpastoDTO;
-import com.ginogipsy.magicbus.repository.ImpastoRepository;
+import com.ginogipsy.magicbus.repository.DoughRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class ImpastoMapper {
 
     private final ModelMapper modelMapper;
-    private final ImpastoRepository impastoRepository;
+    private final DoughRepository doughRepository;
 
-    public ImpastoMapper(ModelMapper modelMapper, ImpastoRepository impastoRepository) {
+    public ImpastoMapper(ModelMapper modelMapper, DoughRepository doughRepository) {
         this.modelMapper = modelMapper;
-        this.impastoRepository = impastoRepository;
+        this.doughRepository = doughRepository;
     }
 
     public Dough convertToEntity(ImpastoDTO impastoDTO){

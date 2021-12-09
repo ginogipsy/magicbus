@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Brand;
 import com.ginogipsy.magicbus.dto.MarcaProdottoDTO;
-import com.ginogipsy.magicbus.repository.MarcaProdottoRepository;
+import com.ginogipsy.magicbus.repository.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class MarcaProdottoMapper {
 
     private final ModelMapper modelMapper;
-    private final MarcaProdottoRepository marcaProdottoRepository;
+    private final BrandRepository brandRepository;
 
-    public MarcaProdottoMapper(ModelMapper modelMapper, MarcaProdottoRepository marcaProdottoRepository) {
+    public MarcaProdottoMapper(ModelMapper modelMapper, BrandRepository brandRepository) {
         this.modelMapper = modelMapper;
-        this.marcaProdottoRepository = marcaProdottoRepository;
+        this.brandRepository = brandRepository;
     }
 
     public Brand convertToEntity(MarcaProdottoDTO marcaProdottoDTO){

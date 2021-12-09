@@ -3,5 +3,5 @@ package com.ginogipsy.magicbus.repository;
 import com.ginogipsy.magicbus.domain.Winery;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CantinaRepository extends JpaRepository<Winery, Integer> {
+public interface WineryRepository extends JpaRepository<Winery, Integer> {
 }

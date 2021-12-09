@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.FriedIngredient;
 import com.ginogipsy.magicbus.dto.FrittoIngredienteDTO;
-import com.ginogipsy.magicbus.repository.FrittoIngredienteRepository;
+import com.ginogipsy.magicbus.repository.FriedIngredientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class FrittoIngredienteMapper {
 
     private final ModelMapper modelMapper;
-    private final FrittoIngredienteRepository frittoIngredienteRepository;
+    private final FriedIngredientRepository friedIngredientRepository;
 
-    public FrittoIngredienteMapper(ModelMapper modelMapper, FrittoIngredienteRepository frittoIngredienteRepository) {
+    public FrittoIngredienteMapper(ModelMapper modelMapper, FriedIngredientRepository friedIngredientRepository) {
         this.modelMapper = modelMapper;
-        this.frittoIngredienteRepository = frittoIngredienteRepository;
+        this.friedIngredientRepository = friedIngredientRepository;
     }
 
     public FriedIngredient convertToEntity(FrittoIngredienteDTO frittoIngredienteDTO){

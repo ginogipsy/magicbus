@@ -27,7 +27,7 @@ public class Drink {
 
     @Column(name = "tipologia")
     @Enumerated(EnumType.STRING)
-    private DrinkType type;
+    private DrinkType drinkType;
 
     @Column(name = "descrizione")
     private String description;

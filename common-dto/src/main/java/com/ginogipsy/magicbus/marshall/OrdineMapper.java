@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Order;
 import com.ginogipsy.magicbus.dto.OrdineDTO;
-import com.ginogipsy.magicbus.repository.OrdineRepository;
+import com.ginogipsy.magicbus.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class OrdineMapper {
 
     private final ModelMapper modelMapper;
-    private final OrdineRepository ordineRepository;
+    private final OrderRepository orderRepository;
 
-    public OrdineMapper(ModelMapper modelMapper, OrdineRepository ordineRepository) {
+    public OrdineMapper(ModelMapper modelMapper, OrderRepository orderRepository) {
         this.modelMapper = modelMapper;
-        this.ordineRepository = ordineRepository;
+        this.orderRepository = orderRepository;
     }
 
     public Order convertToEntity(OrdineDTO ordineDTO){

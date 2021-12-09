@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface BibitaRepository extends JpaRepository<Drink, Integer> {
+public interface DrinkRepository extends JpaRepository<Drink, Integer> {
 
-    Drink findByNome(String nome);
-    List<Drink> findByTipologia(DrinkType tipologiaBibite);
+    Drink findByName(String name);
+    List<Drink> findByDrinkType(DrinkType drinkType);
     List<Drink> findByStatus(Status status);
-    List<Drink> findByStatusAndTipologia(Status status, DrinkType tipologiaBibite);
+    List<Drink> findByStatusAndType(Status status, DrinkType drinkType);
 }

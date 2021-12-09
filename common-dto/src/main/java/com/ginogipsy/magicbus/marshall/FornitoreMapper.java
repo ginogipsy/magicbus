@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Supplier;
 import com.ginogipsy.magicbus.dto.FornitoreDTO;
-import com.ginogipsy.magicbus.repository.FornitoreRepository;
+import com.ginogipsy.magicbus.repository.SupplierRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 public class FornitoreMapper {
 
     private final ModelMapper modelMapper;
-    private final FornitoreRepository fornitoreRepository;
+    private final SupplierRepository supplierRepository;
 
 
-    public FornitoreMapper(ModelMapper modelMapper, FornitoreRepository fornitoreRepository) {
+    public FornitoreMapper(ModelMapper modelMapper, SupplierRepository supplierRepository) {
         this.modelMapper = modelMapper;
-        this.fornitoreRepository = fornitoreRepository;
+        this.supplierRepository = supplierRepository;
     }
 
     public Supplier convertToEntity(FornitoreDTO fornitoreDTO){

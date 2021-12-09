@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Allergen;
 import com.ginogipsy.magicbus.dto.AllergeneDTO;
-import com.ginogipsy.magicbus.repository.AllergeneRepository;
+import com.ginogipsy.magicbus.repository.AllergenRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class AllergeneMapper {
 
     private final ModelMapper modelMapper;
-    private final AllergeneRepository allergeneRepository;
+    private final AllergenRepository allergenRepository;
 
-    public AllergeneMapper(ModelMapper modelMapper, AllergeneRepository allergeneRepository) {
+    public AllergeneMapper(ModelMapper modelMapper, AllergenRepository allergenRepository) {
         this.modelMapper = modelMapper;
-        this.allergeneRepository = allergeneRepository;
+        this.allergenRepository = allergenRepository;
     }
 
     public Allergen convertToEntity(AllergeneDTO allergeneDTO){

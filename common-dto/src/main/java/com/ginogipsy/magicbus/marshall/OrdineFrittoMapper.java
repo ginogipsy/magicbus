@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.FriedOrder;
 import com.ginogipsy.magicbus.dto.OrdineFrittoDTO;
-import com.ginogipsy.magicbus.repository.OrdineFrittoRepository;
+import com.ginogipsy.magicbus.repository.FriedOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class OrdineFrittoMapper {
 
     private final ModelMapper modelMapper;
-    private final OrdineFrittoRepository ordineFrittoRepository;
+    private final FriedOrderRepository friedOrderRepository;
 
-    public OrdineFrittoMapper(ModelMapper modelMapper, OrdineFrittoRepository ordineFrittoRepository) {
+    public OrdineFrittoMapper(ModelMapper modelMapper, FriedOrderRepository friedOrderRepository) {
         this.modelMapper = modelMapper;
-        this.ordineFrittoRepository = ordineFrittoRepository;
+        this.friedOrderRepository = friedOrderRepository;
     }
 
     public FriedOrder convertToEntity(OrdineFrittoDTO ordineFrittoDTO){

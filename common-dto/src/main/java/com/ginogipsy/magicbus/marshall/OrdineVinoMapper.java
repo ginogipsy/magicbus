@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.WineOrder;
 import com.ginogipsy.magicbus.dto.OrdineVinoDTO;
-import com.ginogipsy.magicbus.repository.OrdineVinoRepository;
+import com.ginogipsy.magicbus.repository.WineOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class OrdineVinoMapper {
 
     private final ModelMapper modelMapper;
-    private final OrdineVinoRepository ordineVinoRepository;
+    private final WineOrderRepository wineOrderRepository;
 
-    public OrdineVinoMapper(ModelMapper modelMapper, OrdineVinoRepository ordineVinoRepository) {
+    public OrdineVinoMapper(ModelMapper modelMapper, WineOrderRepository wineOrderRepository) {
         this.modelMapper = modelMapper;
-        this.ordineVinoRepository = ordineVinoRepository;
+        this.wineOrderRepository = wineOrderRepository;
     }
 
     public WineOrder convertToEntity(OrdineVinoDTO ordineVinoDTO){

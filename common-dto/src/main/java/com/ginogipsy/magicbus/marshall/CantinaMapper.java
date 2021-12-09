@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Winery;
 import com.ginogipsy.magicbus.dto.CantinaDTO;
-import com.ginogipsy.magicbus.repository.CantinaRepository;
+import com.ginogipsy.magicbus.repository.WineryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class CantinaMapper {
 
     private final ModelMapper modelMapper;
-    private final CantinaRepository cantinaRepository;
+    private final WineryRepository wineryRepository;
 
-    public CantinaMapper(ModelMapper modelMapper, CantinaRepository cantinaRepository) {
+    public CantinaMapper(ModelMapper modelMapper, WineryRepository wineryRepository) {
         this.modelMapper = modelMapper;
-        this.cantinaRepository = cantinaRepository;
+        this.wineryRepository = wineryRepository;
     }
 
     public Winery convertToEntity(CantinaDTO cantinaDTO){

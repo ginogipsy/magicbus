@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.DrinkOrder;
 import com.ginogipsy.magicbus.dto.OrdineBibitaDTO;
-import com.ginogipsy.magicbus.repository.OrdineBibitaRepository;
+import com.ginogipsy.magicbus.repository.DrinkOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class OrdineBibitaMapper {
 
     private final ModelMapper modelMapper;
-    private final OrdineBibitaRepository ordineBibitaRepository;
+    private final DrinkOrderRepository drinkOrderRepository;
 
-    public OrdineBibitaMapper(ModelMapper modelMapper, OrdineBibitaRepository ordineBibitaRepository) {
+    public OrdineBibitaMapper(ModelMapper modelMapper, DrinkOrderRepository drinkOrderRepository) {
         this.modelMapper = modelMapper;
-        this.ordineBibitaRepository = ordineBibitaRepository;
+        this.drinkOrderRepository = drinkOrderRepository;
     }
 
     public DrinkOrder convertToEntity(OrdineBibitaDTO ordineBibitaDTO){

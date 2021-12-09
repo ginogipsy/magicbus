@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.TasteIngredient;
 import com.ginogipsy.magicbus.dto.GustoIngredienteDTO;
-import com.ginogipsy.magicbus.repository.GustoIngredienteRepository;
+import com.ginogipsy.magicbus.repository.TasteIngredientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class GustoIngredienteMapper {
 
     private final ModelMapper modelMapper;
-    private final GustoIngredienteRepository gustoIngredienteRepository;
+    private final TasteIngredientRepository tasteIngredientRepository;
 
-    public GustoIngredienteMapper(ModelMapper modelMapper, GustoIngredienteRepository gustoIngredienteRepository) {
+    public GustoIngredienteMapper(ModelMapper modelMapper, TasteIngredientRepository tasteIngredientRepository) {
         this.modelMapper = modelMapper;
-        this.gustoIngredienteRepository = gustoIngredienteRepository;
+        this.tasteIngredientRepository = tasteIngredientRepository;
     }
 
     public TasteIngredient convertToEntity(GustoIngredienteDTO gustoIngredienteDTO){

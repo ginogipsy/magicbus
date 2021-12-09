@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Brewery;
 import com.ginogipsy.magicbus.dto.BirrificioDTO;
-import com.ginogipsy.magicbus.repository.BirrificioRepository;
+import com.ginogipsy.magicbus.repository.BreweryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class BirrificioMapper {
 
     private final ModelMapper modelMapper;
-    private final BirrificioRepository birrificioRepository;
+    private final BreweryRepository breweryRepository;
 
-    public BirrificioMapper(ModelMapper modelMapper, BirrificioRepository birrificioRepository) {
+    public BirrificioMapper(ModelMapper modelMapper, BreweryRepository breweryRepository) {
         this.modelMapper = modelMapper;
-        this.birrificioRepository = birrificioRepository;
+        this.breweryRepository = breweryRepository;
     }
 
     public Brewery convertToEntity(BirrificioDTO birrificioDTO){
