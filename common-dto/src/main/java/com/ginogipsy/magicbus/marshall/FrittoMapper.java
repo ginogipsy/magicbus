@@ -32,11 +32,16 @@ public class FrittoMapper {
     }
 
     public FrittoDTO findByName(final String nome){
-        return Optional.ofNullable(frittoRepository.findByNome(nome)).map(this::convertToDTO).orElseThrow(() -> new FrittoNotFoundException("Fritto non trovato"));
+        return convertToDTO(frittoRepository.findByNome(nome));
     }
 
     public List<FrittoDTO> findByStatus(final String status){
-        return Optional.of(frittoRepository.findByStatus(Status.valueOf(status)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new FrittoNotFoundException("Fritto non trovato"));
+        return frittoRepository.findByStatus(Status.getStatus(status)).stream().map(this::convertToDTO).toList();
     }
+
+    public FrittoDTO save(final FrittoDTO frittoDTO){
+        return convertToDTO(frittoRepository.save(convertToEntity(frittoDTO)));
+    }
+
 
 }

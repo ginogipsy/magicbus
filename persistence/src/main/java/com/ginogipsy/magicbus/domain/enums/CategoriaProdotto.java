@@ -11,7 +11,9 @@ public enum CategoriaProdotto {
     PANUOZZO          ("PANUOZZO"),
     PANINO            ("PANINO"),
     FRITTO            ("FRITTO"),
-    BIBITA            ("BIBITA");
+    BIBITA            ("BIBITA"),
+    ARANCINO          ("ARANCINO"),
+    FRITTO_CLASSICO   ("FRITTO CLASSICO");
 
 
     private final String descrizione;

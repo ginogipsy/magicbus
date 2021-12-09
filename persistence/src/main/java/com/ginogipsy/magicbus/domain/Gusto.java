@@ -2,16 +2,16 @@ package com.ginogipsy.magicbus.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ginogipsy.magicbus.domain.enums.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(exclude = {"utenti", "ingredienti"})
+@Getter
+@Setter
 @Entity(name = "gusto")
 public class Gusto {
 
@@ -44,9 +44,6 @@ public class Gusto {
     @Lob
     private Byte[] immagine;
 
-    @ManyToMany(mappedBy = "gustiPreferiti", fetch = FetchType.LAZY)
-    private Set<User> utenti;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gusto", fetch = FetchType.LAZY)
     private Set<GustoIngrediente> ingredienti;
 
@@ -63,6 +60,7 @@ public class Gusto {
     private CategoriaProdotto categoriaProdotto;
 
     @ManyToMany(mappedBy = "gustiPreferiti", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)

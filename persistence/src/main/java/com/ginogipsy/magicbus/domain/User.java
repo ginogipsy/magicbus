@@ -4,8 +4,7 @@ package com.ginogipsy.magicbus.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.repository.cdi.Eager;
+
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -73,7 +72,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name = "fritto_utente", joinColumns = @JoinColumn(name = "fritto_id"),
+    @JoinTable(name = "fritto_preferito", joinColumns = @JoinColumn(name = "fritto_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Fritto> frittiPreferiti;
 

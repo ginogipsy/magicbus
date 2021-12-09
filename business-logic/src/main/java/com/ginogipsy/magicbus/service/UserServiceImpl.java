@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO registrazioneUtente(final UserDTO userDTO) {
-        final UserDTO user = userUtility.ristruttrazioneFormattazioneUserDTO(userDTO);
+        final UserDTO user = userUtility.reformatUserDTO(userDTO);
         if(mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()) == null){
             if(user.getCodiceFiscale() != null && mapperFactory.getUserMapper().findByCodiceFiscale(user.getCodiceFiscale()) != null){
                 user.setCodiceFiscale(null);
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO modificaUtente(final UserDTO userDaModificare,final UserDTO userModificato){
 
-        final UserDTO user = userUtility.ristruttrazioneFormattazioneUserDTO(userModificato);
+        final UserDTO user = userUtility.reformatUserDTO(userModificato);
 
         modificaCredenziali(userDaModificare, user);
         ofNullable(user.getNome()).ifPresent(userDaModificare::setNome);

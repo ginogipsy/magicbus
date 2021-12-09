@@ -1,17 +1,18 @@
 package com.ginogipsy.magicbus.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ginogipsy.magicbus.domain.enums.CategoriaProdotto;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fritto")
-@Data
-@EqualsAndHashCode(exclude = {"ingredienti"})
 public class Fritto {
 
     @Id
@@ -23,8 +24,8 @@ public class Fritto {
     private String nome;
 
     //@Lob da implementare per grosse dimensioni
-    @Column(name = "descrizione")
-    private String descrizione;
+    @Column(name = "descrizione_fritto")
+    private String descrizioneFritto;
 
     @Column(name = "costo")
     private Double costo;
@@ -49,6 +50,14 @@ public class Fritto {
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)
     private Boolean disponibile;
+
+    @Column(name = "fritto_utente", columnDefinition = "TINYINT", length = 1)
+    private boolean frittoUtente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User userCreator;
 
 
 }
