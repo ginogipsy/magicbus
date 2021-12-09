@@ -38,7 +38,7 @@ public class Taste {
     private Double cost;
 
     @Column(name = "versione_vegana_disponibile", columnDefinition = "TINYINT", length = 1)
-    private Boolean veganAvailable;
+    private Boolean veganOption;
 
     @Column(name = "immagine")
     @Lob
@@ -59,7 +59,7 @@ public class Taste {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 
-    @ManyToMany(mappedBy = "gustiPreferiti" , fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "favoriteTastes" , fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users;
 

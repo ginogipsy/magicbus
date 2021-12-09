@@ -5,7 +5,7 @@ import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
 import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.dto.FrittoDTO;
+import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.stereotype.Service;
@@ -28,30 +28,30 @@ public class FrittoServiceImpl implements FrittoService {
 
 
     @Override
-    public FrittoDTO insertFritto(FrittoDTO frittoDTO, UserDTO userDTO) {
+    public FriedDTO insertFritto(FriedDTO friedDTO, UserDTO userDTO) {
         if(userUtility.isOnlyAnUser(userDTO)){
-            frittoDTO.setFrittoUtente(true);
-            frittoDTO.setDisponibile(false);
-            frittoDTO.setStatus(Status.INSERITO);
-            frittoDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(frittoDTO.getNome()).concat(" by ").concat(userDTO.getUsername()));
+            friedDTO.setFrittoUtente(true);
+            friedDTO.setDisponibile(false);
+            friedDTO.setStatus(Status.INSERITO);
+            friedDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(friedDTO.getNome()).concat(" by ").concat(userDTO.getUsername()));
         }else{
-            frittoDTO.setFrittoUtente(false);
-            frittoDTO.setDisponibile(true);
-            frittoDTO.setStatus(Status.DISPONIBILE);
-            frittoDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(frittoDTO.getNome()));
+            friedDTO.setFrittoUtente(false);
+            friedDTO.setDisponibile(true);
+            friedDTO.setStatus(Status.DISPONIBILE);
+            friedDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(friedDTO.getNome()));
         }
 
-        if(mapperFactory.getFrittoMapper().findByName(frittoDTO.getNome()) != null){
-            throw new GustoIsPresentException("Il gusto ".concat(frittoDTO.getNome()).concat(" è già presente!"));
+        if(mapperFactory.getFrittoMapper().findByName(friedDTO.getNome()) != null){
+            throw new GustoIsPresentException("Il gusto ".concat(friedDTO.getNome()).concat(" è già presente!"));
         }
 
-        frittoDTO.setDescrizioneFritto(stringUtility.formattataMinuscConSpaziaturaCorretta(frittoDTO.getDescrizioneFritto()));
-        frittoDTO.setUserCreator(userDTO);
-        return mapperFactory.getFrittoMapper().save(frittoDTO);
+        friedDTO.setDescrizioneFritto(stringUtility.formattataMinuscConSpaziaturaCorretta(friedDTO.getDescrizioneFritto()));
+        friedDTO.setUserCreator(userDTO);
+        return mapperFactory.getFrittoMapper().save(friedDTO);
     }
 
     @Override
-    public FrittoDTO findByNome(String nomeFritto) {
+    public FriedDTO findByNome(String nomeFritto) {
         final String n = Optional.ofNullable(stringUtility.formattataMinuscConSpaziaturaCorretta(nomeFritto))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
         return Optional.ofNullable(mapperFactory.getFrittoMapper()
@@ -59,7 +59,7 @@ public class FrittoServiceImpl implements FrittoService {
     }
 
     @Override
-    public List<FrittoDTO> findByStatus(String status) {
+    public List<FriedDTO> findByStatus(String status) {
         return mapperFactory.getFrittoMapper().findByStatus(status).stream().toList();
     }
 }

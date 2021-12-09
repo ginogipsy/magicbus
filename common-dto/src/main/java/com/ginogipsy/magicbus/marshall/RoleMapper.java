@@ -18,8 +18,8 @@ public class RoleMapper {
         this.roleRepository = roleRepository;
     }
 
-    public RoleDTO findByProfilo(String profilo){
-        return convertToDTO(roleRepository.findByProfilo(Profile.getProfilo(profilo)));
+    public RoleDTO findByProfile(String profile){
+        return convertToDTO(roleRepository.findByProfile(Profile.getProfile(profile)));
     }
 
     public RoleDTO convertToDTO(Role role){

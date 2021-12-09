@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.controller;
 
 
 import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
-import com.ginogipsy.magicbus.dto.GustoDTO;
+import com.ginogipsy.magicbus.dto.TasteDTO;
 import com.ginogipsy.magicbus.service.GustoService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class GustoController {
     }
 
     @PutMapping("/insert")
-    public ResponseEntity<GustoDTO> insertGusto(@RequestBody GustoDTO gustoDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+    public ResponseEntity<TasteDTO> insertGusto(@RequestBody TasteDTO tasteDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseEntity.badRequest().build();
@@ -30,6 +30,6 @@ public class GustoController {
         if(myUserDetails == null){
             throw new UserNotFoundException("Utente non trovato!");
         }
-        return ResponseEntity.ok(gustoService.insertGusto(gustoDTO, myUserDetails.getUserDTO()));
+        return ResponseEntity.ok(gustoService.insertGusto(tasteDTO, myUserDetails.getUserDTO()));
     }
 }

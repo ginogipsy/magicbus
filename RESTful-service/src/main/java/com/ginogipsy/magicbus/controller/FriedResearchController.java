@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
-import com.ginogipsy.magicbus.dto.FrittoDTO;
+import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.service.FrittoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,12 @@ public class FriedResearchController {
     }
 
     @GetMapping(value = "/byName", params = "friedName")
-    public ResponseEntity<FrittoDTO> ricercaPizzaSpecifica(@RequestParam String friedName){
+    public ResponseEntity<FriedDTO> ricercaPizzaSpecifica(@RequestParam String friedName){
         return ResponseEntity.ok().body(frittoService.findByNome(friedName));
     }
 
     @GetMapping(value = "/byStatus")
-    public ResponseEntity<List<FrittoDTO>> findGustiByStatus(@RequestParam(defaultValue = "DISPONIBILE") String status){
+    public ResponseEntity<List<FriedDTO>> findGustiByStatus(@RequestParam(defaultValue = "DISPONIBILE") String status){
         return ResponseEntity.ok(frittoService.findByStatus(status));
     }
 }

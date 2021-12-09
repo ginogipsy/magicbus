@@ -44,7 +44,7 @@ public class User {
     private String street;
 
     @Column(name = "civico")
-    private String number;
+    private String houseNumber;
 
     @Column(name = "citta")
     private String city;

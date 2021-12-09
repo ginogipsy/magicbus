@@ -5,7 +5,7 @@ import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
 import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.dto.GustoDTO;
+import com.ginogipsy.magicbus.dto.TasteDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.stereotype.Service;
@@ -27,12 +27,12 @@ public class GustoServiceImpl implements GustoService {
     }
 
     @Override
-    public List<GustoDTO> findGustiByStatus(final String status) throws StatusProductsNotFoundException {
+    public List<TasteDTO> findGustiByStatus(final String status) throws StatusProductsNotFoundException {
            return mapperFactory.getGustoMapper().findByStatus(status);
     }
 
     @Override
-    public GustoDTO findGustoByNome(final String nomeGusto) throws GustoNotFoundException {
+    public TasteDTO findGustoByNome(final String nomeGusto) throws GustoNotFoundException {
         final String n = Optional.ofNullable(stringUtility.formattataMinuscConSpaziaturaCorretta(nomeGusto))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
         return Optional.ofNullable(mapperFactory.getGustoMapper()
@@ -40,67 +40,67 @@ public class GustoServiceImpl implements GustoService {
     }
 
     @Override
-    public List<GustoDTO> findGustiNameContains(final String nomeGusto) throws GustoNotFoundException {
+    public List<TasteDTO> findGustiNameContains(final String nomeGusto) throws GustoNotFoundException {
         final String n = Optional.ofNullable(stringUtility.formattataMinuscConSpaziaturaCorretta(nomeGusto))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
         return mapperFactory.getGustoMapper().findByNomeContains(n);
     }
 
     @Override
-    public List<GustoDTO> findByBase(final String base) throws BaseNotFoundException {
+    public List<TasteDTO> findByBase(final String base) throws BaseNotFoundException {
         return mapperFactory.getGustoMapper().findByBase(base);
     }
 
     @Override
-    public List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto) {
+    public List<TasteDTO> findByCategoriaProdotto(String categoriaProdotto) {
         return mapperFactory.getGustoMapper().findByCategoriaProdotto(categoriaProdotto);
     }
 
     @Override
-    public List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita) {
+    public List<TasteDTO> findByPeriodoDisponibilita(String periodoDisponibilita) {
         return mapperFactory.getGustoMapper().findByPeriodoDisponibilita(periodoDisponibilita);
     }
 
     @Override
-    public List<GustoDTO> findByDisponibilita(boolean disponibile, String status) {
+    public List<TasteDTO> findByDisponibilita(boolean disponibile, String status) {
         return mapperFactory.getGustoMapper().findByDisponibilita(disponibile, status);
     }
 
     @Override
-    public List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita) {
+    public List<TasteDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita) {
         return mapperFactory.getGustoMapper().findByDisponibileAndPeriodoDisponibilita(disponibile, periodoDisponibilita);
     }
 
     @Override
-    public List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente) {
+    public List<TasteDTO> findByInseritaDaUtente(boolean inseritaDaUtente) {
         return mapperFactory.getGustoMapper().findByInseritaDaUtente(inseritaDaUtente);
     }
 
     @Override
-    public List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status) {
+    public List<TasteDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status) {
         return mapperFactory.getGustoMapper().findByInseritaDaUtenteAndStatus(inseritaDaUtente, status);
     }
 
     @Override
-    public GustoDTO insertGusto(GustoDTO gustoDTO, UserDTO userDTO){
+    public TasteDTO insertGusto(TasteDTO tasteDTO, UserDTO userDTO){
         if(userUtility.isOnlyAnUser(userDTO)){
-            gustoDTO.setGustoUtente(true);
-            gustoDTO.setDisponibile(false);
-            gustoDTO.setStatus(Status.INSERITO);
-            gustoDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(gustoDTO.getNome()).concat(" by ").concat(userDTO.getUsername()));
+            tasteDTO.setGustoUtente(true);
+            tasteDTO.setDisponibile(false);
+            tasteDTO.setStatus(Status.INSERITO);
+            tasteDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(tasteDTO.getNome()).concat(" by ").concat(userDTO.getUsername()));
         }else{
-            gustoDTO.setGustoUtente(false);
-            gustoDTO.setDisponibile(true);
-            gustoDTO.setStatus(Status.DISPONIBILE);
-            gustoDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(gustoDTO.getNome()));
+            tasteDTO.setGustoUtente(false);
+            tasteDTO.setDisponibile(true);
+            tasteDTO.setStatus(Status.DISPONIBILE);
+            tasteDTO.setNome(stringUtility.formattataMinuscConSpaziaturaCorretta(tasteDTO.getNome()));
         }
 
-        if(mapperFactory.getGustoMapper().findByNome(gustoDTO.getNome()) != null){
-            throw new GustoIsPresentException("Il gusto ".concat(gustoDTO.getNome()).concat(" è già presente!"));
+        if(mapperFactory.getGustoMapper().findByNome(tasteDTO.getNome()) != null){
+            throw new GustoIsPresentException("Il gusto ".concat(tasteDTO.getNome()).concat(" è già presente!"));
         }
 
-        gustoDTO.setDescrizioneGusto(stringUtility.formattataMinuscConSpaziaturaCorretta(gustoDTO.getDescrizioneGusto()));
-        gustoDTO.setUserCreator(userDTO);
-        return mapperFactory.getGustoMapper().save(gustoDTO);
+        tasteDTO.setDescrizioneGusto(stringUtility.formattataMinuscConSpaziaturaCorretta(tasteDTO.getDescrizioneGusto()));
+        tasteDTO.setUserCreator(userDTO);
+        return mapperFactory.getGustoMapper().save(tasteDTO);
     }
 }

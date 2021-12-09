@@ -23,28 +23,28 @@ public class UserDTO {
     @NonNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    private String nome;
-    private String cognome;
+    private String name;
+    private String surname;
 
     @NonNull
-    private String numeroCellulare;
-    private String indirizzo;
-    private String civico;
-    private String citta;
-    private String cap;
-    private String codiceFiscale;
+    private String cellNumber;
+    private String street;
+    private String houseNumber;
+    private String city;
+    private String postalCode;
+    private String fiscalCode;
 
     //@JsonIgnore
     private Boolean isEnabled;
 
     @JsonIgnore
     private Set<RoleDTO> roles;
-    private Set<GustoDTO> gustiPreferiti;
-    private Set<FrittoDTO> frittiPreferiti;
-    private Set<VinoDTO> viniPreferiti;
-    private Set<BirraDTO> birrePreferite;
-    private Set<OrdineDTO> ordini;
-    private Set<Taste> gustiInseriti;
+    private Set<TasteDTO> favoriteTastes;
+    private Set<FriedDTO> favoriteFried;
+    private Set<BeerDTO> favoriteBeers;
+    private Set<WineDTO> favoriteWines;
+    private Set<OrderDTO> orders;
+    private Set<Taste> tastesInserted;
 
 
 

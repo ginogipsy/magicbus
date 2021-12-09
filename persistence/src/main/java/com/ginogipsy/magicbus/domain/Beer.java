@@ -41,7 +41,7 @@ public class Beer {
     @JoinColumn(name = "birrificio_id")
     private Brewery brewery;
 
-    @ManyToMany(mappedBy = "birrePreferite", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "favoriteBeers", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> users;
 

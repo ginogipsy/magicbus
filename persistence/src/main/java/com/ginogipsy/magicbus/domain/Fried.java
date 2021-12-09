@@ -45,7 +45,7 @@ public class Fried {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 
-    @ManyToMany(mappedBy = "frittiPreferiti", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "favoriteFried", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users;
 

@@ -39,7 +39,7 @@ public class Wine {
     @JoinColumn(name = "cantina_id")
     private Winery winery;
 
-    @ManyToMany(mappedBy = "viniPreferiti", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "favoriteWines", fetch = FetchType.LAZY)
     private Set<User> users;
 
     @Column(name = "disponibile", columnDefinition = "TINYINT", length = 1)

@@ -1,21 +1,21 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.dto.GustoDTO;
+import com.ginogipsy.magicbus.dto.TasteDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 
 import java.util.List;
 
 public interface GustoService {
 
-    List<GustoDTO> findGustiByStatus(String status);
-    GustoDTO findGustoByNome(String nome);
-    List<GustoDTO> findGustiNameContains(String nome);
-    List<GustoDTO> findByBase(String base);
-    List<GustoDTO> findByCategoriaProdotto(String categoriaProdotto);
-    List<GustoDTO> findByPeriodoDisponibilita(String periodoDisponibilita);
-    List<GustoDTO> findByDisponibilita(boolean disponibilita, String status);
-    List<GustoDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita);
-    List<GustoDTO> findByInseritaDaUtente(boolean inseritaDaUtente);
-    List<GustoDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status);
-    GustoDTO insertGusto(GustoDTO gustoDTO, UserDTO userDTO);
+    List<TasteDTO> findGustiByStatus(String status);
+    TasteDTO findGustoByNome(String nome);
+    List<TasteDTO> findGustiNameContains(String nome);
+    List<TasteDTO> findByBase(String base);
+    List<TasteDTO> findByCategoriaProdotto(String categoriaProdotto);
+    List<TasteDTO> findByPeriodoDisponibilita(String periodoDisponibilita);
+    List<TasteDTO> findByDisponibilita(boolean disponibilita, String status);
+    List<TasteDTO> findByDisponibilitaAndPeriodoDisponibilita(boolean disponibile, String periodoDisponibilita);
+    List<TasteDTO> findByInseritaDaUtente(boolean inseritaDaUtente);
+    List<TasteDTO> findByInseritaDaUtenteAndStatus(boolean inseritaDaUtente, String status);
+    TasteDTO insertGusto(TasteDTO tasteDTO, UserDTO userDTO);
 }

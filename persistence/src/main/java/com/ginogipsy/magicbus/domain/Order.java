@@ -40,7 +40,7 @@ public class Order {
     private List<TasteOrder> tastesOrders;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DrinkOrder> DrinkOrders;
+    private List<DrinkOrder> drinkOrders;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BeerOrder> beerOrders;
@@ -50,6 +50,6 @@ public class Order {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ordinepagamento_id")
-    private OrderPayment payment;
+    private PaymentOrder payment;
 }
 

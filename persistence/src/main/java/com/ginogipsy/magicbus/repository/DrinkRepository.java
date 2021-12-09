@@ -12,5 +12,5 @@ public interface DrinkRepository extends JpaRepository<Drink, Integer> {
     Drink findByName(String name);
     List<Drink> findByDrinkType(DrinkType drinkType);
     List<Drink> findByStatus(Status status);
-    List<Drink> findByStatusAndType(Status status, DrinkType drinkType);
+    List<Drink> findByStatusAndDrinkType(Status status, DrinkType drinkType);
 }

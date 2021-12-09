@@ -39,7 +39,7 @@ public class Ingredient {
     private MeasureUnit measureUnit;
 
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
-    private Set<Allergen> tipoAllergen;
+    private Set<Allergen> allergens;
 
     @Column(name = "tipologia_ingrediente")
     @Enumerated(EnumType.STRING)
