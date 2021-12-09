@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.FriedDTO;
-import com.ginogipsy.magicbus.service.FrittoService;
+import com.ginogipsy.magicbus.service.FriedService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/fritto")
 public class FrittoController {
 
-    private final FrittoService frittoService;
+    private final FriedService friedService;
 
-    public FrittoController(FrittoService frittoService) {
-        this.frittoService = frittoService;
+    public FrittoController(FriedService friedService) {
+        this.friedService = friedService;
     }
 
     @PutMapping("/insert")
@@ -32,6 +32,6 @@ public class FrittoController {
         if(myUserDetails == null){
             throw new UserNotFoundException("Utente non trovato!");
         }
-        return ResponseEntity.ok(frittoService.insertFritto(friedDTO, myUserDetails.getUserDTO()));
+        return ResponseEntity.ok(friedService.insertFried(friedDTO, myUserDetails.getUserDTO()));
     }
 }

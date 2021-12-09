@@ -27,20 +27,20 @@ public class UserController {
     @PutMapping("/modificaUser")
     public ResponseEntity<UserDTO> modificaUser(@RequestBody ModificaUserRequest modificaUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         UserDTO userDTO = creazioneUserDTO(modificaUserRequest);
-        UserDTO user = userService.modificaUtente(myUserDetails.getUserDTO(), userDTO);
+        UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciCodiceFiscale")
     public ResponseEntity<UserDTO> inserisciCodiceFiscale(@RequestParam String codiceFiscale, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.inserimentoCodiceFiscale(myUserDetails.getUserDTO(), codiceFiscale);
+        UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), codiceFiscale);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/inserisciIndirizzo")
     public ResponseEntity<UserDTO> inserisciIndirizzo(@RequestBody @Validated InserisciIndirizzoRequest inserisciIndirizzoRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails,  BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
-            UserDTO user = userService.inserimentoIndirizzo(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
+            UserDTO user = userService.addAddress(myUserDetails.getUserDTO(), inserisciIndirizzoRequest.getIndirizzo(), inserisciIndirizzoRequest.getCivico(), inserisciIndirizzoRequest.getCitta(), inserisciIndirizzoRequest.getCap());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
             throw new DataNotCorrectException("Indirizzo inserito non corretto");
@@ -48,26 +48,26 @@ public class UserController {
 
     @PutMapping("/inserisciNomeCognome")
     public ResponseEntity<UserDTO> inserisciNomeCognome(@RequestParam String nome, @RequestParam String cognome, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.inserimentoNomeCognome(myUserDetails.getUserDTO(), nome, cognome);
+        UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), nome, cognome);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaEmail")
     @ExceptionHandler(value = EmailIsPresentException.class)
     public ResponseEntity<UserDTO> modificaEmail(@RequestParam String nuovaEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-            UserDTO user = userService.modificaEmail(myUserDetails.getUserDTO(), nuovaEmail);
+            UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), nuovaEmail);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaUsername")
     public ResponseEntity<UserDTO> modificaUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.modificaUsername(myUserDetails.getUserDTO(), username);
+        UserDTO user = userService.updateUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/modificaCellulare")
     public ResponseEntity<UserDTO> modificaCellulare(@RequestParam String numeroCellulare, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO user = userService.modificaNumeroCellulare(myUserDetails.getUserDTO(), numeroCellulare);
+        UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), numeroCellulare);
         return ResponseEntity.ok().body(user);
     }
 

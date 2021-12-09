@@ -18,13 +18,13 @@ public class UserUtilityComponent implements UserUtility {
     @Override
     public UserDTO reformatUserDTO(final UserDTO userDTO) {
 
-        Optional.ofNullable(userDTO.getNome()).ifPresent(nome -> userDTO.setNome(stringUtility.formattazionePrimaMaiusc(nome)));
-        Optional.ofNullable(userDTO.getCognome()).ifPresent(cognome -> userDTO.setCognome(stringUtility.formattazionePrimaMaiusc(cognome)));
-        Optional.ofNullable(userDTO.getCodiceFiscale()).ifPresent(cf -> userDTO.setCodiceFiscale(cf.toUpperCase()));
-        Optional.ofNullable(userDTO.getIndirizzo()).ifPresent(ind -> userDTO.setIndirizzo(stringUtility.formattazionePrimaMaiusc(ind)));
-        Optional.ofNullable(userDTO.getCitta()).ifPresent(citta -> userDTO.setCitta(stringUtility.formattataMaiuscConSpaziaturaCorretta(citta)));
-        Optional.ofNullable(userDTO.getCivico()).ifPresent(civico -> userDTO.setCivico(civico.trim()));
-        Optional.ofNullable(userDTO.getCap()).ifPresent(cap -> userDTO.setCap(cap.trim()));
+        Optional.ofNullable(userDTO.getName()).ifPresent(name -> userDTO.setName(stringUtility.formatWithFirstMaiusc(name)));
+        Optional.ofNullable(userDTO.getSurname()).ifPresent(surname -> userDTO.setSurname(stringUtility.formatWithFirstMaiusc(surname)));
+        Optional.ofNullable(userDTO.getFiscalCode()).ifPresent(cf -> userDTO.setFiscalCode(cf.toUpperCase()));
+        Optional.ofNullable(userDTO.getAddress()).ifPresent(street -> userDTO.setAddress(stringUtility.formatWithFirstMaiusc(street)));
+        Optional.ofNullable(userDTO.getCity()).ifPresent(city -> userDTO.setCity(stringUtility.formatAllMaiusc(city)));
+        Optional.ofNullable(userDTO.getHouseNumber()).ifPresent(houseNum -> userDTO.setHouseNumber(houseNum.trim()));
+        Optional.ofNullable(userDTO.getPostalCode()).ifPresent(postalCode -> userDTO.setPostalCode(postalCode.trim()));
         Optional.of(userDTO.getUsername()).ifPresent(username -> userDTO.setUsername(username.toLowerCase().trim()));
         Optional.of(userDTO.getEmail()).ifPresent(email -> userDTO.setEmail(email.toLowerCase().trim()));
         Optional.of(userDTO.getPassword()).ifPresent(password -> userDTO.setPassword(password.trim()));
@@ -35,6 +35,6 @@ public class UserUtilityComponent implements UserUtility {
 
     @Override
     public boolean isOnlyAnUser(UserDTO userDTO) {
-        return userDTO.getRoles().size() == 1 && userDTO.getRoles().stream().anyMatch(r -> r.getProfile().equals(Profile.getProfilo("USER")));
+        return userDTO.getRoles().size() == 1 && userDTO.getRoles().stream().anyMatch(r -> r.getProfile().equals(Profile.getProfile("USER")));
     }
 }

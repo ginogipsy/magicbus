@@ -5,13 +5,13 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 
 public interface UserService {
 
-    UserDTO registrazioneUtente(UserDTO userDTO);
-    UserDTO inserimentoCodiceFiscale(UserDTO userDaModificare, String codiceFiscale);
-    UserDTO inserimentoIndirizzo(UserDTO userDaModificare, String indirizzo, String civico, String citta, String cap);
-    UserDTO inserimentoNomeCognome(UserDTO userDaModificare, String nome, String cognome);
-    UserDTO modificaUtente(UserDTO userDaModificare, UserDTO userModificato);
-    UserDTO modificaEmail(UserDTO userDaModificare, String nuovaEmail);
-    UserDTO modificaUsername(UserDTO userDaModificare, String username);
-    UserDTO modificaNumeroCellulare(UserDTO userDaModificare, String numeroCellulare);
+    UserDTO signUpUser(UserDTO userDTO);
+    UserDTO addFiscalCode(UserDTO oldUser, String fiscalCode);
+    UserDTO addAddress(UserDTO oldUser, String street, String houseNumber, String city, String postalCode);
+    UserDTO addNameAndSurname(UserDTO oldUser, String name, String surname);
+    UserDTO updateUser(UserDTO oldUser, UserDTO updatedUser);
+    UserDTO updateEmail(UserDTO oldUser, String newEmail);
+    UserDTO updateUsername(UserDTO oldUser, String username);
+    UserDTO updateCellNumber(UserDTO oldUser, String newCellNumber);
 
 }

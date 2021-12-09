@@ -8,41 +8,41 @@ import java.util.Optional;
 public class StringUtilityComponent implements StringUtility {
 
     @Override
-    public boolean controlloCodiceFiscale(String codiceFiscale) {
+    public boolean checkFiscalCode(String fiscalCode) {
 
         String regex = "^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$";
-        return codiceFiscale.matches(regex);
+        return fiscalCode.matches(regex);
     }
 
     @Override
-    public String formattataMinuscConSpaziaturaCorretta(String string) {
+    public String formatAllMinusc(String string) {
         return Optional.ofNullable(string).map(n -> n.trim().toLowerCase().replaceAll(" +", " ")).orElse(null);
     }
 
     @Override
-    public String formattataMaiuscConSpaziaturaCorretta(String string) {
+    public String formatAllMaiusc(String string) {
         return Optional.ofNullable(string).map(n -> n.trim().toUpperCase().replaceAll(" +", " ")).orElse(null);
     }
 
     @Override
-    public String formattazionePrimaMaiusc(String string){
+    public String formatWithFirstMaiusc(String string){
         String[] parole = string.trim().split("\\s+");
         StringBuilder result = new StringBuilder();
         for (String s: parole
              ) {
-            s = s.substring(0, 1).toUpperCase() + formattataMinuscConSpaziaturaCorretta(s.substring(1));
+            s = s.substring(0, 1).toUpperCase() + formatAllMinusc(s.substring(1));
             result.append(s).append(" ");
         }
         return result.toString().trim();
     }
 
     @Override
-    public boolean capCorretto(String cap) {
-        if(cap.length() != 5){
+    public boolean checkPostalCode(String postalCode) {
+        if(postalCode.length() != 5){
             return false;
         }
         try {
-            Integer.parseInt(cap);
+            Integer.parseInt(postalCode);
         }catch (RuntimeException e){
             return false;
         }

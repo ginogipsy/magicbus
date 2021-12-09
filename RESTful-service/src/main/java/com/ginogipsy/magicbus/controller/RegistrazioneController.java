@@ -25,7 +25,7 @@ public class RegistrazioneController {
     public ResponseEntity<UserDTO> registrazioneUtente(@RequestBody UserDTO userDTO, BindingResult result) throws CellPhoneNotCorrectException, CellPhoneIsPresentException {
 
         if(!result.hasErrors()){
-            UserDTO user =  userService.registrazioneUtente(userDTO);
+            UserDTO user =  userService.signUpUser(userDTO);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }
 

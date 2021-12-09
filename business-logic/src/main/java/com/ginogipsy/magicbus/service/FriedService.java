@@ -6,9 +6,9 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 
 import java.util.List;
 
-public interface FrittoService {
+public interface FriedService {
 
-    FriedDTO insertFritto(FriedDTO friedDTO, UserDTO userDTO);
-    FriedDTO findByNome(String nomeFritto);
+    FriedDTO insertFried(FriedDTO friedDTO, UserDTO userDTO);
+    FriedDTO findByName(String friedName);
     List<FriedDTO> findByStatus(String status);
 }

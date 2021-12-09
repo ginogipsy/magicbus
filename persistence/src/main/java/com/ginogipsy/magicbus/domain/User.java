@@ -41,7 +41,7 @@ public class User {
     private String cellNumber;
 
     @Column(name = "indirizzo")
-    private String street;
+    private String address;
 
     @Column(name = "civico")
     private String houseNumber;

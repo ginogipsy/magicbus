@@ -162,7 +162,7 @@ public class AuthController {
         }
 
         userDTO.setRoles(roles);
-        userService.registrazioneUtente(userDTO);
+        userService.signUpUser(userDTO);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

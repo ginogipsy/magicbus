@@ -28,7 +28,7 @@ public class UserDTO {
 
     @NonNull
     private String cellNumber;
-    private String street;
+    private String address;
     private String houseNumber;
     private String city;
     private String postalCode;

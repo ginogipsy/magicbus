@@ -26,20 +26,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO registrazioneUtente(final UserDTO userDTO) {
+    public UserDTO signUpUser(final UserDTO userDTO) {
         final UserDTO user = userUtility.reformatUserDTO(userDTO);
         if(mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()) == null){
-            if(user.getCodiceFiscale() != null && mapperFactory.getUserMapper().findByCodiceFiscale(user.getCodiceFiscale()) != null){
-                user.setCodiceFiscale(null);
+            if(user.getFiscalCode() != null && mapperFactory.getUserMapper().findByFiscalCode(user.getFiscalCode()) != null){
+                user.setFiscalCode(null);
             }
 
-            if(mapperFactory.getUserMapper().findByNumeroCellulare(user.getNumeroCellulare()) != null){
+            if(mapperFactory.getUserMapper().findByCellNumber(user.getCellNumber()) != null){
                 throw new CellPhoneIsPresentException("il numero è già presente");
             }
 
             user.setPassword(user.getPassword());
             Set<RoleDTO> role = new HashSet<>();
-            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfilo("USER");
+            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfile("USER");
             role.add(roleDTO);
             user.setRoles(role);
             user.setIsEnabled(true);
@@ -51,82 +51,82 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO inserimentoIndirizzo(final UserDTO userDaModificare,final String indirizzo,final String civico,final String citta,final String cap){
-        userDaModificare.setIndirizzo(stringUtility.formattazionePrimaMaiusc(indirizzo));
-        userDaModificare.setCivico(civico);
-        userDaModificare.setCitta(stringUtility.formattazionePrimaMaiusc(citta));
-        if(stringUtility.capCorretto(cap)){
-            userDaModificare.setCap(cap);
+    public UserDTO addAddress(final UserDTO oldUser, final String address, final String houseNumber, final String city, final String postalCode){
+        oldUser.setAddress(stringUtility.formatWithFirstMaiusc(address));
+        oldUser.setHouseNumber(houseNumber);
+        oldUser.setCity(stringUtility.formatWithFirstMaiusc(city));
+        if(stringUtility.checkPostalCode(postalCode)){
+            oldUser.setPostalCode(postalCode);
         }else{
             throw new CapNotCorrectException("il cap non è corretto!");
         }
 
-        return mapperFactory.getUserMapper().save(userDaModificare);
+        return mapperFactory.getUserMapper().save(oldUser);
     }
 
     @Override
-    public UserDTO inserimentoNomeCognome(final UserDTO userDaModificare,final String nome,final String cognome){
-        userDaModificare.setNome(stringUtility.formattazionePrimaMaiusc(nome));
-        userDaModificare.setCognome(stringUtility.formattazionePrimaMaiusc(cognome));
-        return mapperFactory.getUserMapper().save(userDaModificare);
+    public UserDTO addNameAndSurname(final UserDTO oldUser, final String name, final String surname){
+        oldUser.setName(stringUtility.formatWithFirstMaiusc(name));
+        oldUser.setSurname(stringUtility.formatWithFirstMaiusc(surname));
+        return mapperFactory.getUserMapper().save(oldUser);
     }
 
     @Override
-    public UserDTO modificaUtente(final UserDTO userDaModificare,final UserDTO userModificato){
+    public UserDTO updateUser(final UserDTO oldUser, final UserDTO updatedUser){
 
-        final UserDTO user = userUtility.reformatUserDTO(userModificato);
+        final UserDTO user = userUtility.reformatUserDTO(updatedUser);
 
-        modificaCredenziali(userDaModificare, user);
-        ofNullable(user.getNome()).ifPresent(userDaModificare::setNome);
-        ofNullable(user.getCognome()).ifPresent(userDaModificare::setCognome);
-        ofNullable(user.getIndirizzo()).ifPresent(userDaModificare::setIndirizzo);
-        ofNullable(user.getCivico()).ifPresent(userDaModificare::setCivico);
-        ofNullable(user.getCitta()).ifPresent(userDaModificare::setCivico);
-        ofNullable(user.getCap()).ifPresent(cap -> {
-            if(stringUtility.capCorretto(cap)) {
-                userDaModificare.setCap(cap);
+        modificaCredenziali(oldUser, user);
+        ofNullable(user.getName()).ifPresent(oldUser::setName);
+        ofNullable(user.getSurname()).ifPresent(oldUser::setSurname);
+        ofNullable(user.getAddress()).ifPresent(oldUser::setAddress);
+        ofNullable(user.getHouseNumber()).ifPresent(oldUser::setHouseNumber);
+        ofNullable(user.getCity()).ifPresent(oldUser::setCity);
+        ofNullable(user.getPostalCode()).ifPresent(cap -> {
+            if(stringUtility.checkPostalCode(cap)) {
+                oldUser.setPostalCode(cap);
             }
         });
 
-      return mapperFactory.getUserMapper().save(userDaModificare);
+      return mapperFactory.getUserMapper().save(oldUser);
     }
 
     @Override
-    public UserDTO modificaEmail(final UserDTO userDaModificare,final String nuovaEmail) {
-            aggiornamentoEmail(userDaModificare, nuovaEmail);
-            return mapperFactory.getUserMapper().save(userDaModificare);
+    public UserDTO updateEmail(final UserDTO oldUser, final String newEmail) {
+            privateUpdateEmail(oldUser, newEmail);
+            return mapperFactory.getUserMapper().save(oldUser);
     }
 
     @Override
-    public UserDTO inserimentoCodiceFiscale(final UserDTO userDaModificare,final String nuovoCodiceFiscale) {
-        if (stringUtility.controlloCodiceFiscale(nuovoCodiceFiscale)) {
-            aggiornamentoCodiceFiscale(userDaModificare, nuovoCodiceFiscale);
-            return mapperFactory.getUserMapper().save(userDaModificare);
+    public UserDTO addFiscalCode(final UserDTO oldUser, final String newFiscalCode) {
+        if (stringUtility.checkFiscalCode(newFiscalCode)) {
+            privateUpdateFiscalCode(oldUser, newFiscalCode);
+            return mapperFactory.getUserMapper().save(oldUser);
         }
 
         throw new CodiceFiscaleNotCorrectException("Codice fiscale non corretto");
     }
 
     @Override
-    public UserDTO modificaUsername(final UserDTO userDaModificare,final String username){
-        aggiornamentoUsername(userDaModificare, username);
-        return mapperFactory.getUserMapper().save(userDaModificare);
+    public UserDTO updateUsername(final UserDTO oldUser, final String username){
+        privateUpdateUsername(oldUser, username);
+        return mapperFactory.getUserMapper().save(oldUser);
     }
 
     @Override
-    public UserDTO modificaNumeroCellulare(final UserDTO userDaModificare, final String numeroCellulare) {
-        aggiornamentoNumeroCellulare(userDaModificare, numeroCellulare);
-        return mapperFactory.getUserMapper().save(userDaModificare);
+    public UserDTO updateCellNumber(final UserDTO oldUser, final String newCellNumber) {
+        privateUpdateNumCell(oldUser, newCellNumber);
+        return mapperFactory.getUserMapper().save(oldUser);
     }
 
-    private void modificaCredenziali(final UserDTO userDaModificare,final UserDTO userModificato){
+    private void modificaCredenziali(final UserDTO oldUser,final UserDTO updatedUser){
 
-        of(userModificato.getEmail()).ifPresent(email -> aggiornamentoEmail(userDaModificare, email));
-        of(userModificato.getUsername()).ifPresent(username -> aggiornamentoUsername(userDaModificare, username));
-        of(userModificato.getNumeroCellulare()).ifPresent(numCell -> aggiornamentoNumeroCellulare(userDaModificare, numCell));
-        ofNullable(userModificato.getCodiceFiscale()).ifPresent(cf -> {
-            if (stringUtility.controlloCodiceFiscale(cf)) {
-                aggiornamentoCodiceFiscale(userDaModificare, cf);
+        of(updatedUser.getEmail()).ifPresent(email -> privateUpdateEmail(oldUser, email));
+        of(updatedUser.getUsername()).ifPresent(username -> privateUpdateUsername(oldUser, username));
+        of(updatedUser.getCellNumber()).ifPresent(cellNumb -> privateUpdateNumCell(oldUser, cellNumb));
+        ofNullable(updatedUser.getFiscalCode()).ifPresent(fiscalCode -> {
+            if (stringUtility.checkFiscalCode(fiscalCode)) {
+                privateUpdateFiscalCode(oldUser, fiscalCode);
             }else {
                 throw new CodiceFiscaleNotCorrectException("Codice fiscale non corretto");
             }
@@ -134,35 +134,35 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private void aggiornamentoEmail(final UserDTO userDaModificare, final String nuovaEmail){
-        if (mapperFactory.getUserMapper().findUserByEmail(nuovaEmail) != null) {
+    private void privateUpdateEmail(final UserDTO oldUser, final String newEmail){
+        if (mapperFactory.getUserMapper().findUserByEmail(newEmail) != null) {
             throw new EmailIsPresentException("La nuova mail è già presente!");
         }
-        userDaModificare.setEmail(nuovaEmail.toLowerCase().trim());
+        oldUser.setEmail(newEmail.toLowerCase().trim());
     }
 
-    private void aggiornamentoUsername(final UserDTO userDaModificare, final String username){
+    private void privateUpdateUsername(final UserDTO oldUser, final String username){
         if(mapperFactory.getUserMapper().findUserByUsername(username) != null){
             throw new UsernameIsPresentException("il nuovo username è già presente!");
         }
-        userDaModificare.setUsername(username.toLowerCase().trim());
+        oldUser.setUsername(username.toLowerCase().trim());
     }
 
-    private void aggiornamentoNumeroCellulare(final UserDTO userDaModificare,final String numeroCellulare){
+    private void privateUpdateNumCell(final UserDTO oldUser, final String newCellNumber){
 
-        if(mapperFactory.getUserMapper().findByNumeroCellulare(numeroCellulare) != null){
+        if(mapperFactory.getUserMapper().findByCellNumber(newCellNumber) != null){
             throw new CellPhoneIsPresentException("il nuovo numero di cellulare è già presente!");
         }
 
-        userDaModificare.setNumeroCellulare(numeroCellulare);
+        oldUser.setCellNumber(newCellNumber);
     }
 
-    private void aggiornamentoCodiceFiscale(UserDTO userDaModificare,final String nuovoCodiceFiscale) {
-        UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByCodiceFiscale(nuovoCodiceFiscale);
+    private void privateUpdateFiscalCode(UserDTO oldUser, final String newFiscalCode) {
+        UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByFiscalCode(newFiscalCode);
 
-        if (userOfNewCodiceFiscale != null && !userDaModificare.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
-            throw new CodiceFiscaleIsPresentException("Codice Fiscale " + nuovoCodiceFiscale + " già presente");
+        if (userOfNewCodiceFiscale != null && !oldUser.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
+            throw new CodiceFiscaleIsPresentException("Codice Fiscale " + newFiscalCode + " già presente");
         }
-            userDaModificare.setCodiceFiscale(nuovoCodiceFiscale.toUpperCase().trim());
+            oldUser.setFiscalCode(newFiscalCode.toUpperCase().trim());
     }
 }

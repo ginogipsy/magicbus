@@ -2,10 +2,10 @@ package com.ginogipsy.magicbus.component;
 
 public interface StringUtility {
 
-    boolean controlloCodiceFiscale(String codiceFiscale);
-    String formattataMinuscConSpaziaturaCorretta(String string);
-    String formattataMaiuscConSpaziaturaCorretta(String string);
-    String formattazionePrimaMaiusc(String string);
-    boolean capCorretto(String cap);
+    boolean checkFiscalCode(String checkFiscalCode);
+    String formatAllMinusc(String string);
+    String formatAllMaiusc(String string);
+    String formatWithFirstMaiusc(String string);
+    boolean checkPostalCode(String postalCode);
 
 }
