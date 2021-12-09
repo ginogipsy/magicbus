@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
-import com.ginogipsy.magicbus.controller.payload.request.ModificaPasswordRequest;
+import com.ginogipsy.magicbus.controller.payload.request.UpdatePasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.TokenRefreshRequest;
 import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
 import com.ginogipsy.magicbus.customexception.TokenRefreshException;
@@ -15,7 +15,7 @@ import com.ginogipsy.magicbus.controller.payload.request.SignupRequest;
 import com.ginogipsy.magicbus.controller.payload.response.JwtResponse;
 import com.ginogipsy.magicbus.controller.payload.response.MessageResponse;
 import com.ginogipsy.magicbus.security.jwt.JwtUtils;
-import com.ginogipsy.magicbus.service.ModificaPassword;
+import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
@@ -48,18 +48,18 @@ public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
-    private final ModificaPassword modificaPassword;
+    private final UpdatePassword updatePassword;
 
 
 
-    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, ModificaPassword modificaPassword) {
+    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, UpdatePassword updatePassword) {
         this.authenticationManager = authenticationManager;
         this.mapperFactory = mapperFactory;
         this.jwtUtils = jwtUtils;
         this.userService = userService;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
-        this.modificaPassword = modificaPassword;
+        this.updatePassword = updatePassword;
     }
 
     @PostMapping("/signin")
@@ -117,42 +117,42 @@ public class AuthController {
         userDTO.setUsername(signUpRequest.getUsername());
         userDTO.setEmail(signUpRequest.getEmail());
         userDTO.setPassword(passwordEncoder.encode(signUpRequest.getPassword().trim()));
-        userDTO.setNumeroCellulare(signUpRequest.getNumeroCellulare());
-        Optional.ofNullable(signUpRequest.getNome()).ifPresent(userDTO::setNome);
-        Optional.ofNullable(signUpRequest.getCognome()).ifPresent(userDTO::setCognome);
-        Optional.ofNullable(signUpRequest.getIndirizzo()).ifPresent(userDTO::setIndirizzo);
-        Optional.ofNullable(signUpRequest.getCivico()).ifPresent(userDTO::setCivico);
-        Optional.ofNullable(signUpRequest.getCitta()).ifPresent(userDTO::setCitta);
-        Optional.ofNullable(signUpRequest.getCap()).ifPresent(userDTO::setCap);
-        Optional.ofNullable(signUpRequest.getCodiceFiscale()).ifPresent(userDTO::setCodiceFiscale);
+        userDTO.setCellNumber(signUpRequest.getCellNumber());
+        Optional.ofNullable(signUpRequest.getName()).ifPresent(userDTO::setName);
+        Optional.ofNullable(signUpRequest.getSurname()).ifPresent(userDTO::setSurname);
+        Optional.ofNullable(signUpRequest.getAddress()).ifPresent(userDTO::setAddress);
+        Optional.ofNullable(signUpRequest.getHouseNumber()).ifPresent(userDTO::setHouseNumber);
+        Optional.ofNullable(signUpRequest.getCity()).ifPresent(userDTO::setCity);
+        Optional.ofNullable(signUpRequest.getPostalCode()).ifPresent(userDTO::setPostalCode);
+        Optional.ofNullable(signUpRequest.getFiscalCode()).ifPresent(userDTO::setFiscalCode);
 
         Set<RoleDTO> roles = new HashSet<>();
         Set<String> strRoles = Optional.ofNullable(signUpRequest.getRoles()).orElse(new HashSet<>());
         if(strRoles.isEmpty()){
-            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("USER"))
+            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
                     .map(roles::add)
                     .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
         }else{
             strRoles.forEach(role -> {
             switch (role){
                 case "admin", "ADMIN":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("ADMIN"))
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("ADMIN"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role ADMIN is not found."));
                     break;
                 case "editor", "EDITOR":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("EDITOR"))
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("EDITOR"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role EDITOR is not found."));
                     break;
                 default:
                 case "user", "USER":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("USER"))
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
                     break;
                 case "mezz","MEZZ":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfilo("MEZZ"))
+                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("MEZZ"))
                             .map(roles::add)
                             .orElseThrow(() -> new RoleNotFoundException("Error: Role MEZZ is not found."));
                     break;
@@ -167,10 +167,10 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PutMapping("/modificaPassword")
-    public ResponseEntity<UserDTO> modificaPassword(@RequestBody @Validated ModificaPasswordRequest modificaPasswordRequest, BindingResult bindingResult){
+    @PutMapping("/updatePassword")
+    public ResponseEntity<UserDTO> updatePassword(@RequestBody @Validated UpdatePasswordRequest updatePasswordRequest, BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
-            UserDTO user = modificaPassword.modificaPassword(modificaPasswordRequest.getEmail(), modificaPasswordRequest.getVecchiaPassword(), modificaPasswordRequest.getNuovaPassword());
+            UserDTO user = updatePassword.updatePassword(updatePasswordRequest.getEmail(), updatePasswordRequest.getOldPassword(), updatePasswordRequest.getNewPassword());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
             throw new DataNotCorrectException("i dati inseriti non sono corretti");

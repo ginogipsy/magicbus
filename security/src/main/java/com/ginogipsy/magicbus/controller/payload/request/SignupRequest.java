@@ -17,15 +17,15 @@ public class SignupRequest {
 
     @NotBlank
     private String password;
-    private String nome;
-    private String cognome;
+    private String name;
+    private String surname;
 
     @NotBlank
-    private String numeroCellulare;
-    private String indirizzo;
-    private String civico;
-    private String citta;
-    private String cap;
-    private String codiceFiscale;
+    private String cellNumber;
+    private String address;
+    private String houseNumber;
+    private String city;
+    private String postalCode;
+    private String fiscalCode;
     private Set<String> roles;
 }

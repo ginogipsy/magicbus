@@ -3,10 +3,10 @@ package com.ginogipsy.magicbus.controller.payload.request;
 import lombok.Data;
 
 @Data
-public class ModificaPasswordRequest {
+public class UpdatePasswordRequest {
 
 
     private String email;
-    private String vecchiaPassword;
-    private String nuovaPassword;
+    private String oldPassword;
+    private String newPassword;
 }
