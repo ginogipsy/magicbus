@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 
 import com.ginogipsy.magicbus.customexception.notfound.VinoNotFoundException;
-import com.ginogipsy.magicbus.domain.enums.QualitaVino;
+import com.ginogipsy.magicbus.domain.enums.WineQuality;
 import com.ginogipsy.magicbus.domain.Vino;
 import com.ginogipsy.magicbus.dto.VinoDTO;
 import com.ginogipsy.magicbus.repository.VinoRepository;
@@ -46,7 +46,7 @@ public class VinoMapper {
     }
 
     public List<VinoDTO> findByQualitaVino(String qualitaVino){
-        return Optional.of(vinoRepository.findByQualitaVino(QualitaVino.valueOf(qualitaVino)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new VinoNotFoundException("Vini per questa qualità - "+qualitaVino+" - non trovati"));
+        return Optional.of(vinoRepository.findByQualitaVino(WineQuality.valueOf(qualitaVino)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new VinoNotFoundException("Vini per questa qualità - "+qualitaVino+" - non trovati"));
     }
 
     public List<VinoDTO> findByDisponibileAndCantinaNome(boolean disponibile, String nomeCantina){
@@ -54,6 +54,6 @@ public class VinoMapper {
     }
 
     public List<VinoDTO> findByDisponibileAndQualitaVino(boolean disponibile, String qualitaVino){
-        return Optional.of(vinoRepository.findByDisponibileAndQualitaVino(disponibile, QualitaVino.valueOf(qualitaVino)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new VinoNotFoundException("Vini disponibili per questa qualità - "+qualitaVino+" - non trovati"));
+        return Optional.of(vinoRepository.findByDisponibileAndQualitaVino(disponibile, WineQuality.valueOf(qualitaVino)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new VinoNotFoundException("Vini disponibili per questa qualità - "+qualitaVino+" - non trovati"));
     }
 }

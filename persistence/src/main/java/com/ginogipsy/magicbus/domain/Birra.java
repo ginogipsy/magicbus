@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.TipologiaBirra;
+import com.ginogipsy.magicbus.domain.enums.BeerType;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -36,7 +36,7 @@ public class Birra{
 
     @Column(name = "tipologia_birra")
     @Enumerated(EnumType.STRING)
-    private TipologiaBirra tipologiaBirra;
+    private BeerType beerType;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "birrificio_id")

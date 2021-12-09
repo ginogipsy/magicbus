@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.enums.CategoriaProdotto;
+import com.ginogipsy.magicbus.domain.enums.ProductCategory;
 import com.ginogipsy.magicbus.domain.enums.Status;
 
 import lombok.*;
@@ -27,7 +27,7 @@ public class FrittoDTO {
 
     @JsonIgnore
     private Byte[] immagine;
-    private CategoriaProdotto categoriaProdotto;
+    private ProductCategory productCategory;
     private Boolean disponibile;
     private boolean frittoUtente;
 

@@ -13,24 +13,24 @@ public enum Status {
     DISPONIBILE                 ( "DISPONIBILE"),
     NON_DISPONIBILE             ( "NON_DISPONIBILE");
 
-    private final String descrizione;
+    private final String description;
 
-    Status(final String descrizione){
-        this.descrizione = descrizione;
+    Status(final String description){
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public static Status getStatus(final String descrizione){
-        return Arrays.stream(Status.values()).filter(v -> v.getDescrizione().equals(descrizione)).findAny().orElse(UNDEFINED);
+    public static Status getStatus(final String description){
+        return Arrays.stream(Status.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
     }
 
     @Override
     public String toString() {
         return "Status{" +
-                "descrizione='" + descrizione + '\'' +
+                "description='" + description + '\'' +
                 '}';
     }
 }

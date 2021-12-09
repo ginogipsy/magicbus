@@ -1,8 +1,8 @@
 package com.ginogipsy.magicbus.domain;
 
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.TipologiaBibita;
-import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
+import com.ginogipsy.magicbus.domain.enums.DrinkType;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -27,7 +27,7 @@ public class Bibita {
 
     @Column(name = "tipologia")
     @Enumerated(EnumType.STRING)
-    private TipologiaBibita tipologia;
+    private DrinkType tipologia;
 
     @Column(name = "descrizione")
     private String descrizione;
@@ -40,7 +40,7 @@ public class Bibita {
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
-    private UnitaDiMisura unitaDiMisura;
+    private MeasureUnit measureUnit;
 
     @Column(name = "costo")
     private Double costo;

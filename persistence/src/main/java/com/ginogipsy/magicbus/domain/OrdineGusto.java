@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.CategoriaProdotto;
+import com.ginogipsy.magicbus.domain.enums.ProductCategory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -43,7 +43,7 @@ public class OrdineGusto {
     }
 
     public void setImpasto(Impasto impasto){
-        if(gusto.getCategoriaProdotto().equals(CategoriaProdotto.PIZZA) || gusto.getCategoriaProdotto().equals(CategoriaProdotto.CALZONE) || gusto.getCategoriaProdotto().equals(CategoriaProdotto.PANINO)){
+        if(gusto.getProductCategory().equals(ProductCategory.PIZZA) || gusto.getProductCategory().equals(ProductCategory.CALZONE) || gusto.getProductCategory().equals(ProductCategory.PANINO)){
             this.impasto = impasto;
             this.costoTotale = costoTotale + impasto.getCostoAggiuntivo()*this.quantita;
         }

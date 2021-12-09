@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 import com.ginogipsy.magicbus.customexception.notfound.BibitaNotFoundException;
 import com.ginogipsy.magicbus.domain.Bibita;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.TipologiaBibita;
+import com.ginogipsy.magicbus.domain.enums.DrinkType;
 import com.ginogipsy.magicbus.dto.BibitaDTO;
 import com.ginogipsy.magicbus.repository.BibitaRepository;
 import org.modelmapper.ModelMapper;
@@ -38,7 +38,7 @@ public class BibitaMapper {
     }
 
     List<BibitaDTO> findByTipologiaBibite(String tipologiaBibite){
-        return bibitaRepository.findByTipologia(TipologiaBibita.valueOf(tipologiaBibite))
+        return bibitaRepository.findByTipologia(DrinkType.valueOf(tipologiaBibite))
                 .stream().map(this::convertToDTO).toList();
 
     }
@@ -51,7 +51,7 @@ public class BibitaMapper {
 
     List<BibitaDTO> findByStatusAndTipologiaBibite(String status, String tipologiaBibite){
 
-        return Optional.of(bibitaRepository.findByStatusAndTipologia(Status.valueOf(status), TipologiaBibita.valueOf(tipologiaBibite)))
+        return Optional.of(bibitaRepository.findByStatusAndTipologia(Status.valueOf(status), DrinkType.valueOf(tipologiaBibite)))
                 .map(list -> list.stream().map(this::convertToDTO).toList())
                 .orElseThrow(() -> new BibitaNotFoundException("Bibite per status "+status+" e tipologia "+tipologiaBibite+" non trovate!"));
     }

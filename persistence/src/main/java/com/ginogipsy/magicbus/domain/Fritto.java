@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ginogipsy.magicbus.domain.enums.CategoriaProdotto;
+import com.ginogipsy.magicbus.domain.enums.ProductCategory;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +43,7 @@ public class Fritto {
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
-    private CategoriaProdotto categoriaProdotto;
+    private ProductCategory productCategory;
 
     @ManyToMany(mappedBy = "frittiPreferiti", fetch = FetchType.LAZY)
     @JsonIgnore

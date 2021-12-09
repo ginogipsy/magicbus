@@ -10,24 +10,24 @@ public enum Base {
     ALTRO             ( "ALTRO");
 
 
-    private final String descrizione;
+    private final String description;
 
-    Base(final String descrizione){
-        this.descrizione = descrizione;
+    Base(final String description){
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public static Base getBase(final String descrizione){
-        return Arrays.stream(Base.values()).filter(v -> v.getDescrizione().equals(descrizione)).findAny().orElse(UNDEFINED);
+    public static Base getBase(final String description){
+        return Arrays.stream(Base.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
     }
 
     @Override
     public String toString() {
         return "Base{" +
-                "descrizione='" + descrizione + '\'' +
+                "description='" + description + '\'' +
                 '}';
     }
 }

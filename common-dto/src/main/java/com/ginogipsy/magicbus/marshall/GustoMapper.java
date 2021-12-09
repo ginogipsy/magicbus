@@ -38,12 +38,12 @@ public class GustoMapper {
     }
 
     public List<GustoDTO> findByPeriodoDisponibilita(final String periodoDisponibilita) {
-        return gustoRepository.findByPeriodoDisponibilita(PeriodoDisponibilita.getPeriodoDisponibilita(periodoDisponibilita))
+        return gustoRepository.findByPeriodoDisponibilita(AvailabilityPeriod.getPeriodoDisponibilita(periodoDisponibilita))
                 .stream().map(this::convertToDTO).toList();
     }
 
     public List<GustoDTO> findByCategoriaProdotto(final String categoriaProdotto) {
-        return gustoRepository.findByCategoriaProdotto(CategoriaProdotto.valueOf(categoriaProdotto))
+        return gustoRepository.findByCategoriaProdotto(ProductCategory.valueOf(categoriaProdotto))
                 .stream().map(this::convertToDTO).toList();
     }
 
@@ -53,7 +53,7 @@ public class GustoMapper {
     }
 
     public List<GustoDTO> findByDisponibileAndPeriodoDisponibilita(final boolean disponibile, final String periodoDisponibilita) {
-        return gustoRepository.findByDisponibileAndPeriodoDisponibilita(disponibile, PeriodoDisponibilita.valueOf(periodoDisponibilita))
+        return gustoRepository.findByDisponibileAndPeriodoDisponibilita(disponibile, AvailabilityPeriod.valueOf(periodoDisponibilita))
                 .stream().map(this::convertToDTO).toList();
     }
 

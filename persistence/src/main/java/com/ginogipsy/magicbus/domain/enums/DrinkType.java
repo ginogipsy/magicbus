@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
 
-public enum TipologiaBibita {
+public enum DrinkType {
 
     UNDEFINED                   ( "UNDEFINED"),
     ACQUA                       ( "ACQUA"),
@@ -17,24 +17,24 @@ public enum TipologiaBibita {
     CAFFE                       ( "CAFFE"),
     SUPERALCOLICO               ( "SUPERALCOLICO");
 
-    private final String descrizione;
+    private final String description;
 
-    TipologiaBibita(final String descrizione){
-        this.descrizione = descrizione;
+    DrinkType(final String description){
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public static TipologiaBibita getTipologiaBibite(final String descrizione){
-        return Arrays.stream(TipologiaBibita.values()).filter(v -> v.getDescrizione().equals(descrizione)).findAny().orElse(UNDEFINED);
+    public static DrinkType getDrinkType(final String description){
+        return Arrays.stream(DrinkType.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
     }
 
     @Override
     public String toString() {
-        return "TipologiaBibite{" +
-                "descrizione='" + descrizione + '\'' +
+        return "DrinkType{" +
+                "description='" + description + '\'' +
                 '}';
     }
 }

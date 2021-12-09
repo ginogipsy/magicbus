@@ -1,8 +1,8 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.PeriodoDisponibilita;
-import com.ginogipsy.magicbus.domain.enums.TipologiaIngrediente;
-import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
+import com.ginogipsy.magicbus.domain.enums.IngredientType;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,18 +36,18 @@ public class Ingrediente {
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
-    private UnitaDiMisura unitaDiMisura;
+    private MeasureUnit measureUnit;
 
     @ManyToMany(mappedBy = "ingredienti", fetch = FetchType.LAZY)
-    private Set<Allergene> tipoAllergene;
+    private Set<Allergen> tipoAllergen;
 
     @Column(name = "tipologia_ingrediente")
     @Enumerated(EnumType.STRING)
-    private TipologiaIngrediente tipologiaIngrediente;
+    private IngredientType ingredientType;
 
     @Column(name = "periodo_disponibilita")
     @Enumerated(EnumType.STRING)
-    private PeriodoDisponibilita periodoDisponibilita;
+    private AvailabilityPeriod availabilityPeriod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id")

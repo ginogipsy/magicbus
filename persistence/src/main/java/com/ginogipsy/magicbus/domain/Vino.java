@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.QualitaVino;
+import com.ginogipsy.magicbus.domain.enums.WineQuality;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +20,7 @@ public class Vino{
 
     @Column(name = "qualita_vino")
     @Enumerated(EnumType.STRING)
-    private QualitaVino qualitaVino;
+    private WineQuality wineQuality;
 
     @Column(name = "nome", unique = true)
     private String nome;

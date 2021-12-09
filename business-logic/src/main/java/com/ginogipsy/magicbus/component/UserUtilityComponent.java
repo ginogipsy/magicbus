@@ -1,12 +1,10 @@
 package com.ginogipsy.magicbus.component;
 
-import com.ginogipsy.magicbus.domain.enums.Profilo;
-import com.ginogipsy.magicbus.dto.RoleDTO;
+import com.ginogipsy.magicbus.domain.enums.Profile;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 public class UserUtilityComponent implements UserUtility {
@@ -37,6 +35,6 @@ public class UserUtilityComponent implements UserUtility {
 
     @Override
     public boolean isOnlyAnUser(UserDTO userDTO) {
-        return userDTO.getRoles().size() == 1 && userDTO.getRoles().stream().anyMatch(r -> r.getProfilo().equals(Profilo.getProfilo("USER")));
+        return userDTO.getRoles().size() == 1 && userDTO.getRoles().stream().anyMatch(r -> r.getProfile().equals(Profile.getProfilo("USER")));
     }
 }

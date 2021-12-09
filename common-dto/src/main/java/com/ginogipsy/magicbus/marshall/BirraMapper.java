@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.marshall;
 import com.ginogipsy.magicbus.customexception.notfound.BirraNotFoundException;
 import com.ginogipsy.magicbus.domain.Birra;
 
-import com.ginogipsy.magicbus.domain.enums.TipologiaBirra;
+import com.ginogipsy.magicbus.domain.enums.BeerType;
 import com.ginogipsy.magicbus.dto.BirraDTO;
 import com.ginogipsy.magicbus.repository.BirraRepository;
 import org.modelmapper.ModelMapper;
@@ -41,7 +41,7 @@ public class BirraMapper {
     }
 
     public List<BirraDTO> findByTipologiaBirra(String tipologiaBirra){
-        return Optional.of(birraRepository.findByTipologiaBirra(TipologiaBirra.valueOf(tipologiaBirra)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre della tipologia "+tipologiaBirra+" non disponibili!"));
+        return Optional.of(birraRepository.findByTipologiaBirra(BeerType.valueOf(tipologiaBirra)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre della tipologia "+tipologiaBirra+" non disponibili!"));
     }
 
     public List<BirraDTO> findByDisponibile(boolean disponibile){
@@ -53,7 +53,7 @@ public class BirraMapper {
     }
 
     public List<BirraDTO> findByDisponibileAndTipologiaBirra(boolean disponibile, String tipologiaBirra){
-        return Optional.of(birraRepository.findByDisponibileAndTipologiaBirra(disponibile, TipologiaBirra.valueOf(tipologiaBirra)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre disponibili del tipo "+tipologiaBirra+" non trovate!"));
+        return Optional.of(birraRepository.findByDisponibileAndTipologiaBirra(disponibile, BeerType.valueOf(tipologiaBirra)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre disponibili del tipo "+tipologiaBirra+" non trovate!"));
     }
 
 

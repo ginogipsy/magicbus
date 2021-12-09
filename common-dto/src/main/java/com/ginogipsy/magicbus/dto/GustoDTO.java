@@ -34,8 +34,8 @@ public class GustoDTO {
     @JsonIgnore
     private Byte[] immagine;
     private Base base;
-    private PeriodoDisponibilita periodoDisponibilita;
-    private CategoriaProdotto categoriaProdotto;
+    private AvailabilityPeriod availabilityPeriod;
+    private ProductCategory productCategory;
 
     @JsonIgnore
     private Set<UserDTO> users;

@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
 
-public enum TipologiaIngrediente {
+public enum IngredientType {
 
     UNDEFINED                   ( "UNDEFINED"),
     CARNE                       ( "CARNE"),
@@ -20,25 +20,25 @@ public enum TipologiaIngrediente {
     CARNE_VEGANA                ( "CARNE_VEGANA");
 
 
-    private final String descrizione;
+    private final String description;
 
-    TipologiaIngrediente(final String descrizione){
+    IngredientType(final String description){
 
-        this.descrizione = descrizione;
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public static TipologiaIngrediente getTipologiaIngrediente(final String descrizione){
-        return Arrays.stream(TipologiaIngrediente.values()).filter(v -> v.getDescrizione().equals(descrizione)).findAny().orElse(UNDEFINED);
+    public static IngredientType getIngredientType(final String description){
+        return Arrays.stream(IngredientType.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
     }
 
     @Override
     public String toString() {
-        return "TipologiaIngrediente{" +
-                "descrizione='" + descrizione + '\'' +
+        return "IngredientType{" +
+                "description='" + description + '\'' +
                 '}';
     }
 }

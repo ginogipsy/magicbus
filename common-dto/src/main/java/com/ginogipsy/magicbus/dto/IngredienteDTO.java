@@ -1,9 +1,9 @@
 package com.ginogipsy.magicbus.dto;
 
 
-import com.ginogipsy.magicbus.domain.enums.PeriodoDisponibilita;
-import com.ginogipsy.magicbus.domain.enums.TipologiaIngrediente;
-import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
+import com.ginogipsy.magicbus.domain.enums.IngredientType;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
 import lombok.Data;
 
 import java.util.Set;
@@ -17,10 +17,10 @@ public class IngredienteDTO {
     private Boolean disponibile;
     private Double costoAggiuntaCliente;
     private Double costoDiAcquisto;
-    private UnitaDiMisura unitaDiMisura;
+    private MeasureUnit measureUnit;
     private Set<AllergeneDTO> allergeni;
-    private TipologiaIngrediente tipologiaIngrediente;
-    private PeriodoDisponibilita periodoDisponibilita;
+    private IngredientType ingredientType;
+    private AvailabilityPeriod availabilityPeriod;
     private MarcaProdottoDTO marcaProdottoDTO;
     private Set<GustoIngredienteDTO> ingredienteGusti;
     private Set<FrittoIngredienteDTO> ingredienteFritti;

@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "allergene")
-public class Allergene {
+public class Allergen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,23 +20,23 @@ public class Allergene {
     private Integer id;
 
     @Column(name = "nome", unique = true)
-    private String nome;
+    private String name;
 
     @Column(name = "descrizione")
-    private String descrizione;
+    private String description;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ingrediente_allergene",
             joinColumns = @JoinColumn(name = "ingrediente_id"),
             inverseJoinColumns = @JoinColumn(name = "allergene_id"))
-    private Set<Ingrediente> ingredienti;
+    private Set<Ingrediente> ingrediants;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Allergene allergene = (Allergene) o;
-        return id != null && Objects.equals(id, allergene.id);
+        Allergen allergen = (Allergen) o;
+        return id != null && Objects.equals(id, allergen.id);
     }
 
     @Override

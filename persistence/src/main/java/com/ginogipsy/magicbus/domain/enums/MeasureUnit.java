@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
 
-public enum UnitaDiMisura {
+public enum MeasureUnit {
 
     UNDEFINED         ( "UNDEFINED"),
     KG                ( "KG"),
@@ -18,18 +18,17 @@ public enum UnitaDiMisura {
     TAZZE             ( "TAZZE");
 
 
-    private final String descrizione;
+    private final String description;
 
-    UnitaDiMisura(final String descrizione) {
-        this.descrizione = descrizione;
+    MeasureUnit(final String description) {
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
+    public String getDescription() {
+        return description;
     }
 
-    public static UnitaDiMisura getUnitaDiMisura(final String descrizione){
-        return Arrays.stream(UnitaDiMisura.values()).filter(v -> v.getDescrizione().equals(descrizione)).findAny().orElse(UNDEFINED);
+    public static MeasureUnit getMeasureUnit(final String description){
+        return Arrays.stream(MeasureUnit.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
     }
-
 }

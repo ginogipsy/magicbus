@@ -53,11 +53,11 @@ public class Gusto {
 
     @Column(name = "periodo_disponibilita")
     @Enumerated(EnumType.STRING)
-    private PeriodoDisponibilita periodoDisponibilita;
+    private AvailabilityPeriod availabilityPeriod;
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
-    private CategoriaProdotto categoriaProdotto;
+    private ProductCategory productCategory;
 
     @ManyToMany(mappedBy = "gustiPreferiti" , fetch = FetchType.LAZY)
     @JsonIgnore

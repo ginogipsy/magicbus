@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.UnitaDiMisura;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,5 +30,5 @@ public class FrittoIngrediente {
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
-    private UnitaDiMisura unitaDiMisura;
+    private MeasureUnit measureUnit;
 }

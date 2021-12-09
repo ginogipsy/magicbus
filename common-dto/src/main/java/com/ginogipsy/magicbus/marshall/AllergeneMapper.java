@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.Allergene;
+import com.ginogipsy.magicbus.domain.Allergen;
 import com.ginogipsy.magicbus.dto.AllergeneDTO;
 import com.ginogipsy.magicbus.repository.AllergeneRepository;
 import org.modelmapper.ModelMapper;
@@ -17,11 +17,11 @@ public class AllergeneMapper {
         this.allergeneRepository = allergeneRepository;
     }
 
-    public Allergene convertToEntity(AllergeneDTO allergeneDTO){
-        return (allergeneDTO != null) ? modelMapper.map(allergeneDTO, Allergene.class) : null;
+    public Allergen convertToEntity(AllergeneDTO allergeneDTO){
+        return (allergeneDTO != null) ? modelMapper.map(allergeneDTO, Allergen.class) : null;
     }
 
-    public AllergeneDTO convertToDTO(Allergene allergene){
-        return (allergene != null) ? modelMapper.map(allergene, AllergeneDTO.class) : null;
+    public AllergeneDTO convertToDTO(Allergen allergen){
+        return (allergen != null) ? modelMapper.map(allergen, AllergeneDTO.class) : null;
     }
 }
