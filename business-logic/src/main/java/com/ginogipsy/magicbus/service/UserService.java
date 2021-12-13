@@ -1,6 +1,7 @@
 package com.ginogipsy.magicbus.service;
 
 
+import com.ginogipsy.magicbus.domain.User;
 import com.ginogipsy.magicbus.dto.UserDTO;
 
 public interface UserService {
@@ -13,5 +14,6 @@ public interface UserService {
     UserDTO updateEmail(UserDTO oldUser, String newEmail);
     UserDTO updateUsername(UserDTO oldUser, String username);
     UserDTO updateCellNumber(UserDTO oldUser, String newCellNumber);
+    UserDTO findByEmail(String email);
 
 }

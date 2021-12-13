@@ -1,9 +1,11 @@
 package com.ginogipsy.magicbus.configuration;
 
 import com.ginogipsy.magicbus.domain.Fried;
-import com.ginogipsy.magicbus.domain.Taste;
+import com.ginogipsy.magicbus.domain.Topping;
+import com.ginogipsy.magicbus.domain.User;
 import com.ginogipsy.magicbus.dto.FriedDTO;
-import com.ginogipsy.magicbus.dto.TasteDTO;
+import com.ginogipsy.magicbus.dto.ToppingDTO;
+import com.ginogipsy.magicbus.dto.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,8 @@ public class MapperConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.createTypeMap(Taste.class, TasteDTO.class)
-                .addMapping(g -> g.getUserCreator().getUsername(), TasteDTO::setUsername)
+        modelMapper.createTypeMap(Topping.class, ToppingDTO.class)
+                .addMapping(g -> g.getUserCreator().getUsername(), ToppingDTO::setUsername)
                 .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
@@ -33,6 +35,13 @@ public class MapperConfiguration {
                     }
                 });
 
+        modelMapper.createTypeMap(User.class, UserDTO.class)
+                .addMappings(new PropertyMap<>() {
+                            @Override
+                            protected void configure() {
+                                using(new InsertedToppingListToNameList()).map(source.getToppingsInserted(), destination.getToppingsInserted());
+                            }
+                        });
 
         return modelMapper;
     }

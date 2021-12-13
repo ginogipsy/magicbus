@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "ordine_gusto")
 @Data
 @EqualsAndHashCode(exclude = {"ordine", "gusto", "impasto"})
-public class TasteOrder {
+public class ToppingOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class TasteOrder {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gusto_id")
-    private Taste taste;
+    private Topping topping;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "impasto_id")
@@ -39,11 +39,11 @@ public class TasteOrder {
     private Double totalCost;
 
     public void setCostoTotale(){
-        this.totalCost = this.quantity * this.taste.getCost();
+        this.totalCost = this.quantity * this.topping.getCost();
     }
 
     public void setDough(Dough dough){
-        if(taste.getProductCategory().equals(ProductCategory.PIZZA) || taste.getProductCategory().equals(ProductCategory.CALZONE) || taste.getProductCategory().equals(ProductCategory.PANINO)){
+        if(topping.getProductCategory().equals(ProductCategory.PIZZA) || topping.getProductCategory().equals(ProductCategory.CALZONE) || topping.getProductCategory().equals(ProductCategory.PANINO)){
             this.dough = dough;
             this.totalCost = totalCost + dough.getAdditionalCost()*this.quantity;
         }

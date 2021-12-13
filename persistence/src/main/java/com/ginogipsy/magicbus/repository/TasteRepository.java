@@ -6,17 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TasteRepository extends JpaRepository<Taste, Integer> {
+public interface TasteRepository extends JpaRepository<Topping, Integer> {
 
-    Taste findByName(String name);
-    List<Taste> findByNameContains(String name);
-    List<Taste> findByNameContainsAndStatus(String name, Status status);
-    List<Taste> findByStatus(Status status);
-    List<Taste> findByBase(Base base);
-    List<Taste> findByAvailabilityPeriod(AvailabilityPeriod availabilityPeriod);
-    List<Taste> findByProductCategory(ProductCategory productCategory);
-    List<Taste> findByAvailableAndAvailabilityPeriod(boolean available, AvailabilityPeriod availabilityPeriod);
-    List<Taste> findByAvailableAndStatus(boolean available, Status status);
-    List<Taste> findByUserEntered(boolean userEntered);
-    List<Taste> findByUserEnteredAndStatus(boolean userEntered, Status status);
+    Topping findByName(String name);
+    List<Topping> findByNameContains(String name);
+    List<Topping> findByNameContainsAndStatus(String name, Status status);
+    List<Topping> findByStatus(Status status);
+    List<Topping> findByBase(Base base);
+    List<Topping> findByAvailabilityPeriod(AvailabilityPeriod availabilityPeriod);
+    List<Topping> findByProductCategory(ProductCategory productCategory);
+    List<Topping> findByAvailableAndAvailabilityPeriod(boolean available, AvailabilityPeriod availabilityPeriod);
+    List<Topping> findByAvailableAndStatus(boolean available, Status status);
+    List<Topping> findByUserEntered(boolean userEntered);
+    List<Topping> findByUserEnteredAndStatus(boolean userEntered, Status status);
 }

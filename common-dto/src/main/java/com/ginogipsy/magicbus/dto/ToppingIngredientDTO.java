@@ -4,10 +4,10 @@ import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
 import lombok.Data;
 
 @Data
-public class TasteIngredientDTO {
+public class ToppingIngredientDTO {
 
     private Integer id;
-    private TasteDTO taste;
+    private ToppingDTO taste;
     private IngredientDTO ingredient;
     private Double quantity;
     private MeasureUnit measureUnit;

@@ -22,7 +22,7 @@ public class IngredientDTO {
     private IngredientType ingredientType;
     private AvailabilityPeriod availabilityPeriod;
     private BrandDTO brand;
-    private Set<TasteIngredientDTO> tastesIngredients;
+    private Set<ToppingIngredientDTO> tastesIngredients;
     private Set<FriedIngredientDTO> friedIngredients;
     private Set<DoughIngredientDTO> doughIngredients;
 }

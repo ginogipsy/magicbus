@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "gusto_ingrediente")
 @Data
 @EqualsAndHashCode(exclude = {"gusto", "ingrediente"})
-public class TasteIngredient {
+public class ToppingIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class TasteIngredient {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "gusto_id")
-    private Taste taste;
+    private Topping topping;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ingrediente_id")

@@ -14,7 +14,7 @@ public class OrderDTO {
     private AvailableTimeDTO availableTime;
     private UserDTO user;
     private List<FriedOrderDTO> friedOrders;
-    private List<TasteOrderDTO> tastesOrders;
+    private List<ToppingOrderDTO> tastesOrders;
     private List<DrinkOrderDTO> drinkOrders;
     private List<BeerOrderDTO> beerOrders;
     private List<WineOrderDTO> wineOrders;

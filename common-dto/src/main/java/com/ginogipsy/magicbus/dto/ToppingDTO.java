@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class TasteDTO {
+public class ToppingDTO {
 
     @NotNull
     @NonNull
@@ -25,7 +25,7 @@ public class TasteDTO {
     @NotNull
     @NonNull
     @NotEmpty
-    private String tasteDescription;
+    private String toppingDescription;
     private Boolean traditional;
     private Status status;
     private Double cost;

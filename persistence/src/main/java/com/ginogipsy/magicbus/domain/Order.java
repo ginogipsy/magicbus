@@ -37,7 +37,7 @@ public class Order {
     private List<FriedOrder> friedOrders;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TasteOrder> tastesOrders;
+    private List<ToppingOrder> tastesOrders;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DrinkOrder> drinkOrders;

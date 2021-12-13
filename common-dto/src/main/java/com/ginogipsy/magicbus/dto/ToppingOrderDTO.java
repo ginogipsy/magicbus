@@ -4,11 +4,11 @@ package com.ginogipsy.magicbus.dto;
 import lombok.Data;
 
 @Data
-public class TasteOrderDTO {
+public class ToppingOrderDTO {
 
     private Integer id;
     private OrderDTO order;
-    private TasteDTO taste;
+    private ToppingDTO taste;
     private DoughDTO dough;
     private Integer quantity;
     private Boolean canceled;

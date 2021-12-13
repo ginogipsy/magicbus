@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -26,13 +28,16 @@ public class UserController {
 
     @PutMapping("/updateUser")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        UserDTO userDTO = createUserDTO(updateUserRequest);
-        UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
+        final UserDTO userDTO = createUserDTO(updateUserRequest);
+        final UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/addFiscalCode")
-    public ResponseEntity<UserDTO> addFiscalCode(@RequestParam String fiscalCode, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> addFiscalCode(@RequestBody String fiscalCode, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+        if(result.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
         UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), fiscalCode);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -71,18 +76,24 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    private UserDTO createUserDTO(UpdateUserRequest updateUserRequest){
-        UserDTO userDTO = new UserDTO();
-        if(updateUserRequest.getEmail() != null) userDTO.setEmail(updateUserRequest.getEmail());
-        if(updateUserRequest.getUsername() != null) userDTO.setUsername(updateUserRequest.getUsername());
-        if(updateUserRequest.getName() != null) userDTO.setName(updateUserRequest.getName());
-        if(updateUserRequest.getSurname() != null) userDTO.setSurname(updateUserRequest.getSurname());
-        if(updateUserRequest.getCellNumber() != null) userDTO.setCellNumber(updateUserRequest.getCellNumber());
-        if(updateUserRequest.getAddress() != null) userDTO.setAddress(updateUserRequest.getAddress());
-        if(updateUserRequest.getHouseNumber() != null) userDTO.setHouseNumber(updateUserRequest.getHouseNumber());
-        if(updateUserRequest.getCity() != null) userDTO.setCity(updateUserRequest.getCity());
-        if(updateUserRequest.getPostalCode() != null) userDTO.setPostalCode(updateUserRequest.getPostalCode());
-        if(updateUserRequest.getFiscalCode() != null) userDTO.setFiscalCode(updateUserRequest.getFiscalCode());
+    private UserDTO createUserDTO(final UpdateUserRequest updateUserRequest){
+        final UserDTO userDTO = new UserDTO();
+        Optional.ofNullable(updateUserRequest.getEmail()).ifPresent(userDTO::setEmail);
+        Optional.ofNullable(updateUserRequest.getUsername()).ifPresent(userDTO::setUsername);
+        Optional.ofNullable(updateUserRequest.getName()).ifPresent(userDTO::setName);
+        Optional.ofNullable(updateUserRequest.getSurname()).ifPresent(userDTO::setSurname);
+        Optional.ofNullable(updateUserRequest.getCellNumber()).ifPresent(userDTO::setCellNumber);
+        Optional.ofNullable(updateUserRequest.getAddress()).ifPresent(userDTO::setAddress);
+        Optional.ofNullable(updateUserRequest.getHouseNumber()).ifPresent(userDTO::setHouseNumber);
+        Optional.ofNullable(updateUserRequest.getCity()).ifPresent(userDTO::setCity);
+        Optional.ofNullable(updateUserRequest.getPostalCode()).ifPresent(userDTO::setPostalCode);
+        Optional.ofNullable(updateUserRequest.getFiscalCode()).ifPresent(userDTO::setFiscalCode);
         return userDTO;
+    }
+
+    @GetMapping("/findByEmail")
+    public ResponseEntity<UserDTO> findByEmail(@RequestParam String email){
+        UserDTO user = userService.findByEmail(email);
+        return ResponseEntity.ok(user);
     }
 }

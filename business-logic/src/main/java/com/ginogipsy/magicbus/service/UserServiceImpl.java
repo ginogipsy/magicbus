@@ -52,15 +52,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO addAddress(final UserDTO oldUser, final String address, final String houseNumber, final String city, final String postalCode){
-        oldUser.setAddress(stringUtility.formatWithFirstMaiusc(address));
-        oldUser.setHouseNumber(houseNumber);
-        oldUser.setCity(stringUtility.formatWithFirstMaiusc(city));
-        if(stringUtility.checkPostalCode(postalCode)){
-            oldUser.setPostalCode(postalCode);
-        }else{
-            throw new CapNotCorrectException("il cap non è corretto!");
+        Optional.ofNullable(address).ifPresent(add -> oldUser.setAddress(stringUtility.formatAllMinusc(add)));
+        Optional.ofNullable(houseNumber).ifPresent(hn -> oldUser.setHouseNumber(stringUtility.formatAllMinusc(hn)));
+        Optional.ofNullable(city).ifPresent(c -> oldUser.setCity(stringUtility.formatAllMinusc(city)));
+        if(postalCode != null) {
+            oldUser.setPostalCode(Optional.of(postalCode)
+                    .filter(stringUtility::checkPostalCode)
+                    .orElseThrow(() -> new CapNotCorrectException("cap not correct")));
         }
-
         return mapperFactory.getUserMapper().save(oldUser);
     }
 
@@ -119,6 +118,11 @@ public class UserServiceImpl implements UserService {
         return mapperFactory.getUserMapper().save(oldUser);
     }
 
+    @Override
+    public UserDTO findByEmail(String email) {
+        return mapperFactory.getUserMapper().findUserByEmail(email);
+    }
+
     private void modificaCredenziali(final UserDTO oldUser,final UserDTO updatedUser){
 
         of(updatedUser.getEmail()).ifPresent(email -> privateUpdateEmail(oldUser, email));
@@ -135,14 +139,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private void privateUpdateEmail(final UserDTO oldUser, final String newEmail){
-        if (mapperFactory.getUserMapper().findUserByEmail(newEmail) != null) {
+        if (!oldUser.getEmail().equals(newEmail) && mapperFactory.getUserMapper().findUserByEmail(newEmail) != null) {
             throw new EmailIsPresentException("La nuova mail è già presente!");
         }
         oldUser.setEmail(newEmail.toLowerCase().trim());
     }
 
     private void privateUpdateUsername(final UserDTO oldUser, final String username){
-        if(mapperFactory.getUserMapper().findUserByUsername(username) != null){
+        if(!oldUser.getUsername().equals(username) && mapperFactory.getUserMapper().findUserByUsername(username) != null){
             throw new UsernameIsPresentException("il nuovo username è già presente!");
         }
         oldUser.setUsername(username.toLowerCase().trim());
@@ -150,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
     private void privateUpdateNumCell(final UserDTO oldUser, final String newCellNumber){
 
-        if(mapperFactory.getUserMapper().findByCellNumber(newCellNumber) != null){
+        if(!oldUser.getCellNumber().equals(newCellNumber) && mapperFactory.getUserMapper().findByCellNumber(newCellNumber) != null){
             throw new CellPhoneIsPresentException("il nuovo numero di cellulare è già presente!");
         }
 

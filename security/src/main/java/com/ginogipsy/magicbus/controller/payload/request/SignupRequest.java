@@ -2,6 +2,7 @@ package com.ginogipsy.magicbus.controller.payload.request;
 
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -9,18 +10,19 @@ import java.util.Set;
 @Data
 public class SignupRequest {
 
-    @NotBlank
+    @NonNull
     private String username;
 
-    @NotBlank
+    @NonNull
     private String email;
 
-    @NotBlank
+
+    @NonNull
     private String password;
     private String name;
     private String surname;
 
-    @NotBlank
+    @NonNull
     private String cellNumber;
     private String address;
     private String houseNumber;

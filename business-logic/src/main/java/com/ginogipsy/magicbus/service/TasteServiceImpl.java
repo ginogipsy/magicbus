@@ -5,7 +5,7 @@ import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
 import com.ginogipsy.magicbus.customexception.notfound.*;
 import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.dto.TasteDTO;
+import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.stereotype.Service;
@@ -27,80 +27,80 @@ public class TasteServiceImpl implements TasteService {
     }
 
     @Override
-    public List<TasteDTO> findByStatus(final String status) throws StatusProductsNotFoundException {
-           return mapperFactory.getTasteMapper().findByStatus(status);
+    public List<ToppingDTO> findByStatus(final String status) throws StatusProductsNotFoundException {
+           return mapperFactory.getToppingMapper().findByStatus(status);
     }
 
     @Override
-    public TasteDTO findByName(final String tasteName) throws GustoNotFoundException {
+    public ToppingDTO findByName(final String tasteName) throws GustoNotFoundException {
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
-        return Optional.ofNullable(mapperFactory.getTasteMapper()
+        return Optional.ofNullable(mapperFactory.getToppingMapper()
                 .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+tasteName+" non trovato!"));
     }
 
     @Override
-    public List<TasteDTO> findTasteWhereNamesContains(final String tasteName) throws GustoNotFoundException {
+    public List<ToppingDTO> findTasteWhereNamesContains(final String tasteName) throws GustoNotFoundException {
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
                 .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
-        return mapperFactory.getTasteMapper().findByNomeContains(n);
+        return mapperFactory.getToppingMapper().findByNomeContains(n);
     }
 
     @Override
-    public List<TasteDTO> findByBase(final String base) throws BaseNotFoundException {
-        return mapperFactory.getTasteMapper().findByBase(base);
+    public List<ToppingDTO> findByBase(final String base) throws BaseNotFoundException {
+        return mapperFactory.getToppingMapper().findByBase(base);
     }
 
     @Override
-    public List<TasteDTO> findByProductCategory(String productCategory) {
-        return mapperFactory.getTasteMapper().findByProductCategory(productCategory);
+    public List<ToppingDTO> findByProductCategory(String productCategory) {
+        return mapperFactory.getToppingMapper().findByProductCategory(productCategory);
     }
 
     @Override
-    public List<TasteDTO> findByAvailabilityPeriod(String availabilityPeriod) {
-        return mapperFactory.getTasteMapper().findByAvailabilityPeriod(availabilityPeriod);
+    public List<ToppingDTO> findByAvailabilityPeriod(String availabilityPeriod) {
+        return mapperFactory.getToppingMapper().findByAvailabilityPeriod(availabilityPeriod);
     }
 
     @Override
-    public List<TasteDTO> findByAvailabilityAndStatus(boolean available, String status) {
-        return mapperFactory.getTasteMapper().findByAvailableAndStatus(available, status);
+    public List<ToppingDTO> findByAvailabilityAndStatus(boolean available, String status) {
+        return mapperFactory.getToppingMapper().findByAvailableAndStatus(available, status);
     }
 
     @Override
-    public List<TasteDTO> findByAvailableAndAvailabilityPeriod(boolean available, String availabilityPeriod) {
-        return mapperFactory.getTasteMapper().findByAvailableAndAvailabilityPeriod(available, availabilityPeriod);
+    public List<ToppingDTO> findByAvailableAndAvailabilityPeriod(boolean available, String availabilityPeriod) {
+        return mapperFactory.getToppingMapper().findByAvailableAndAvailabilityPeriod(available, availabilityPeriod);
     }
 
     @Override
-    public List<TasteDTO> findByUserEntered(boolean userEntered) {
-        return mapperFactory.getTasteMapper().findByUserEntered(userEntered);
+    public List<ToppingDTO> findByUserEntered(boolean userEntered) {
+        return mapperFactory.getToppingMapper().findByUserEntered(userEntered);
     }
 
     @Override
-    public List<TasteDTO> findByUserEnteredAndStatus(boolean userEntered, String status) {
-        return mapperFactory.getTasteMapper().findByUserEnteredAndStatus(userEntered, status);
+    public List<ToppingDTO> findByUserEnteredAndStatus(boolean userEntered, String status) {
+        return mapperFactory.getToppingMapper().findByUserEnteredAndStatus(userEntered, status);
     }
 
     @Override
-    public TasteDTO insertTaste(TasteDTO tasteDTO, UserDTO userDTO){
+    public ToppingDTO insertTaste(ToppingDTO toppingDTO, UserDTO userDTO){
         if(userUtility.isOnlyAnUser(userDTO)){
-            tasteDTO.setUserEntered(true);
-            tasteDTO.setAvailable(false);
-            tasteDTO.setStatus(Status.INSERITO);
-            tasteDTO.setName(stringUtility.formatAllMinusc(tasteDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
+            toppingDTO.setUserEntered(true);
+            toppingDTO.setAvailable(false);
+            toppingDTO.setStatus(Status.INSERITO);
+            toppingDTO.setName(stringUtility.formatAllMinusc(toppingDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
         }else{
-            tasteDTO.setUserEntered(false);
-            tasteDTO.setAvailable(true);
-            tasteDTO.setStatus(Status.DISPONIBILE);
-            tasteDTO.setName(stringUtility.formatAllMinusc(tasteDTO.getName()));
+            toppingDTO.setUserEntered(false);
+            toppingDTO.setAvailable(true);
+            toppingDTO.setStatus(Status.DISPONIBILE);
+            toppingDTO.setName(stringUtility.formatAllMinusc(toppingDTO.getName()));
         }
 
-        if(mapperFactory.getTasteMapper().findByName(tasteDTO.getName()) != null){
-            throw new GustoIsPresentException("Il gusto ".concat(tasteDTO.getName()).concat(" è già presente!"));
+        if(mapperFactory.getToppingMapper().findByName(toppingDTO.getName()) != null){
+            throw new GustoIsPresentException("Il gusto ".concat(toppingDTO.getName()).concat(" è già presente!"));
         }
 
-        tasteDTO.setTasteDescription(stringUtility.formatAllMinusc(tasteDTO.getTasteDescription()));
-        tasteDTO.setUserCreator(userDTO);
-        return mapperFactory.getTasteMapper().save(tasteDTO);
+        toppingDTO.setToppingDescription(stringUtility.formatAllMinusc(toppingDTO.getToppingDescription()));
+        toppingDTO.setUserCreator(userDTO);
+        return mapperFactory.getToppingMapper().save(toppingDTO);
     }
 }

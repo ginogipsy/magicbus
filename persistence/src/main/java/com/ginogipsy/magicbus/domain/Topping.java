@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "gusto")
-public class Taste {
+public class Topping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Taste {
 
     //@Lob da implementare per descrizioni grosse
     @Column(name = "descrizione_gusto")
-    private String tasteDescription;
+    private String toppingDescription;
 
     @Column(name = "tradizionale", columnDefinition = "TINYINT", length = 1)
     private Boolean traditional;
@@ -44,8 +44,8 @@ public class Taste {
     @Lob
     private Byte[] image;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taste", fetch = FetchType.LAZY)
-    private Set<TasteIngredient> ingredients;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topping", fetch = FetchType.LAZY)
+    private Set<ToppingIngredient> ingredients;
 
     @Column(name = "base")
     @Enumerated(EnumType.STRING)
@@ -59,7 +59,7 @@ public class Taste {
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 
-    @ManyToMany(mappedBy = "favoriteTastes" , fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "favoriteToppings", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users;
 

@@ -70,7 +70,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "gusto_preferito", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "gusto_id"))
-    private Set<Taste> favoriteTastes;
+    private Set<Topping> favoriteToppings;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "fritto_preferito", joinColumns = @JoinColumn(name = "user_id"),
@@ -96,7 +96,7 @@ public class User {
 
     @OneToMany(mappedBy = "userCreator")
     @JsonIgnore
-    private Set<Taste> tastesInserted;
+    private Set<Topping> toppingsInserted;
 
 }
 

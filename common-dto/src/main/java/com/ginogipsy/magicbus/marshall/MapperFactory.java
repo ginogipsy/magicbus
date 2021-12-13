@@ -13,8 +13,8 @@ public class MapperFactory {
     private final SupplierMapper supplierMapper;
     private final FriedIngredientMapper friedIngredientMapper;
     private final FriedMapper friedMapper;
-    private final TasteIngredientMapper tasteIngredientMapper;
-    private final TasteMapper tasteMapper;
+    private final ToppingIngredientMapper toppingIngredientMapper;
+    private final ToppingMapper toppingMapper;
     private final DoughIngredientMapper doughIngredientMapper;
     private final DoughMapper doughMapper;
     private final IngredientMapper ingredientMapper;
@@ -23,7 +23,7 @@ public class MapperFactory {
     private final DrinkOrderMapper drinkOrderMapper;
     private final BeerOrderMapper beerOrderMapper;
     private final FriedOrderMapper friedOrderMapper;
-    private final TasteOrderMapper tasteOrderMapper;
+    private final ToppingOrderMapper toppingOrderMapper;
     private final OrderMapper orderMapper;
     private final WineOrderMapper wineOrderMapper;
     private final MagicbusLocationMapper magicbusLocationMapper;
@@ -33,7 +33,7 @@ public class MapperFactory {
     private final WineMapper wineMapper;
     private final RefreshTokenMapper refreshTokenMapper;
 
-    public MapperFactory(AllergenMapper allergenMapper, DrinkMapper drinkMapper, BeerMapper beerMapper, BreweryMapper breweryMapper, WineryMapper wineryMapper, SupplierMapper supplierMapper, FriedIngredientMapper friedIngredientMapper, FriedMapper friedMapper, TasteIngredientMapper tasteIngredientMapper, TasteMapper tasteMapper, DoughIngredientMapper doughIngredientMapper, DoughMapper doughMapper, IngredientMapper ingredientMapper, BrandMapper brandMapper, AvailableTimeMapper availableTimeMapper, DrinkOrderMapper drinkOrderMapper, BeerOrderMapper beerOrderMapper, FriedOrderMapper friedOrderMapper, TasteOrderMapper tasteOrderMapper, OrderMapper orderMapper, WineOrderMapper wineOrderMapper, MagicbusLocationMapper magicbusLocationMapper, RoleMapper roleMapper, PaymentTypeMapper paymentTypeMapper, UserMapper userMapper, WineMapper wineMapper, RefreshTokenMapper refreshTokenMapper) {
+    public MapperFactory(AllergenMapper allergenMapper, DrinkMapper drinkMapper, BeerMapper beerMapper, BreweryMapper breweryMapper, WineryMapper wineryMapper, SupplierMapper supplierMapper, FriedIngredientMapper friedIngredientMapper, FriedMapper friedMapper, ToppingIngredientMapper toppingIngredientMapper, ToppingMapper toppingMapper, DoughIngredientMapper doughIngredientMapper, DoughMapper doughMapper, IngredientMapper ingredientMapper, BrandMapper brandMapper, AvailableTimeMapper availableTimeMapper, DrinkOrderMapper drinkOrderMapper, BeerOrderMapper beerOrderMapper, FriedOrderMapper friedOrderMapper, ToppingOrderMapper toppingOrderMapper, OrderMapper orderMapper, WineOrderMapper wineOrderMapper, MagicbusLocationMapper magicbusLocationMapper, RoleMapper roleMapper, PaymentTypeMapper paymentTypeMapper, UserMapper userMapper, WineMapper wineMapper, RefreshTokenMapper refreshTokenMapper) {
         this.allergenMapper = allergenMapper;
         this.drinkMapper = drinkMapper;
         this.beerMapper = beerMapper;
@@ -42,8 +42,8 @@ public class MapperFactory {
         this.supplierMapper = supplierMapper;
         this.friedIngredientMapper = friedIngredientMapper;
         this.friedMapper = friedMapper;
-        this.tasteIngredientMapper = tasteIngredientMapper;
-        this.tasteMapper = tasteMapper;
+        this.toppingIngredientMapper = toppingIngredientMapper;
+        this.toppingMapper = toppingMapper;
         this.doughIngredientMapper = doughIngredientMapper;
         this.doughMapper = doughMapper;
         this.ingredientMapper = ingredientMapper;
@@ -52,7 +52,7 @@ public class MapperFactory {
         this.drinkOrderMapper = drinkOrderMapper;
         this.beerOrderMapper = beerOrderMapper;
         this.friedOrderMapper = friedOrderMapper;
-        this.tasteOrderMapper = tasteOrderMapper;
+        this.toppingOrderMapper = toppingOrderMapper;
         this.orderMapper = orderMapper;
         this.wineOrderMapper = wineOrderMapper;
         this.magicbusLocationMapper = magicbusLocationMapper;
@@ -91,12 +91,12 @@ public class MapperFactory {
         return friedMapper;
     }
 
-    public TasteIngredientMapper getTasteIngredientMapper() {
-        return tasteIngredientMapper;
+    public ToppingIngredientMapper getTasteIngredientMapper() {
+        return toppingIngredientMapper;
     }
 
-    public TasteMapper getTasteMapper() {
-        return tasteMapper;
+    public ToppingMapper getToppingMapper() {
+        return toppingMapper;
     }
 
     public RefreshTokenMapper getRefreshTokenMapper() {
@@ -135,8 +135,8 @@ public class MapperFactory {
         return friedOrderMapper;
     }
 
-    public TasteOrderMapper getTasteOrderMapper() {
-        return tasteOrderMapper;
+    public ToppingOrderMapper getTasteOrderMapper() {
+        return toppingOrderMapper;
     }
 
     public OrderMapper getOrderMapper() {

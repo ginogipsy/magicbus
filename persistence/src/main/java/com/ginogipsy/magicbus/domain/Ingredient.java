@@ -54,7 +54,7 @@ public class Ingredient {
     private Brand brand;
 
     @OneToMany(mappedBy = "ingredient",fetch = FetchType.LAZY)
-    private Set<TasteIngredient> tastesIngredients;
+    private Set<ToppingIngredient> tastesIngredients;
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
     private Set<FriedIngredient> friedIngredients;
