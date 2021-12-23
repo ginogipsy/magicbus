@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUser")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         final UserDTO userDTO = createUserDTO(updateUserRequest);
         final UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();

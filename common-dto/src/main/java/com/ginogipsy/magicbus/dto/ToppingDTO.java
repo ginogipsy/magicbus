@@ -7,8 +7,10 @@ import com.ginogipsy.magicbus.domain.enums.*;
 import lombok.*;
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+
 import java.util.Set;
 
 @Getter
@@ -17,14 +19,15 @@ import java.util.Set;
 @NoArgsConstructor
 public class ToppingDTO {
 
-    @NotNull
+
     @NonNull
-    @NotEmpty
+    @NotBlank(message = "Name is necessary!")
+    @Min(value = 2, message = "A name has at least 2 characters!")
     private String name;
 
-    @NotNull
     @NonNull
-    @NotEmpty
+    @NotBlank
+    @Min(value = 10, message = "A name has at least 10 chars!")
     private String toppingDescription;
     private Boolean traditional;
     private Status status;

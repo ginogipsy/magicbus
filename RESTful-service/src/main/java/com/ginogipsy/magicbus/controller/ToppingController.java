@@ -7,8 +7,9 @@ import com.ginogipsy.magicbus.service.TasteService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/topping")
@@ -21,14 +22,10 @@ public class ToppingController {
     }
 
     @PutMapping("/insert")
-    public ResponseEntity<ToppingDTO> insertTaste(@RequestBody ToppingDTO toppingDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
-
-        if(result.hasErrors()){
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<ToppingDTO> insertTaste(@RequestBody @Valid final ToppingDTO toppingDTO, final @AuthenticationPrincipal UserDetailsImpl myUserDetails){
 
         if(myUserDetails == null){
-            throw new UserNotFoundException("Utente non trovato!");
+            throw new UserNotFoundException("User not found!");
         }
         return ResponseEntity.ok(tasteService.insertTaste(toppingDTO, myUserDetails.getUserDTO()));
     }
