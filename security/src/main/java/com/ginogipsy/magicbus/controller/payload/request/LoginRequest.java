@@ -11,7 +11,7 @@ public class LoginRequest {
 
     @NonNull
     @NotBlank(message = "username is necessary!")
-    //@Min(value = 2, message = "A username has at least 2 characters!") -> si blocca sul minimo 2 anche se cambi valore
+    //@Min(value = 4, message = "A username has at least 4 characters!") //TODO -> si blocca sul minimo 2 anche se cambi valore
     private String username;
 
     @NonNull

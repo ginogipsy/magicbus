@@ -29,7 +29,7 @@ public class UserController {
 
     @PutMapping("/updateUser")
     public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-        final UserDTO userDTO = createUserDTO(updateUserRequest);
+        final UserDTO userDTO = createUserDTO(updateUserRequest, myUserDetails.getUserDTO());
         final UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -77,19 +77,21 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    private UserDTO createUserDTO(final UpdateUserRequest updateUserRequest){
-        final UserDTO userDTO = new UserDTO();
-        Optional.ofNullable(updateUserRequest.getEmail()).ifPresent(userDTO::setEmail);
-        Optional.ofNullable(updateUserRequest.getUsername()).ifPresent(userDTO::setUsername);
-        Optional.ofNullable(updateUserRequest.getName()).ifPresent(userDTO::setName);
-        Optional.ofNullable(updateUserRequest.getSurname()).ifPresent(userDTO::setSurname);
-        Optional.ofNullable(updateUserRequest.getCellNumber()).ifPresent(userDTO::setCellNumber);
-        Optional.ofNullable(updateUserRequest.getAddress()).ifPresent(userDTO::setAddress);
-        Optional.ofNullable(updateUserRequest.getHouseNumber()).ifPresent(userDTO::setHouseNumber);
-        Optional.ofNullable(updateUserRequest.getCity()).ifPresent(userDTO::setCity);
-        Optional.ofNullable(updateUserRequest.getPostalCode()).ifPresent(userDTO::setPostalCode);
-        Optional.ofNullable(updateUserRequest.getFiscalCode()).ifPresent(userDTO::setFiscalCode);
-        return userDTO;
+    private UserDTO createUserDTO(final UpdateUserRequest updateUserRequest, final UserDTO userDTO){
+        final UserDTO updatedUserDTO = new UserDTO();
+        Optional.ofNullable(updateUserRequest.getEmail())
+                .ifPresentOrElse(updatedUserDTO::setEmail,() -> updatedUserDTO.setEmail(userDTO.getEmail()));
+        Optional.ofNullable(updateUserRequest.getUsername())
+                .ifPresentOrElse(updatedUserDTO::setUsername, () -> updatedUserDTO.setUsername(userDTO.getUsername()));
+        Optional.ofNullable(updateUserRequest.getName()).ifPresent(updatedUserDTO::setName);
+        Optional.ofNullable(updateUserRequest.getSurname()).ifPresent(updatedUserDTO::setSurname);
+        Optional.ofNullable(updateUserRequest.getCellNumber()).ifPresent(updatedUserDTO::setCellNumber);
+        Optional.ofNullable(updateUserRequest.getAddress()).ifPresent(updatedUserDTO::setAddress);
+        Optional.ofNullable(updateUserRequest.getHouseNumber()).ifPresent(updatedUserDTO::setHouseNumber);
+        Optional.ofNullable(updateUserRequest.getCity()).ifPresent(updatedUserDTO::setCity);
+        Optional.ofNullable(updateUserRequest.getPostalCode()).ifPresent(updatedUserDTO::setPostalCode);
+        Optional.ofNullable(updateUserRequest.getFiscalCode()).ifPresent(updatedUserDTO::setFiscalCode);
+        return updatedUserDTO;
     }
 
     @GetMapping("/findByEmail")

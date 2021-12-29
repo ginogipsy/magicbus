@@ -7,6 +7,7 @@ import lombok.NonNull;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -14,7 +15,7 @@ public class SignupRequest {
 
     @NonNull
     @NotBlank(message = "username is necessary!")
-    @Min(value = 2, message = "A username has at least 2 characters!")
+    @Min(value = 4, message = "A username has at least 4 characters!")
     private String username;
 
     @NotBlank(message = "email is necessary!")
@@ -31,8 +32,7 @@ public class SignupRequest {
 
     @NonNull
     @NotBlank(message = "cellNumber is necessary!")
-    @Min(value = 10, message = "A cellNumber has at least 2 characters!")
-    @Min(value = 13, message = "A cellNumber has max 2 characters!")
+    @Size(min = 9, max = 11, message = "Cell number must have 9 to 11 digits!")
     private String cellNumber;
     private String address;
     private String houseNumber;
