@@ -2,6 +2,7 @@ package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.service.FriedService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,13 @@ public class FriedResearchController {
     }
 
     @GetMapping(value = "/byName", params = "friedName")
+    @ApiOperation(value = "Get fried", notes = "Get user by name")
     public ResponseEntity<FriedDTO> findByName(@RequestParam String friedName){
         return ResponseEntity.ok().body(friedService.findByName(friedName));
     }
 
     @GetMapping(value = "/byStatus")
+    @ApiOperation(value = "Get fried", notes = "Get user by status")
     public ResponseEntity<List<FriedDTO>> findByStatus(@RequestParam(defaultValue = "DISPONIBILE") String status){
         return ResponseEntity.ok(friedService.findByStatus(status));
     }

@@ -4,6 +4,7 @@ import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.service.FriedService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ public class FriedController {
     }
 
     @PutMapping("/insert")
+    @ApiOperation(value = "Insert fried", notes = "Insert a fried")
     public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
 
         if(result.hasErrors()){
@@ -30,7 +32,7 @@ public class FriedController {
         }
 
         if(myUserDetails == null){
-            throw new UserNotFoundException("Utente non trovato!");
+            throw new UserNotFoundException("User not found!");
         }
         return ResponseEntity.ok(friedService.insertFried(friedDTO, myUserDetails.getUserDTO()));
     }

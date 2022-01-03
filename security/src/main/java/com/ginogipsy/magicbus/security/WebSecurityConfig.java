@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.cors()
                 .and()
                 .csrf()
@@ -63,9 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/**").hasAnyAuthority("USER", "MEZZ")
                 .antMatchers("/api/insert/**").hasAnyAuthority("USER", "ADMIN", "EDITOR", "MEZZ")
                 .antMatchers("/api/topping/**").hasAnyAuthority("USER", "ADMIN", "EDITOR", "MEZZ")
+                .antMatchers("/public/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/**").permitAll()
-
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
