@@ -19,6 +19,7 @@ import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,7 +53,13 @@ public class AuthController {
 
 
 
-    public AuthController(AuthenticationManager authenticationManager, MapperFactory mapperFactory, JwtUtils jwtUtils, UserService userService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder, UpdatePassword updatePassword) {
+    public AuthController(AuthenticationManager authenticationManager,
+                          MapperFactory mapperFactory,
+                          JwtUtils jwtUtils,
+                          UserService userService,
+                          RefreshTokenService refreshTokenService,
+                          PasswordEncoder passwordEncoder,
+                          UpdatePassword updatePassword) {
         this.authenticationManager = authenticationManager;
         this.mapperFactory = mapperFactory;
         this.jwtUtils = jwtUtils;
@@ -62,7 +69,8 @@ public class AuthController {
         this.updatePassword = updatePassword;
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/signIn")
+    @ApiOperation(value = "signIn", notes = "login for user")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -84,6 +92,7 @@ public class AuthController {
     }
 
     @PostMapping("/refreshtoken")
+    @ApiOperation(value = "refreshToken", notes = "refresh token")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
@@ -98,7 +107,8 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
+    @ApiOperation(value = "signup", notes = "signup user")
     public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (Boolean.TRUE.equals(mapperFactory.getUserMapper().existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
