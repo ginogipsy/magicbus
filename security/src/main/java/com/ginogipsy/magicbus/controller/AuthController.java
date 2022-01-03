@@ -100,13 +100,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (mapperFactory.getUserMapper().existsByUsername(signUpRequest.getUsername())) {
+        if (Boolean.TRUE.equals(mapperFactory.getUserMapper().existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (mapperFactory.getUserMapper().existsByEmail(signUpRequest.getEmail())) {
+        if (Boolean.TRUE.equals(mapperFactory.getUserMapper().existsByEmail(signUpRequest.getEmail()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));

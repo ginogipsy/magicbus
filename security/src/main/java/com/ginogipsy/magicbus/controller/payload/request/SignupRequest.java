@@ -1,11 +1,11 @@
 package com.ginogipsy.magicbus.controller.payload.request;
 
 
+import com.ginogipsy.magicbus.constraint.ValidPassword;
 import lombok.Data;
 import lombok.NonNull;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -15,17 +15,16 @@ public class SignupRequest {
 
     @NonNull
     @NotBlank(message = "username is necessary!")
-    @Min(value = 4, message = "A username has at least 4 characters!")
+    @Size(min = 4, message = "A username has at least 4 characters!")
     private String username;
 
     @NotBlank(message = "email is necessary!")
     @Email(message = "email format is wrong!")
     private String email;
 
-
     @NonNull
     @NotBlank(message = "password is necessary!")
-    @Min(value = 2, message = "A password has at least 2 characters!")
+    @ValidPassword(message = "Password should have 8 characters with a lower char, upper char, number and symbol!")
     private String password;
     private String name;
     private String surname;
