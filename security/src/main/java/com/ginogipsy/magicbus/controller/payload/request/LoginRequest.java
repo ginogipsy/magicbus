@@ -2,20 +2,19 @@ package com.ginogipsy.magicbus.controller.payload.request;
 
 import lombok.Data;
 import org.springframework.lang.NonNull;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 public class LoginRequest {
 
     @NonNull
     @NotBlank(message = "username is necessary!")
-    //@Min(value = 4, message = "A username has at least 4 characters!") //TODO -> si blocca sul minimo 2 anche se cambi valore
+    @Size(min = 4, message = "username or password not correct")
     private String username;
 
     @NonNull
     @NotBlank(message = "Name is necessary!")
-    @Min(value = 2, message = "A password has at least 2 characters!")
+    @Size(min = 8, message = "username or password not correct!")
     private String password;
 }
