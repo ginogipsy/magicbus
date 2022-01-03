@@ -25,17 +25,21 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
             String invalidPasswordList = Optional.ofNullable(this.getClass().getResource("/invalid-password-list.txt"))
                     .map(URL::getFile).orElseThrow(() -> new RuntimeException("could not load word list"));
 
+            FileReader fileReader = new FileReader(invalidPasswordList);
+
             dictionaryRule = new DictionaryRule(
                     new WordListDictionary(WordLists.createFromReader(
                             // Reader around the word list file
                             new FileReader[] {
-                                    new FileReader(invalidPasswordList)
+                                    fileReader
                             },
                             // True for case sensitivity, false otherwise
                             false,
                             // Dictionaries must be sorted
                             new ArraysSort()
                     )));
+
+            fileReader.close();
         } catch (IOException e) {
             throw new FileNotFound("could not load word list");
         }
