@@ -21,7 +21,6 @@ import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
