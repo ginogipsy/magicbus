@@ -5,7 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource(value = {"application.properties", "application-persistence.properties", "application-security.properties"})
+@PropertySource(value = {
+        "application.properties",
+        "application-persistence.properties",
+        "application-security.properties",
+        "application-mail-server.properties"})
 public class MagicbusApplication {
 
     public static void main(String[] args) {

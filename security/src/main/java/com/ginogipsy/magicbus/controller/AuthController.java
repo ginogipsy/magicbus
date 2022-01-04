@@ -1,5 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
+import com.ginogipsy.magicbus.component.EmailService;
 import com.ginogipsy.magicbus.controller.payload.request.UpdatePasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.TokenRefreshRequest;
 import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
@@ -20,6 +21,7 @@ import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,6 +52,7 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
     private final UpdatePassword updatePassword;
+    private final EmailService emailService;
 
 
 
@@ -59,7 +62,7 @@ public class AuthController {
                           UserService userService,
                           RefreshTokenService refreshTokenService,
                           PasswordEncoder passwordEncoder,
-                          UpdatePassword updatePassword) {
+                          UpdatePassword updatePassword, EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.mapperFactory = mapperFactory;
         this.jwtUtils = jwtUtils;
@@ -67,6 +70,7 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
         this.updatePassword = updatePassword;
+        this.emailService = emailService;
     }
 
     @PostMapping("/signIn")
@@ -173,6 +177,9 @@ public class AuthController {
 
         userDTO.setRoles(roles);
         userService.signUpUser(userDTO);
+
+        String text = "Mitico "+userDTO.getUsername()+", benvenuto tra noi! :-)\nSperiamo ti piaccia far parte del nostro gruppo!";
+        emailService.sendMessageWithAttachment(userDTO.getEmail(), "Registrazione al sito di magicbus confermata",text,null);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
