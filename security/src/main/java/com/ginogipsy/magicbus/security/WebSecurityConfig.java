@@ -1,6 +1,5 @@
 package com.ginogipsy.magicbus.security;
 
-
 import com.ginogipsy.magicbus.security.jwt.AuthEntryPointJwt;
 import com.ginogipsy.magicbus.security.jwt.AuthTokenFilter;
 import com.ginogipsy.magicbus.service.UserDetailsServiceImpl;

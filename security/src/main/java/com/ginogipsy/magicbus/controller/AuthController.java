@@ -32,11 +32,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -112,7 +111,7 @@ public class AuthController {
 
     @PostMapping("/signUp")
     @ApiOperation(value = "signup", notes = "signup user")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) throws MessagingException, IOException {
         if (Boolean.TRUE.equals(mapperFactory.getUserMapper().existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
@@ -176,9 +175,7 @@ public class AuthController {
 
         userDTO.setRoles(roles);
         userService.signUpUser(userDTO);
-
-        String text = "Mitico "+userDTO.getUsername()+", benvenuto tra noi! :-)\nSperiamo ti piaccia far parte del nostro gruppo!";
-        emailService.sendMessageWithAttachment(userDTO.getEmail(), "Registrazione al sito di magicbus confermata",text,null);
+        emailService.sendRegistrationMail(userDTO);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
