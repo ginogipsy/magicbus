@@ -7,6 +7,8 @@ import com.ginogipsy.magicbus.repository.AvailableTimeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class AvailableTimeMapper {
 
@@ -18,11 +20,15 @@ public class AvailableTimeMapper {
         this.availableTimeRepository = availableTimeRepository;
     }
 
-    public AvailableTime convertToEntity(AvailableTimeDTO availableTimeDTO){
-        return (availableTimeDTO != null) ? modelMapper.map(availableTimeDTO, AvailableTime.class) : null;
+    public AvailableTime convertToEntity(final AvailableTimeDTO availableTimeDTO){
+        return Optional.ofNullable(availableTimeDTO)
+                .map(at -> modelMapper.map(at, AvailableTime.class))
+                .orElse(null);
     }
 
-    public AvailableTimeDTO convertToDTO(AvailableTime availableTime){
-        return (availableTime != null) ? modelMapper.map(availableTime, AvailableTimeDTO.class) : null;
+    public AvailableTimeDTO convertToDTO(final AvailableTime availableTime){
+        return Optional.ofNullable(availableTime)
+                .map(at -> modelMapper.map(at, AvailableTimeDTO.class))
+                .orElse(null);
     }
 }

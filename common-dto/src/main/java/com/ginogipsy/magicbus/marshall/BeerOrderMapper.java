@@ -7,6 +7,8 @@ import com.ginogipsy.magicbus.repository.BeerOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class BeerOrderMapper {
 
@@ -18,11 +20,15 @@ public class BeerOrderMapper {
         this.beerOrderRepository = beerOrderRepository;
     }
 
-    public BeerOrder convertToEntity(BeerOrderDTO beerOrderDTO){
-        return (beerOrderDTO != null) ? modelMapper.map(beerOrderDTO, BeerOrder.class) : null;
+    public BeerOrder convertToEntity(final BeerOrderDTO beerOrderDTO){
+        return Optional.ofNullable(beerOrderDTO)
+                .map(bo -> modelMapper.map(bo, BeerOrder.class))
+            .orElse(null);
     }
 
-    public BeerOrderDTO convertToDTO(BeerOrder beerOrder){
-        return (beerOrder != null) ? modelMapper.map(beerOrder, BeerOrderDTO.class) : null;
+    public BeerOrderDTO convertToDTO(final BeerOrder beerOrder){
+        return Optional.ofNullable(beerOrder)
+                .map(bo -> modelMapper.map(bo, BeerOrderDTO.class))
+            .orElse(null);
     }
 }

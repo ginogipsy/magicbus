@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.AllergenRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class AllergenMapper {
 
@@ -17,11 +19,15 @@ public class AllergenMapper {
         this.allergenRepository = allergenRepository;
     }
 
-    public Allergen convertToEntity(AllergenDTO allergenDTO){
-        return (allergenDTO != null) ? modelMapper.map(allergenDTO, Allergen.class) : null;
+    public Allergen convertToEntity(final AllergenDTO allergenDTO){
+        return Optional.ofNullable(allergenDTO)
+                .map(a -> modelMapper.map(a, Allergen.class))
+                .orElse(null);
     }
 
-    public AllergenDTO convertToDTO(Allergen allergen){
-        return (allergen != null) ? modelMapper.map(allergen, AllergenDTO.class) : null;
+    public AllergenDTO convertToDTO(final Allergen allergen){
+        return Optional.ofNullable(allergen)
+                .map(a -> modelMapper.map(a, AllergenDTO.class))
+                .orElse(null);
     }
 }

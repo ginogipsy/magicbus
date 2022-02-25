@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.TasteOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ToppingOrderMapper {
 
@@ -17,11 +19,15 @@ public class ToppingOrderMapper {
         this.tasteOrderRepository = tasteOrderRepository;
     }
 
-    public ToppingOrder convertToEntity(ToppingOrderDTO toppingOrderDTO){
-        return (toppingOrderDTO != null) ? modelMapper.map(toppingOrderDTO, ToppingOrder.class) : null;
+    public ToppingOrder convertToEntity(final ToppingOrderDTO toppingOrderDTO){
+        return Optional.ofNullable(toppingOrderDTO)
+                .map(to -> modelMapper.map(to, ToppingOrder.class))
+            .orElse(null);
     }
 
-    public ToppingOrderDTO convertToDTO(ToppingOrder toppingOrder){
-        return (toppingOrder != null) ? modelMapper.map(toppingOrder, ToppingOrderDTO.class) : null;
+    public ToppingOrderDTO convertToDTO(final ToppingOrder toppingOrder){
+        return Optional.ofNullable(toppingOrder)
+                .map(to -> modelMapper.map(to, ToppingOrderDTO.class))
+            .orElse(null);
     }
 }

@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.DrinkOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class DrinkOrderMapper {
 
@@ -17,12 +19,16 @@ public class DrinkOrderMapper {
         this.drinkOrderRepository = drinkOrderRepository;
     }
 
-    public DrinkOrder convertToEntity(DrinkOrderDTO drinkOrderDTO){
-        return (drinkOrderDTO != null) ? modelMapper.map(drinkOrderDTO, DrinkOrder.class) : null;
+    public DrinkOrder convertToEntity(final DrinkOrderDTO drinkOrderDTO){
+        return Optional.ofNullable(drinkOrderDTO)
+                .map(dor -> modelMapper.map(dor, DrinkOrder.class))
+            .orElse(null);
     }
 
-    public DrinkOrderDTO convertToDTO(DrinkOrder drinkOrder){
-        return (drinkOrder != null) ? modelMapper.map(drinkOrder, DrinkOrderDTO.class) : null;
+    public DrinkOrderDTO convertToDTO(final DrinkOrder drinkOrder){
+        return Optional.ofNullable(drinkOrder)
+                .map(dr -> modelMapper.map(dr, DrinkOrderDTO.class))
+            .orElse(null);
     }
 }
 

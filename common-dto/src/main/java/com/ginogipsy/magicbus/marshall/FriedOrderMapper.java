@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.FriedOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class FriedOrderMapper {
 
@@ -17,11 +19,15 @@ public class FriedOrderMapper {
         this.friedOrderRepository = friedOrderRepository;
     }
 
-    public FriedOrder convertToEntity(FriedOrderDTO friedOrderDTO){
-        return (friedOrderDTO != null) ? modelMapper.map(friedOrderDTO, FriedOrder.class) : null;
+    public FriedOrder convertToEntity(final FriedOrderDTO friedOrderDTO){
+        return Optional.ofNullable(friedOrderDTO)
+                .map(fo -> modelMapper.map(fo, FriedOrder.class))
+            .orElse(null);
     }
 
-    public FriedOrderDTO convertToDTO(FriedOrder friedOrder){
-        return (friedOrder != null) ? modelMapper.map(friedOrder, FriedOrderDTO.class) : null;
+    public FriedOrderDTO convertToDTO(final FriedOrder friedOrder){
+        return Optional.ofNullable(friedOrder)
+                .map(fo -> modelMapper.map(fo, FriedOrderDTO.class))
+            .orElse(null);
     }
 }

@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.DoughRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class DoughMapper {
 
@@ -17,11 +19,15 @@ public class DoughMapper {
         this.doughRepository = doughRepository;
     }
 
-    public Dough convertToEntity(DoughDTO doughDTO){
-        return (doughDTO != null) ? modelMapper.map(doughDTO, Dough.class) : null;
+    public Dough convertToEntity(final DoughDTO doughDTO){
+        return Optional.ofNullable(doughDTO)
+                .map(d -> modelMapper.map(d, Dough.class))
+            .orElse(null);
     }
 
-    public DoughDTO convertToDTO(Dough dough){
-        return (dough != null) ? modelMapper.map(dough, DoughDTO.class) : null;
+    public DoughDTO convertToDTO(final Dough dough){
+        return Optional.ofNullable(dough)
+                .map(d -> modelMapper.map(d, DoughDTO.class))
+            .orElse(null);
     }
 }

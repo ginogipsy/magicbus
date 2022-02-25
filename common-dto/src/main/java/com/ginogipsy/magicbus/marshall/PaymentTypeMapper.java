@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.PaymentTypeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class PaymentTypeMapper {
 
@@ -17,11 +19,15 @@ public class PaymentTypeMapper {
         this.paymentTypeRepository = paymentTypeRepository;
     }
 
-    public PaymentType convertToEntity(PaymentTypeDTO paymentTypeDTO){
-        return (paymentTypeDTO != null) ? modelMapper.map(paymentTypeDTO, PaymentType.class) : null;
+    public PaymentType convertToEntity(final PaymentTypeDTO paymentTypeDTO){
+        return Optional.ofNullable(paymentTypeDTO)
+                .map(pt -> modelMapper.map(pt, PaymentType.class))
+            .orElse(null);
     }
 
-    public PaymentTypeDTO convertToDTO(PaymentType paymentType){
-        return (paymentType != null) ? modelMapper.map(paymentType, PaymentTypeDTO.class) : null;
+    public PaymentTypeDTO convertToDTO(final PaymentType paymentType){
+        return Optional.ofNullable(paymentType)
+                .map(pt -> modelMapper.map(pt, PaymentTypeDTO.class))
+            .orElse(null);
     }
 }
