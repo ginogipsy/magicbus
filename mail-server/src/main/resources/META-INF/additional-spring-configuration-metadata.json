@@ -4,5 +4,10 @@
       "name": "spring.mail.templates.path",
       "type": "java.lang.String",
       "description": "Description for spring.mail.templates.path."
-  }
-] }
+    },
+    {
+      "name": "encrypted.property",
+      "type": "java.lang.String",
+      "description": "Description for encrypted.property."
+    }
+  ] }
