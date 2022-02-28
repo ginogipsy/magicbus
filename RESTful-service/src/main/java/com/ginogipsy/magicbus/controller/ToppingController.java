@@ -6,12 +6,13 @@ import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.service.TasteService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/api/topping")
 public class ToppingController {
@@ -25,10 +26,12 @@ public class ToppingController {
     @PutMapping("/insert")
     @ApiOperation(value = "Insert topping", notes = "Insert a new topping")
     public ResponseEntity<ToppingDTO> insertTaste(@RequestBody @Valid final ToppingDTO toppingDTO, final @AuthenticationPrincipal UserDetailsImpl myUserDetails){
-
+        log.info("Inserting a new taste..");
         if(myUserDetails == null){
+            log.error("User not signed!");
             throw new UserNotFoundException("User not found!");
         }
+        log.info("Inserted!");
         return ResponseEntity.ok(tasteService.insertTaste(toppingDTO, myUserDetails.getUserDTO()));
     }
 }
