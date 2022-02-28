@@ -8,11 +8,13 @@ import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class TasteServiceImpl implements TasteService {
 
@@ -33,16 +35,20 @@ public class TasteServiceImpl implements TasteService {
 
     @Override
     public ToppingDTO findByName(final String tasteName) throws GustoNotFoundException {
+        log.info("Check if taste name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
-                .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
+                .orElseThrow(() -> new GustoNotFoundException("test name is null!"));
+        log.info("Search taste name..");
         return Optional.ofNullable(mapperFactory.getToppingMapper()
-                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+tasteName+" non trovato!"));
+                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Taste "+tasteName+" not found!"));
     }
 
     @Override
     public List<ToppingDTO> findTasteWhereNamesContains(final String tasteName) throws GustoNotFoundException {
+        log.info("Check if taste name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
-                .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
+                .orElseThrow(() -> new GustoNotFoundException("taste name is null!"));
+        log.info("Search taste name..");
         return mapperFactory.getToppingMapper().findByNomeContains(n);
     }
 
@@ -83,6 +89,7 @@ public class TasteServiceImpl implements TasteService {
 
     @Override
     public ToppingDTO insertTaste(ToppingDTO toppingDTO, UserDTO userDTO){
+        log.info("Insert taste - START");
         if(userUtility.isOnlyAnUser(userDTO)){
             toppingDTO.setUserEntered(true);
             toppingDTO.setAvailable(false);
@@ -96,11 +103,13 @@ public class TasteServiceImpl implements TasteService {
         }
 
         if(mapperFactory.getToppingMapper().findByName(toppingDTO.getName()) != null){
-            throw new GustoIsPresentException("Il gusto ".concat(toppingDTO.getName()).concat(" è già presente!"));
+            log.error("Taste is already present in DB!");
+            throw new GustoIsPresentException("Taste ".concat(toppingDTO.getName()).concat(" is already present!"));
         }
 
         toppingDTO.setToppingDescription(stringUtility.formatAllMinusc(toppingDTO.getToppingDescription()));
         toppingDTO.setUserCreator(userDTO);
+        log.info("Insert taste - FINISH");
         return mapperFactory.getToppingMapper().save(toppingDTO);
     }
 }

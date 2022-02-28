@@ -8,11 +8,13 @@ import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class FriedServiceImpl implements FriedService {
 
@@ -42,7 +44,8 @@ public class FriedServiceImpl implements FriedService {
         }
 
         if(mapperFactory.getFriedMapper().findByName(friedDTO.getName()) != null){
-            throw new GustoIsPresentException("Il gusto ".concat(friedDTO.getName()).concat(" è già presente!"));
+            log.error("Taste is already present on DB!");
+            throw new GustoIsPresentException("Taste ".concat(friedDTO.getName()).concat(" is already present!"));
         }
 
         friedDTO.setFriedDescription(stringUtility.formatAllMinusc(friedDTO.getFriedDescription()));
@@ -52,10 +55,11 @@ public class FriedServiceImpl implements FriedService {
 
     @Override
     public FriedDTO findByName(String friedName) {
+        log.info("Check if fried name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(friedName))
-                .orElseThrow(() -> new GustoNotFoundException("nomeGusto risulta NULL!"));
+                .orElseThrow(() -> new GustoNotFoundException("Taste name is null!"));
         return Optional.ofNullable(mapperFactory.getFriedMapper()
-                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Gusto "+friedName+" non trovato!"));
+                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Taste "+friedName+" not found!"));
     }
 
     @Override

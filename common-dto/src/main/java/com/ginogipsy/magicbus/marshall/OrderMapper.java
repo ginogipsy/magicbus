@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class OrderMapper {
 
@@ -17,11 +19,15 @@ public class OrderMapper {
         this.orderRepository = orderRepository;
     }
 
-    public Order convertToEntity(OrderDTO orderDTO){
-        return (orderDTO != null) ? modelMapper.map(orderDTO, Order.class) : null;
+    public Order convertToEntity(final OrderDTO orderDTO){
+        return Optional.ofNullable(orderDTO)
+                .map(o -> modelMapper.map(o, Order.class))
+            .orElse(null);
     }
 
-    public OrderDTO convertToDTO(Order order){
-        return (order != null) ? modelMapper.map(order, OrderDTO.class) : null;
+    public OrderDTO convertToDTO(final Order order){
+        return Optional.ofNullable(order)
+                .map(o -> modelMapper.map(o, OrderDTO.class))
+            .orElse(null);
     }
 }

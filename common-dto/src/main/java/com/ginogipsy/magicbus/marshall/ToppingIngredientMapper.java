@@ -7,6 +7,8 @@ import com.ginogipsy.magicbus.repository.TasteIngredientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ToppingIngredientMapper {
 
@@ -18,11 +20,15 @@ public class ToppingIngredientMapper {
         this.tasteIngredientRepository = tasteIngredientRepository;
     }
 
-    public ToppingIngredient convertToEntity(ToppingIngredientDTO toppingIngredientDTO){
-        return (toppingIngredientDTO != null) ? modelMapper.map(toppingIngredientDTO, ToppingIngredient.class) : null;
+    public ToppingIngredient convertToEntity(final ToppingIngredientDTO toppingIngredientDTO){
+        return Optional.ofNullable(toppingIngredientDTO)
+                .map(t -> modelMapper.map(t, ToppingIngredient.class))
+            .orElse(null);
     }
 
-    public ToppingIngredientDTO convertToDTO(ToppingIngredient toppingIngredient){
-        return (toppingIngredient != null) ? modelMapper.map(toppingIngredient, ToppingIngredientDTO.class) : null;
+    public ToppingIngredientDTO convertToDTO(final ToppingIngredient toppingIngredient){
+        return Optional.ofNullable(toppingIngredient)
+                .map(t -> modelMapper.map(t, ToppingIngredientDTO.class))
+            .orElse(null);
     }
 }

@@ -7,6 +7,8 @@ import com.ginogipsy.magicbus.repository.WineryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class WineryMapper {
 
@@ -18,11 +20,15 @@ public class WineryMapper {
         this.wineryRepository = wineryRepository;
     }
 
-    public Winery convertToEntity(WineryDTO wineryDTO){
-        return (wineryDTO != null) ? modelMapper.map(wineryDTO, Winery.class) : null;
+    public Winery convertToEntity(final WineryDTO wineryDTO){
+        return Optional.ofNullable(wineryDTO)
+                .map(w -> modelMapper.map(w, Winery.class))
+            .orElse(null);
     }
 
     public WineryDTO convertToDTO(Winery winery){
-        return (winery != null) ? modelMapper.map(winery, WineryDTO.class) : null;
+        return Optional.ofNullable(winery)
+                .map(w -> modelMapper.map(w, WineryDTO.class))
+            .orElse(null);
     }
 }

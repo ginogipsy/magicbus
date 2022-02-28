@@ -25,7 +25,10 @@ public enum BeerType {
     }
 
     public static BeerType getBeerType(final String description){
-        return Arrays.stream(BeerType.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+        return Arrays.stream(BeerType.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

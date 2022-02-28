@@ -9,6 +9,7 @@ import com.ginogipsy.magicbus.controller.payload.request.usercontroller.UpdateUs
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -31,6 +33,7 @@ public class UserController {
     @GetMapping("/findByEmail")
     @ApiOperation(value = "get user", notes = "get user by email")
     public ResponseEntity<UserDTO> findByEmail(@RequestParam String email){
+        log.info("Searching user by email..");
         UserDTO user = userService.findByEmail(email);
         return ResponseEntity.ok(user);
     }
@@ -38,6 +41,7 @@ public class UserController {
     @PutMapping("/updateUser")
     @ApiOperation(value = "Update user", notes = "Update user")
     public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        log.info("Updating user..");
         final UserDTO userDTO = createUserDTO(updateUserRequest, myUserDetails.getUserDTO());
         final UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
@@ -46,7 +50,9 @@ public class UserController {
     @PutMapping("/addFiscalCode")
     @ApiOperation(value = "Update user", notes = "Update fiscalCode of user")
     public ResponseEntity<UserDTO> addFiscalCode(@RequestBody String fiscalCode, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+        log.info("Updating fiscal code..");
         if(result.hasErrors()){
+            log.error("Request not correct!");
             return ResponseEntity.badRequest().build();
         }
         UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), fiscalCode);
@@ -56,16 +62,20 @@ public class UserController {
     @PutMapping("/addAddress")
     @ApiOperation(value = "Update user", notes = "Update address of user")
     public ResponseEntity<UserDTO> addAddress(@RequestBody @Validated AddAddressRequest addAddressRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult bindingResult){
+        log.info("Updating address..");
         if(!bindingResult.hasErrors()) {
             UserDTO user = userService.addAddress(myUserDetails.getUserDTO(), addAddressRequest.getAddress(), addAddressRequest.getHouseNumber(), addAddressRequest.getCity(), addAddressRequest.getPostalCode());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
-        }else
-            throw new DataNotCorrectException("Indirizzo inserito non corretto");
+        }else {
+            log.error("Request not correct!");
+            throw new DataNotCorrectException("Address not Correct");
+        }
     }
 
     @PutMapping("/addNameAndSurname")
     @ApiOperation(value = "Update user", notes = "Update name and surname of user")
     public ResponseEntity<UserDTO> addNameAndSurname(@RequestParam String name, @RequestParam String surname, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        log.info("Updating name and surname..");
         UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), name, surname);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -74,6 +84,7 @@ public class UserController {
     @ApiOperation(value = "Update user", notes = "Update email of user")
     @ExceptionHandler(value = EmailIsPresentException.class)
     public ResponseEntity<UserDTO> updateEmail(@RequestParam String newEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        log.info("Updating email..");
             UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), newEmail);
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -81,6 +92,7 @@ public class UserController {
     @PutMapping("/updateUsername")
     @ApiOperation(value = "Update user", notes = "Update username of user")
     public ResponseEntity<UserDTO> updateUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        log.info("Updating username..");
         UserDTO user = userService.updateUsername(myUserDetails.getUserDTO(), username);
         return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
     }
@@ -88,11 +100,13 @@ public class UserController {
     @PutMapping("/updateCellNumber")
     @ApiOperation(value = "Update user", notes = "Update cell number of user")
     public ResponseEntity<UserDTO> updateCellNumber(@RequestParam String newCellNumber, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+        log.info("Updating cell number..");
         UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), newCellNumber);
         return ResponseEntity.ok().body(user);
     }
 
     private UserDTO createUserDTO(final UpdateUserRequest updateUserRequest, final UserDTO userDTO){
+        log.info("Creating user dto..");
         final UserDTO updatedUserDTO = new UserDTO();
         Optional.ofNullable(updateUserRequest.getEmail())
                 .ifPresentOrElse(updatedUserDTO::setEmail,() -> updatedUserDTO.setEmail(userDTO.getEmail()));
@@ -106,6 +120,7 @@ public class UserController {
         Optional.ofNullable(updateUserRequest.getCity()).ifPresent(updatedUserDTO::setCity);
         Optional.ofNullable(updateUserRequest.getPostalCode()).ifPresent(updatedUserDTO::setPostalCode);
         Optional.ofNullable(updateUserRequest.getFiscalCode()).ifPresent(updatedUserDTO::setFiscalCode);
+        log.info("Created user dto!");
         return updatedUserDTO;
     }
 }

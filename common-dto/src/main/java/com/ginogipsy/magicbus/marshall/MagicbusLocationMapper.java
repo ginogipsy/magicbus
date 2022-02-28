@@ -6,6 +6,8 @@ import com.ginogipsy.magicbus.repository.MagicbusLocationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class MagicbusLocationMapper {
 
@@ -17,11 +19,15 @@ public class MagicbusLocationMapper {
         this.magicbusLocationRepository = magicbusLocationRepository;
     }
 
-    public MagicbusLocation convertToEntity(MagicbusLocationDTO magicbusLocationDTO){
-        return (magicbusLocationDTO != null) ? modelMapper.map(magicbusLocationDTO, MagicbusLocation.class) : null;
+    public MagicbusLocation convertToEntity(final MagicbusLocationDTO magicbusLocationDTO){
+        return Optional.ofNullable(magicbusLocationDTO)
+                .map(ml -> modelMapper.map(ml, MagicbusLocation.class))
+            .orElse(null);
     }
 
     public MagicbusLocationDTO convertToDTO(MagicbusLocation magicbusLocation){
-        return (magicbusLocation != null) ? modelMapper.map(magicbusLocation, MagicbusLocationDTO.class) : null;
+        return Optional.ofNullable(magicbusLocation)
+                .map(ml -> modelMapper.map(ml, MagicbusLocationDTO.class))
+            .orElse(null);
     }
 }

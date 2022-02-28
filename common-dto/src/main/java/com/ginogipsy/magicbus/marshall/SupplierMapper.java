@@ -7,6 +7,8 @@ import com.ginogipsy.magicbus.repository.SupplierRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class SupplierMapper {
 
@@ -19,11 +21,15 @@ public class SupplierMapper {
         this.supplierRepository = supplierRepository;
     }
 
-    public Supplier convertToEntity(SupplierDTO supplierDTO){
-        return (supplierDTO != null) ? modelMapper.map(supplierDTO, Supplier.class) : null;
+    public Supplier convertToEntity(final SupplierDTO supplierDTO){
+        return Optional.ofNullable(supplierDTO)
+                .map(s -> modelMapper.map(s, Supplier.class))
+            .orElse(null);
     }
 
-    public SupplierDTO convertToDTO(Supplier supplier){
-        return (supplier != null) ? modelMapper.map(supplier, SupplierDTO.class) : null;
+    public SupplierDTO convertToDTO(final Supplier supplier){
+        return Optional.ofNullable(supplier)
+                .map(s -> modelMapper.map(s, SupplierDTO.class))
+            .orElse(null);
     }
 }

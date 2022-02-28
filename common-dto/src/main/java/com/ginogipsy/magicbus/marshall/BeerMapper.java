@@ -1,18 +1,18 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.customexception.notfound.BirraNotFoundException;
 import com.ginogipsy.magicbus.domain.Beer;
-
 import com.ginogipsy.magicbus.domain.enums.BeerType;
 import com.ginogipsy.magicbus.dto.BeerDTO;
 import com.ginogipsy.magicbus.repository.BeerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class BeerMapper {
 
@@ -24,37 +24,71 @@ public class BeerMapper {
         this.beerRepository = beerRepository;
     }
 
-    public Beer convertToEntity(BeerDTO beerDTO){
-        return (beerDTO != null) ? modelMapper.map(beerDTO, Beer.class) : null;
+    public Beer convertToEntity(final BeerDTO beerDTO) {
+        return Optional.ofNullable(beerDTO)
+                .map(b -> modelMapper.map(b, Beer.class))
+                .orElse(null);
     }
 
-    public BeerDTO convertToDTO(Beer beer){
-        return (beer != null) ? modelMapper.map(beer, BeerDTO.class) : null;
+    public BeerDTO convertToDTO(final Beer beer) {
+        return Optional.ofNullable(beer)
+                .map(b -> modelMapper.map(b, BeerDTO.class))
+                .orElse(null);
     }
 
-    public BeerDTO findByName(String name){
-        return Optional.ofNullable(beerRepository.findByName(name)).map(this::convertToDTO).orElseThrow(() -> new BirraNotFoundException("Birra "+name+" non disponibile!"));
+    public BeerDTO findByName(final String name) {
+        log.info("Searching beer where name is " + name+ "..");
+        return Optional.ofNullable(name)
+                .map(beerRepository::findByName)
+                .map(this::convertToDTO)
+                .orElse(null);
     }
 
-    public List<BeerDTO> findByBreweryName(String breweryName){
-        return Optional.of(beerRepository.findByBrewery_Name(breweryName).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre del birrificio "+breweryName+" non disponibili!"));
+    public List<BeerDTO> findByBreweryName(final String breweryName) {
+        log.info("Searching beers where breweryName is " + breweryName+ "..");
+        return Optional.ofNullable(breweryName)
+                .map(bn -> beerRepository.findByBrewery_Name(bn)
+                        .stream()
+                        .map(this::convertToDTO)
+                        .toList())
+                .orElse(new ArrayList<>());
     }
 
-    public List<BeerDTO> findByBeerType(String beerType){
-        return Optional.of(beerRepository.findByBeerType(BeerType.valueOf(beerType)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre della tipologia "+beerType+" non disponibili!"));
+    public List<BeerDTO> findByBeerType(final String beerType) {
+        log.info("Searching beers where beerType is " + beerType+ "..");
+        return Optional.ofNullable(beerType)
+                .map(bt -> beerRepository.findByBeerType(BeerType.valueOf(bt))
+                        .stream()
+                        .map(this::convertToDTO)
+                        .toList())
+                .orElse(new ArrayList<>());
     }
 
-    public List<BeerDTO> findByAvailable(boolean available){
-        return Optional.of(beerRepository.findByAvailable(available).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre  non disponibili!"));
+    public List<BeerDTO> findByAvailable(final boolean available) {
+        log.info("Searching list of beers where availability is " + available+ "..");
+        return beerRepository.findByAvailable(available)
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
-    public List<BeerDTO> findByAvailableAndBrewery_Name(boolean available, String breweryName){
-        return Optional.of(beerRepository.findByAvailableAndBrewery_Name(available, breweryName).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre del birrificio disponibili "+breweryName+" non trovate!"));
+    public List<BeerDTO> findByAvailableAndBrewery_Name(final boolean available, final String breweryName) {
+        log.info("Searching list of beers where availability is " + available+ " and breweryName is "+breweryName+"..");
+        return Optional.ofNullable(breweryName)
+                .map(bw -> beerRepository.findByAvailableAndBrewery_Name(available, bw)
+                        .stream()
+                        .map(this::convertToDTO)
+                        .toList())
+                .orElse(new ArrayList<>());
     }
 
-    public List<BeerDTO> findByAvailableAndBeerType(boolean available, String beerType){
-        return Optional.of(beerRepository.findByAvailableAndBeerType(available, BeerType.valueOf(beerType)).stream().map(this::convertToDTO).collect(Collectors.toList())).orElseThrow(() -> new BirraNotFoundException("Birre disponibili del tipo "+beerType+" non trovate!"));
+    public List<BeerDTO> findByAvailableAndBeerType(final boolean available, final String beerType) {
+        log.info("Searching list of beer where availability is " + available+ " and beerType is "+beerType+"..");
+        return Optional.ofNullable(beerType)
+                .map(bt -> beerRepository.findByAvailableAndBeerType(available, BeerType.valueOf(bt))
+                        .stream()
+                        .map(this::convertToDTO)
+                        .toList())
+                .orElse(new ArrayList<>());
     }
-
-
 }
