@@ -1,11 +1,7 @@
 package com.ginogipsy.magicbus.configuration;
 
-import com.ginogipsy.magicbus.domain.Fried;
-import com.ginogipsy.magicbus.domain.Topping;
-import com.ginogipsy.magicbus.domain.User;
-import com.ginogipsy.magicbus.dto.FriedDTO;
-import com.ginogipsy.magicbus.dto.ToppingDTO;
-import com.ginogipsy.magicbus.dto.UserDTO;
+import com.ginogipsy.magicbus.domain.*;
+import com.ginogipsy.magicbus.dto.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -37,11 +33,45 @@ public class MapperConfiguration {
 
         modelMapper.createTypeMap(User.class, UserDTO.class)
                 .addMappings(new PropertyMap<>() {
-                            @Override
-                            protected void configure() {
-                                using(new InsertedToppingListToNameList()).map(source.getToppingsInserted(), destination.getToppingsInserted());
-                            }
-                        });
+                    @Override
+                    protected void configure() {
+                        using(new InsertedToppingListToNameList()).map(source.getToppingsInserted(), destination.getToppingsInserted());
+                    }
+                });
+
+        modelMapper.createTypeMap(Dough.class, DoughDTO.class)
+                .addMappings(new PropertyMap<>() {
+                    @Override
+                    protected void configure() {
+                        using(new DoughIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
+                    }
+                });
+
+        modelMapper.createTypeMap(Fried.class, FriedDTO.class)
+                .addMappings(new PropertyMap<>() {
+                    @Override
+                    protected void configure() {
+                        using(new FriedIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
+                    }
+                });
+
+        modelMapper.createTypeMap(Topping.class, ToppingDTO.class)
+                .addMappings(new PropertyMap<>() {
+                    @Override
+                    protected void configure() {
+                        using(new ToppingIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
+                    }
+                });
+
+        modelMapper.createTypeMap(Ingredient.class, IngredientDTO.class)
+                .addMappings(new PropertyMap<>() {
+                    @Override
+                    protected void configure() {
+                        using(new DoughIngredientListToDoughNameListConverter()).map(source.getDoughs(), destination.getDoughs());
+                        using(new FriedIngredientListToFriedNameListConverter()).map(source.getFried(), destination.getFried());
+                        using(new ToppingIngredientListToToppingNameListConverter()).map(source.getToppings(), destination.getToppings());
+                    }
+                });
 
         return modelMapper;
     }

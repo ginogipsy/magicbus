@@ -53,14 +53,14 @@ public class Ingredient {
     @JoinColumn(name = "marca_id")
     private Brand brand;
 
-    @OneToMany(mappedBy = "ingredient",fetch = FetchType.LAZY)
-    private Set<ToppingIngredient> tastesIngredients;
+    @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+    private Set<ToppingIngredient> toppings;
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
-    private Set<FriedIngredient> friedIngredients;
+    private Set<FriedIngredient> fried;
 
     @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
-    private Set<DoughIngredient> doughIngredients;
+    private Set<DoughIngredient> doughs;
 
 
 }

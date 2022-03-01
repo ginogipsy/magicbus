@@ -3,14 +3,19 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.enums.*;
-import lombok.*;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
+import com.ginogipsy.magicbus.domain.enums.Base;
+import com.ginogipsy.magicbus.domain.enums.ProductCategory;
+import com.ginogipsy.magicbus.domain.enums.Status;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-
-
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -49,6 +54,7 @@ public class ToppingDTO {
     private UserDTO userCreator;
     private String username;
     private Integer appreciations;
+    private List<String> ingredients;
 
 
 

@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.dto;
 
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class DoughDTO {
@@ -11,5 +11,5 @@ public class DoughDTO {
     private String name;
     private String description;
     private Double additionalCost;
-    private Set<DoughIngredientDTO> ingredients;
+    private List<String> ingredients;
 }
