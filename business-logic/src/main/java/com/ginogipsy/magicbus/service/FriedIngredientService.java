@@ -10,7 +10,7 @@ public interface FriedIngredientService {
 
     FriedIngredientDTO save(final String friedName, final String ingredientName);
 
-    List<IngredientDTO> findByFried(final FriedDTO friedDTO);
+    List<IngredientDTO> findByFried(final String friedName);
 
-    List<FriedDTO> findByIngredient(final IngredientDTO ingredientDTO);
+    List<FriedDTO> findByIngredient(final String ingredientName);
 }

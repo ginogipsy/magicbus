@@ -46,9 +46,10 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     }
 
     @Override
-    public List<IngredientDTO> findByTopping(ToppingDTO toppingDTO) {
+    public List<IngredientDTO> findByTopping(final String toppingName) {
         log.info("Checking if this topping is present..");
-        if (Optional.ofNullable(toppingDTO).isEmpty() || Optional.ofNullable(privateFindToppingByName(toppingDTO.getName())).isEmpty()) {
+        final ToppingDTO toppingDTO = privateFindToppingByName(toppingName);
+        if (Optional.ofNullable(toppingDTO).isEmpty()) {
             log.warn("this topping doesn't exists..");
             return new ArrayList<>();
         }
@@ -62,9 +63,10 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     }
 
     @Override
-    public List<ToppingDTO> findByIngredient(IngredientDTO ingredientDTO) {
+    public List<ToppingDTO> findByIngredient(final String ingredientName) {
         log.info("Checking if this ingredient is present..");
-        if (Optional.ofNullable(ingredientDTO).isEmpty() || Optional.ofNullable(privateFindIngredientByName(ingredientDTO.getName())).isEmpty()) {
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+        if (Optional.ofNullable(ingredientDTO).isEmpty()) {
             log.warn("this ingredient doesn't exists..");
             return new ArrayList<>();
         }

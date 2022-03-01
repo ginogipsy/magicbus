@@ -50,6 +50,9 @@ public class IngredientServiceImpl implements IngredientService {
 
         log.info("Formatting name and description..");
         privateFormatIngredient(ingredientDTO);
+        log.info("If present inserting brand in the name ..");
+        Optional.ofNullable(ingredientDTO.getBrand())
+                .ifPresent(brand -> ingredientDTO.setName(addBrandNameInIngredientName(ingredientDTO.getName(), brand.getName())));
         log.info("Saving the ingredient..");
         return mapperFactory.getIngredientMapper().save(ingredientDTO);
     }
@@ -65,5 +68,12 @@ public class IngredientServiceImpl implements IngredientService {
                 .ifPresent(n -> ingredientDTO.setName(stringUtility.formatAllMinusc(n)));
         Optional.ofNullable(ingredientDTO.getDescription())
                 .ifPresent(n -> ingredientDTO.setDescription(stringUtility.formatAllMinusc(n)));
+    }
+
+    private String addBrandNameInIngredientName(final String ingredientName, final String brandName) {
+        if (ingredientName.contains(brandName.toLowerCase().trim())) {
+            return ingredientName;
+        }
+        return ingredientName.concat(" \"" + brandName.toLowerCase().trim() + "\"");
     }
 }

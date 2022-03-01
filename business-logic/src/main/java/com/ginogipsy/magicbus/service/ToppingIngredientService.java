@@ -10,7 +10,7 @@ public interface ToppingIngredientService {
 
     ToppingIngredientDTO save(final String toppingName, final String ingredientName);
 
-    List<IngredientDTO> findByTopping(final ToppingDTO toppingDTO);
+    List<IngredientDTO> findByTopping(final String toppingName);
 
-    List<ToppingDTO> findByIngredient(final IngredientDTO ingredientDTO);
+    List<ToppingDTO> findByIngredient(final String ingredientName);
 }

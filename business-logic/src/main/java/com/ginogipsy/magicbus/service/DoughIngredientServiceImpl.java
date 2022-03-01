@@ -45,9 +45,10 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     }
 
     @Override
-    public List<IngredientDTO> findByDough(final DoughDTO doughDTO) {
+    public List<IngredientDTO> findByDough(final String doughName) {
         log.info("Checking if this dough is present..");
-        if (Optional.ofNullable(doughDTO).isEmpty() || Optional.ofNullable(privateFindDoughByName(doughDTO.getName())).isEmpty()) {
+        final DoughDTO doughDTO = privateFindDoughByName(doughName);
+        if (Optional.ofNullable(doughDTO).isEmpty()) {
             log.warn("this dough doesn't exists..");
             return new ArrayList<>();
         }
@@ -60,9 +61,10 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     }
 
     @Override
-    public List<DoughDTO> findByIngredient(final IngredientDTO ingredientDTO) {
+    public List<DoughDTO> findByIngredient(final String ingredientName) {
         log.info("Checking if this ingredient is present..");
-        if (Optional.ofNullable(ingredientDTO).isEmpty() || Optional.ofNullable(privateFindIngredientByName(ingredientDTO.getName())).isEmpty()) {
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+        if (Optional.ofNullable(ingredientDTO).isEmpty()) {
             log.warn("this ingredient doesn't exists..");
             return new ArrayList<>();
         }

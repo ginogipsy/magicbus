@@ -44,9 +44,10 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     }
 
     @Override
-    public List<IngredientDTO> findByFried(final FriedDTO friedDTO) {
+    public List<IngredientDTO> findByFried(final String friedName) {
         log.info("Checking if this fried is present..");
-        if (Optional.ofNullable(friedDTO).isEmpty() || Optional.ofNullable(privateFindFriedByName(friedDTO.getName())).isEmpty()) {
+        final FriedDTO friedDTO = privateFindFriedByName(friedName);
+        if (Optional.ofNullable(friedDTO).isEmpty()) {
             log.warn("this dough doesn't exists..");
             return new ArrayList<>();
         }
@@ -60,9 +61,10 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     }
 
     @Override
-    public List<FriedDTO> findByIngredient(final IngredientDTO ingredientDTO) {
+    public List<FriedDTO> findByIngredient(final String ingredientName) {
         log.info("Checking if this ingredient is present..");
-        if (Optional.ofNullable(ingredientDTO).isEmpty() || Optional.ofNullable(privateFindIngredientByName(ingredientDTO.getName())).isEmpty()) {
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+        if (Optional.ofNullable(ingredientDTO).isEmpty()) {
             log.warn("this ingredient doesn't exists..");
             return new ArrayList<>();
         }
