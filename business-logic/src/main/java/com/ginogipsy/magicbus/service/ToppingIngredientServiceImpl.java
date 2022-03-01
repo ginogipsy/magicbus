@@ -78,6 +78,19 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
+    public String deleteByToppingAndIngredient(final String toppingName, final String ingredientName) {
+        log.info("Checking if this topping is present..");
+        final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
+                .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
+
+        log.info("Checking if this ingredient is present..");
+        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+
+        return mapperFactory.getToppingIngredientMapper().deleteByToppingAndIngredient(toppingDTO, ingredientDTO);
+    }
+
     private ToppingDTO privateFindToppingByName(final String toppingName) {
         return Optional.ofNullable(toppingName)
                 .map(n -> mapperFactory.getToppingMapper().findByName(n))

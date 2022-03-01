@@ -87,6 +87,20 @@ public class ToppingIngredientMapper {
                 .orElse(null);
     }
 
+    public String deleteByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
+        final Topping topping = takeTopping(toppingDTO);
+        final Ingredient ingredient = takeIngredient(ingredientDTO);
+
+        log.info("Deleting toppingIngredient on db..");
+        if (topping != null && ingredient != null) {
+            toppingIngredientRepository.deleteByToppingAndIngredient(topping, ingredient);
+            log.info("deleted!");
+            return "deleted";
+        }
+        log.warn("An element between topping and ingredient is null!");
+        return "no deleted!";
+    }
+
     private Topping takeTopping(final ToppingDTO toppingDTO) {
         log.info("Verifying toppingDTO..");
         return Optional.ofNullable(toppingDTO)

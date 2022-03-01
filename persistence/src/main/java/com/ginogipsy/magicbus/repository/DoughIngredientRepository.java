@@ -14,4 +14,6 @@ public interface DoughIngredientRepository extends JpaRepository<DoughIngredient
     List<DoughIngredient> findByIngredient(Ingredient ingredient);
 
     DoughIngredient findByDoughAndIngredient(Dough dough, Ingredient ingredient);
+
+    void deleteByDoughAndIngredient(Dough dough, Ingredient ingredient);
 }

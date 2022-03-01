@@ -14,4 +14,6 @@ public interface ToppingIngredientRepository extends JpaRepository<ToppingIngred
     List<ToppingIngredient> findByIngredient(Ingredient ingredient);
 
     ToppingIngredient findByToppingAndIngredient(Topping topping, Ingredient ingredient);
+
+    void deleteByToppingAndIngredient(Topping topping, Ingredient ingredient);
 }

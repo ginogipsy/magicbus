@@ -13,4 +13,6 @@ public interface FriedIngredientService {
     List<IngredientDTO> findByFried(final String friedName);
 
     List<FriedDTO> findByIngredient(final String ingredientName);
+
+    String deleteByFriedAndIngredient(final String friedName, final String ingredientName);
 }

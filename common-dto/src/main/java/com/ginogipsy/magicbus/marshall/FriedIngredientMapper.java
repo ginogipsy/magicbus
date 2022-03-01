@@ -86,6 +86,19 @@ public class FriedIngredientMapper {
                 .orElse(new ArrayList<>());
     }
 
+    public String deleteByFriedAndIngredient(final FriedDTO friedDTO, final IngredientDTO ingredientDTO) {
+        final Fried fried = takeFried(friedDTO);
+        final Ingredient ingredient = takeIngredient(ingredientDTO);
+        log.info("Deleting friedIngredient on db..");
+        if (fried != null && ingredient != null) {
+            friedIngredientRepository.deleteByFriedAndIngredient(fried, ingredient);
+            log.info("deleted!");
+            return "deleted";
+        }
+        log.warn("An element between fried and ingredient is null!");
+        return "no deleted!";
+    }
+
     private Fried takeFried(final FriedDTO friedDTO) {
         log.info("Verifying friedDTO..");
         return Optional.ofNullable(friedDTO)

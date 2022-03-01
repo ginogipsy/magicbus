@@ -14,4 +14,6 @@ public interface FriedIngredientRepository extends JpaRepository<FriedIngredient
     List<FriedIngredient> findByIngredient(Ingredient ingredient);
 
     FriedIngredient findByFriedAndIngredient(Fried fried, Ingredient ingredient);
+
+    void deleteByFriedAndIngredient(Fried fried, Ingredient ingredient);
 }

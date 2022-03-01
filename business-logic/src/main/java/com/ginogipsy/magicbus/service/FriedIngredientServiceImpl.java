@@ -76,6 +76,18 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
+    public String deleteByFriedAndIngredient(String friedName, String ingredientName) {
+        log.info("Checking if this fried is present..");
+        final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
+                .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
+        log.info("Checking if this ingredient is present..");
+        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+
+        return mapperFactory.getFriedIngredientMapper().deleteByFriedAndIngredient(friedDTO, ingredientDTO);
+    }
+
     private FriedDTO privateFindFriedByName(final String friedName) {
         return Optional.ofNullable(friedName)
                 .map(n -> mapperFactory.getFriedMapper().findByName(n))

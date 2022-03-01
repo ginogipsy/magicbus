@@ -86,6 +86,19 @@ public class DoughIngredientMapper {
                 .orElse(new ArrayList<>());
     }
 
+    public String deleteByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
+        final Dough dough = takeDough(doughDTO);
+        final Ingredient ingredient = takeIngredient(ingredientDTO);
+        log.info("Deleting doughIngredient on db..");
+        if (dough != null && ingredient != null) {
+            doughIngredientRepository.deleteByDoughAndIngredient(dough, ingredient);
+            log.info("deleted!");
+            return "deleted";
+        }
+        log.warn("An element between dough and ingredient is null!");
+        return "no deleted!";
+    }
+
     private Dough takeDough(final DoughDTO doughDTO) {
         log.info("Verifying doughDTO..");
         return Optional.ofNullable(doughDTO)

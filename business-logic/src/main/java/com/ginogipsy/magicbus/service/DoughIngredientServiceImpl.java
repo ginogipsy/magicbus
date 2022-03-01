@@ -76,6 +76,18 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
                 .orElse(new ArrayList<>());
     }
 
+    @Override
+    public String deleteByDoughAndIngredient(String doughName, String ingredientName) {
+        log.info("Checking if this dough is present..");
+        final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
+                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+        log.info("Checking if this ingredient is present..");
+        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+
+        return mapperFactory.getDoughIngredientMapper().deleteByDoughAndIngredient(doughDTO, ingredientDTO);
+    }
+
     private DoughDTO privateFindDoughByName(final String doughName) {
         return Optional.ofNullable(doughName)
                 .map(n -> mapperFactory.getDoughMapper().findByName(n))

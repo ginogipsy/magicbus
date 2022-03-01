@@ -13,4 +13,7 @@ public interface ToppingIngredientService {
     List<IngredientDTO> findByTopping(final String toppingName);
 
     List<ToppingDTO> findByIngredient(final String ingredientName);
+
+    String deleteByToppingAndIngredient(final String toppingName, final String ingredientName);
+
 }

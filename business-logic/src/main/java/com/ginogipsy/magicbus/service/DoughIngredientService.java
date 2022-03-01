@@ -13,4 +13,6 @@ public interface DoughIngredientService {
     List<IngredientDTO> findByDough(final String doughName);
 
     List<DoughDTO> findByIngredient(final String ingredientName);
+
+    String deleteByDoughAndIngredient(final String doughName, final String ingredientName);
 }
