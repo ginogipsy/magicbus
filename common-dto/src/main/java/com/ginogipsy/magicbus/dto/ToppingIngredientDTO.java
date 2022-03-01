@@ -7,7 +7,7 @@ import lombok.Data;
 public class ToppingIngredientDTO {
 
     private Integer id;
-    private ToppingDTO taste;
+    private ToppingDTO topping;
     private IngredientDTO ingredient;
     private Double quantity;
     private MeasureUnit measureUnit;

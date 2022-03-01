@@ -31,7 +31,7 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
                 .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
 
         if (Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO)).isPresent()) {
             log.error("It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
@@ -62,8 +62,8 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     @Override
     public List<DoughDTO> findByIngredient(final IngredientDTO ingredientDTO) {
         log.info("Checking if this ingredient is present..");
-        if (Optional.ofNullable(ingredientDTO).isEmpty() || Optional.ofNullable(privateFindDoughByName(ingredientDTO.getName())).isEmpty()) {
-            log.warn("this dough doesn't exists..");
+        if (Optional.ofNullable(ingredientDTO).isEmpty() || Optional.ofNullable(privateFindIngredientByName(ingredientDTO.getName())).isEmpty()) {
+            log.warn("this ingredient doesn't exists..");
             return new ArrayList<>();
         }
         log.info("Start searching doughs for this ingredient..");

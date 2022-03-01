@@ -91,7 +91,7 @@ public class MapperFactory {
         return friedMapper;
     }
 
-    public ToppingIngredientMapper getTasteIngredientMapper() {
+    public ToppingIngredientMapper getToppingIngredientMapper() {
         return toppingIngredientMapper;
     }
 

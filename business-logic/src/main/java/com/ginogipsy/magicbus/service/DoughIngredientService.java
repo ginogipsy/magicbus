@@ -9,8 +9,6 @@ import java.util.List;
 public interface DoughIngredientService {
 
     DoughIngredientDTO save(final String doughName, final String ingredientName);
-
     List<IngredientDTO> findByDough(final DoughDTO doughDTO);
-
     List<DoughDTO> findByIngredient(final IngredientDTO ingredientDTO);
 }

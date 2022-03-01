@@ -3,7 +3,9 @@ package com.ginogipsy.magicbus.service;
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
 import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
-import com.ginogipsy.magicbus.customexception.notfound.*;
+import com.ginogipsy.magicbus.customexception.notfound.BaseNotFoundException;
+import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
+import com.ginogipsy.magicbus.customexception.notfound.StatusProductsNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
@@ -16,13 +18,13 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class TasteServiceImpl implements TasteService {
+public class ToppingServiceImpl implements ToppingService {
 
     private final MapperFactory mapperFactory;
     private final StringUtility stringUtility;
     private final UserUtility userUtility;
 
-    public TasteServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
+    public ToppingServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
         this.mapperFactory = mapperFactory;
         this.stringUtility = stringUtility;
         this.userUtility = userUtility;
