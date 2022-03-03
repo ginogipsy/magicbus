@@ -10,5 +10,5 @@ public interface AllergenService {
 
     AllergenDTO findByName(final String name);
 
-    AllergenDTO save(final AllergenDTO allergenDTO);
+    AllergenDTO insert(final AllergenDTO allergenDTO);
 }

@@ -1,15 +1,16 @@
 package com.ginogipsy.magicbus.domain;
 
 import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "impasto_ingrediente")
-@Data
-@EqualsAndHashCode(exclude = {"ingrediente", "impasto"})
+@Getter
+@Setter
+//@EqualsAndHashCode(exclude = {"ingrediente", "impasto"})
 public class DoughIngredient {
 
     @Id

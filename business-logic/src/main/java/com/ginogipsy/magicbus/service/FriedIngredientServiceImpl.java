@@ -24,7 +24,7 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     }
 
     @Override
-    public FriedIngredientDTO save(final String friedName, final String ingredientName) {
+    public FriedIngredientDTO insertIngredient(final String friedName, final String ingredientName) {
         log.info("Checking if this fried is present..");
         final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
                 .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
@@ -41,6 +41,35 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
         friedIngredientDTO.setIngredient(ingredientDTO);
         friedIngredientDTO.setFried(friedDTO);
         return mapperFactory.getFriedIngredientMapper().save(friedIngredientDTO);
+    }
+
+    @Override
+    public List<String> insertIngredients(final String friedName, final List<String> ingredientList) {
+        log.info("Checking if this fried is present..");
+        final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
+                .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
+        final List<String> addedIngredients = new ArrayList<>();
+        for (final String ingredientName :
+                ingredientList) {
+            log.info("Checking if this ingredient is present..");
+            final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+            if (Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO)).isPresent()) {
+                final String error = "It is already present this ingredient \"" + ingredientName + "\" for this fried \"" + friedName + "\"!";
+                log.error(error);
+                addedIngredients.add(error);
+                continue;
+            }
+            log.info("Saving the friedIngredient..");
+            Optional.ofNullable(ingredientDTO).ifPresent(i -> {
+                log.info("Saving the friedIngredient..");
+                final FriedIngredientDTO friedIngredientDTO = new FriedIngredientDTO();
+                friedIngredientDTO.setIngredient(i);
+                friedIngredientDTO.setFried(friedDTO);
+                mapperFactory.getFriedIngredientMapper().save(friedIngredientDTO);
+                addedIngredients.add(friedIngredientDTO.getIngredient().getName());
+            });
+        }
+        return addedIngredients;
     }
 
     @Override

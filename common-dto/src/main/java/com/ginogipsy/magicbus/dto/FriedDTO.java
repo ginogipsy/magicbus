@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ginogipsy.magicbus.domain.enums.ProductCategory;
 import com.ginogipsy.magicbus.domain.enums.Status;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotEmpty;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class FriedDTO {
     private String friedDescription;
     private Double cost;
     private Status status;
-    private Set<FriedIngredientDTO> ingredients;
+    private List<String> ingredients;
 
     @JsonIgnore
     private Byte[] image;

@@ -35,7 +35,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandDTO save(BrandDTO brandDTO) {
+    public BrandDTO insert(BrandDTO brandDTO) {
         log.info("Checking if this brand is already present..");
         final String name = Optional.ofNullable(brandDTO)
                 .map(BrandDTO::getName)

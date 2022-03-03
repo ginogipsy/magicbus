@@ -25,7 +25,7 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
 
 
     @Override
-    public DoughIngredientDTO save(final String doughName, final String ingredientName) {
+    public DoughIngredientDTO insertIngredient(final String doughName, final String ingredientName) {
         log.info("Checking if this dough is present..");
         final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
                 .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
@@ -42,6 +42,32 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
         doughIngredientDTO.setIngredient(ingredientDTO);
         doughIngredientDTO.setDough(doughDTO);
         return mapperFactory.getDoughIngredientMapper().save(doughIngredientDTO);
+    }
+
+    @Override
+    public List<String> insertIngredients(final String doughName, final List<String> ingredientList) {
+        log.info("Checking if this dough is present..");
+        final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
+                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+        final List<String> ingredientsAdded = new ArrayList<>();
+        for (final String ingredientName :
+                ingredientList) {
+            log.info("Checking if this ingredient is present..");
+            final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+            if (Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO)).isPresent()) {
+                final String error = "It is already present this ingredient \"" + ingredientName + "\" for this dough \"" + doughName + "\"!";
+                log.error(error);
+                ingredientsAdded.add(error);
+                continue;
+            }
+            log.info("Saving the doughIngredient..");
+            final DoughIngredientDTO doughIngredientDTO = new DoughIngredientDTO();
+            doughIngredientDTO.setIngredient(ingredientDTO);
+            doughIngredientDTO.setDough(doughDTO);
+            mapperFactory.getDoughIngredientMapper().save(doughIngredientDTO);
+            ingredientsAdded.add(doughIngredientDTO.getIngredient().getName());
+        }
+        return ingredientsAdded;
     }
 
     @Override
@@ -77,7 +103,7 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     }
 
     @Override
-    public String deleteByDoughAndIngredient(String doughName, String ingredientName) {
+    public String deleteByDoughAndIngredient(final String doughName, final String ingredientName) {
         log.info("Checking if this dough is present..");
         final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
                 .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));

@@ -24,7 +24,7 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     }
 
     @Override
-    public ToppingIngredientDTO save(final String toppingName, final String ingredientName) {
+    public ToppingIngredientDTO insertIngredient(final String toppingName, final String ingredientName) {
         log.info("Checking if this topping is present..");
         final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
                 .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
@@ -43,6 +43,36 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
         toppingIngredientDTO.setIngredient(ingredientDTO);
         toppingIngredientDTO.setTopping(toppingDTO);
         return mapperFactory.getToppingIngredientMapper().save(toppingIngredientDTO);
+    }
+
+    @Override
+    public List<String> insertIngredients(final String toppingName, final List<String> ingredientList) {
+        log.info("Checking if this topping is present..");
+        final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
+                .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
+        final List<String> ingredientsAdded = new ArrayList<>();
+        for (final String ingredientName :
+                ingredientList) {
+            log.info("Checking if this ingredient is present..");
+            final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
+
+            if (Optional.ofNullable(mapperFactory.getToppingIngredientMapper().findByToppingAndIngredient(toppingDTO, ingredientDTO)).isPresent()) {
+                final String error = "It is already present this ingredient \"" + ingredientName + "\" for this topping \"" + toppingName + "\"!";
+                log.error(error);
+                ingredientsAdded.add(error);
+                continue;
+            }
+            log.info("Saving the toppingIngredient..");
+
+            Optional.ofNullable(ingredientDTO).ifPresent(i -> {
+                final ToppingIngredientDTO toppingIngredientDTO = new ToppingIngredientDTO();
+                toppingIngredientDTO.setIngredient(i);
+                toppingIngredientDTO.setTopping(toppingDTO);
+                mapperFactory.getToppingIngredientMapper().save(toppingIngredientDTO);
+                ingredientsAdded.add(toppingIngredientDTO.getIngredient().getName());
+            });
+        }
+        return ingredientsAdded;
     }
 
     @Override

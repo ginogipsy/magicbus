@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface ToppingIngredientService {
 
-    ToppingIngredientDTO save(final String toppingName, final String ingredientName);
+    ToppingIngredientDTO insertIngredient(final String toppingName, final String ingredientName);
+
+    List<String> insertIngredients(final String toppingName, final List<String> ingredientList);
 
     List<IngredientDTO> findByTopping(final String toppingName);
 

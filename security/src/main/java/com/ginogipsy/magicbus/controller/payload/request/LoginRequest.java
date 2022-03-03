@@ -2,6 +2,7 @@ package com.ginogipsy.magicbus.controller.payload.request;
 
 import lombok.Data;
 import org.springframework.lang.NonNull;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,7 +15,7 @@ public class LoginRequest {
     private String username;
 
     @NonNull
-    @NotBlank(message = "Name is necessary!")
+    @NotBlank(message = "Password is necessary!")
     @Size(min = 8, message = "username or password not correct!")
     private String password;
 }

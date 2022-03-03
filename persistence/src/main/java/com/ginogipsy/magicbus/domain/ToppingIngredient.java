@@ -1,15 +1,16 @@
 package com.ginogipsy.magicbus.domain;
 
 import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "gusto_ingrediente")
-@Data
-@EqualsAndHashCode(exclude = {"gusto", "ingrediente"})
+@Getter
+@Setter
+//@EqualsAndHashCode(exclude = {"gusto", "ingrediente"})
 public class ToppingIngredient {
 
     @Id

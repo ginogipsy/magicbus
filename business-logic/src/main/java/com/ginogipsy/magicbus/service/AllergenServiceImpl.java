@@ -35,7 +35,7 @@ public class AllergenServiceImpl implements AllergenService {
     }
 
     @Override
-    public AllergenDTO save(final AllergenDTO allergenDTO) {
+    public AllergenDTO insert(final AllergenDTO allergenDTO) {
         log.info("Checking if this allergen is already present..");
         final String name = Optional.ofNullable(allergenDTO)
                 .map(AllergenDTO::getName)

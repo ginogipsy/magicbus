@@ -90,14 +90,14 @@ public class ToppingServiceImpl implements ToppingService {
     }
 
     @Override
-    public ToppingDTO insertTaste(ToppingDTO toppingDTO, UserDTO userDTO){
+    public ToppingDTO insertTopping(ToppingDTO toppingDTO, UserDTO userDTO) {
         log.info("Insert taste - START");
-        if(userUtility.isOnlyAnUser(userDTO)){
+        if (userUtility.isOnlyAnUser(userDTO)) {
             toppingDTO.setUserEntered(true);
             toppingDTO.setAvailable(false);
             toppingDTO.setStatus(Status.INSERITO);
             toppingDTO.setName(stringUtility.formatAllMinusc(toppingDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
-        }else{
+        } else {
             toppingDTO.setUserEntered(false);
             toppingDTO.setAvailable(true);
             toppingDTO.setStatus(Status.DISPONIBILE);

@@ -10,5 +10,5 @@ public interface BrandService {
 
     List<BrandDTO> findAll();
 
-    BrandDTO save(final BrandDTO brandDTO);
+    BrandDTO insert(final BrandDTO brandDTO);
 }

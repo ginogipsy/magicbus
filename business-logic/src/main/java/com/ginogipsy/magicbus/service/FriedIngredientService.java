@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface FriedIngredientService {
 
-    FriedIngredientDTO save(final String friedName, final String ingredientName);
+    FriedIngredientDTO insertIngredient(final String friedName, final String ingredientName);
+
+    List<String> insertIngredients(final String friedName, final List<String> ingredientList);
 
     List<IngredientDTO> findByFried(final String friedName);
 

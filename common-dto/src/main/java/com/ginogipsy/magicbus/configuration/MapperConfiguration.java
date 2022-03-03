@@ -19,6 +19,7 @@ public class MapperConfiguration {
                     @Override
                     protected void configure() {
                         using(new AppreciatedUsersListToCountConverter()).map(source.getUsers(), destination.getAppreciations());
+                        using(new ToppingIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
                     }
                 });
 
@@ -28,6 +29,7 @@ public class MapperConfiguration {
                     @Override
                     protected void configure() {
                         using(new AppreciatedUsersListToCountConverter()).map(source.getUsers(), destination.getAppreciations());
+                        using(new FriedIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
                     }
                 });
 
@@ -47,21 +49,15 @@ public class MapperConfiguration {
                     }
                 });
 
-        modelMapper.createTypeMap(Fried.class, FriedDTO.class)
+        modelMapper.createTypeMap(Brand.class, BrandDTO.class)
                 .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
-                        using(new FriedIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
+                        using(new SuppliersToSuppliersNameConverter()).map(source.getSuppliers(), destination.getSuppliers());
+                        using(new IngredientToIngredientNameConverter()).map(source.getIngredients(), destination.getIngredients());
                     }
                 });
 
-        modelMapper.createTypeMap(Topping.class, ToppingDTO.class)
-                .addMappings(new PropertyMap<>() {
-                    @Override
-                    protected void configure() {
-                        using(new ToppingIngredientListToIngredientNameListConverter()).map(source.getIngredients(), destination.getIngredients());
-                    }
-                });
 
         modelMapper.createTypeMap(Ingredient.class, IngredientDTO.class)
                 .addMappings(new PropertyMap<>() {

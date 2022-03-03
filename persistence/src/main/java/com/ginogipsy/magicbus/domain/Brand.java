@@ -1,14 +1,15 @@
 package com.ginogipsy.magicbus.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(exclude = {"fornitore", "descrizione"})
+@Getter
+@Setter
+//@EqualsAndHashCode(exclude = {"fornitore", "descrizione"})
 @Table(name = "marca_prodotto")
 public class Brand {
 
@@ -28,7 +29,5 @@ public class Brand {
 
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     private Set<Ingredient> ingredients;
-
-
 
 }

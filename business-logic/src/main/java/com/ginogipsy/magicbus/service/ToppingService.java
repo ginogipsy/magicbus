@@ -25,5 +25,6 @@ public interface ToppingService {
 
     List<ToppingDTO> findByUserEntered(boolean userEntered);
     List<ToppingDTO> findByUserEnteredAndStatus(boolean userEntered, String status);
-    ToppingDTO insertTaste(ToppingDTO toppingDTO, UserDTO userDTO);
+
+    ToppingDTO insertTopping(ToppingDTO toppingDTO, UserDTO userDTO);
 }

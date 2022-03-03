@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.dto;
 
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class BrandDTO {
@@ -10,6 +10,6 @@ public class BrandDTO {
     private Integer id;
     private String name;
     private String description;
-    private Set<SupplierDTO> suppliers;
-    private Set<IngredientDTO> ingredients;
+    private List<String> suppliers;
+    private List<String> ingredients;
 }
