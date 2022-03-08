@@ -7,11 +7,12 @@ import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.ToppingIngredientDTO;
 import com.ginogipsy.magicbus.service.ToppingIngredientService;
 import com.ginogipsy.magicbus.service.ToppingService;
-import com.ginogipsy.magicbus.service.UserDetailsImpl;
+import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,23 +26,27 @@ import java.util.Map;
 public class ToppingController {
 
     private final ToppingService toppingService;
+    private final UserService userService;
     private final ToppingIngredientService toppingIngredientService;
 
-    public ToppingController(ToppingService toppingService, ToppingIngredientService toppingIngredientService) {
+    public ToppingController(ToppingService toppingService, UserService userService, ToppingIngredientService toppingIngredientService) {
         this.toppingService = toppingService;
+        this.userService = userService;
         this.toppingIngredientService = toppingIngredientService;
     }
 
     @PutMapping("/insert")
     @ApiOperation(value = "Insert topping", notes = "Insert a new topping")
-    public ResponseEntity<ToppingDTO> insertTopping(@RequestBody @Valid final ToppingDTO toppingDTO, final @AuthenticationPrincipal UserDetailsImpl myUserDetails) {
+    public ResponseEntity<ToppingDTO> insertTopping(@RequestBody @Valid final ToppingDTO toppingDTO, final @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Inserting a new topping..");
         if (myUserDetails == null) {
             log.error("User not signed!");
             throw new UserNotFoundException("User not found!");
         }
+
         log.info("Inserted!");
-        return ResponseEntity.ok(toppingService.insertTopping(toppingDTO, myUserDetails.getUserDTO()));
+        //return ResponseEntity.ok(toppingService.insertTopping(toppingDTO, myUserDetails.getUserDTO()));
+        return null;
     }
 
     @PutMapping("/insertIngredient")

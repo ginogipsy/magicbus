@@ -7,11 +7,13 @@ import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.FriedIngredientDTO;
 import com.ginogipsy.magicbus.service.FriedIngredientService;
 import com.ginogipsy.magicbus.service.FriedService;
-import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +36,12 @@ public class FriedController {
         this.stringUtility = stringUtility;
     }
 
+    @PreAuthorize("hasAnyRole('mezz','user')")
     @PutMapping("/insert")
     @ApiOperation(value = "Insert fried", notes = "Insert a fried")
-    public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result) {
-    log.info("Checking request body..");
-        if(result.hasErrors()){
+    public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal Authentication myUserDetails, BindingResult result) {
+        log.info("Checking request body..");
+        if (result.hasErrors()) {
             log.error("Request is not correct!");
             return ResponseEntity.badRequest().build();
         }
@@ -47,7 +50,8 @@ public class FriedController {
             throw new UserNotFoundException("User not found!");
         }
         log.info("Inserting new fried..");
-        return ResponseEntity.ok(friedService.insertFried(friedDTO, myUserDetails.getUserDTO()));
+        //return ResponseEntity.ok(friedService.insertFried(friedDTO, myUserDetails.getUserDTO()));
+        return null;
     }
 
     @PutMapping("/insertIngredient")
@@ -60,7 +64,7 @@ public class FriedController {
 
     @PutMapping("/insertIngredients")
     @ApiOperation(value = "Insert ingredient for fried", notes = "Insert a new ingredient fried")
-    public ResponseEntity<Map<String, List<String>>> insertIngredientsForFried(@RequestBody final InsertIngredientsRequest insertIngredientsRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result) {
+    public ResponseEntity<Map<String, List<String>>> insertIngredientsForFried(@RequestBody final InsertIngredientsRequest insertIngredientsRequest, @AuthenticationPrincipal UserDetails myUserDetails, BindingResult result) {
         if (result.hasErrors()) {
             log.error("Request is not correct!");
             return ResponseEntity.badRequest().build();

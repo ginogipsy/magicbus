@@ -1,17 +1,16 @@
 package com.ginogipsy.magicbus.controller;
 
 
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
-import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.AddAddressRequest;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.UpdateUserRequest;
-import com.ginogipsy.magicbus.service.UserDetailsImpl;
+import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
+import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,69 +39,76 @@ public class UserController {
 
     @PutMapping("/updateUser")
     @ApiOperation(value = "Update user", notes = "Update user")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Updating user..");
-        final UserDTO userDTO = createUserDTO(updateUserRequest, myUserDetails.getUserDTO());
+       /* final UserDTO userDTO = createUserDTO(updateUserRequest, myUserDetails.getUserDTO());
         final UserDTO user = userService.updateUser(myUserDetails.getUserDTO(), userDTO);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();*/
+        return null;
     }
 
     @PutMapping("/addFiscalCode")
     @ApiOperation(value = "Update user", notes = "Update fiscalCode of user")
-    public ResponseEntity<UserDTO> addFiscalCode(@RequestBody String fiscalCode, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult result){
+    public ResponseEntity<UserDTO> addFiscalCode(@RequestBody String fiscalCode, @AuthenticationPrincipal UserDetails myUserDetails, BindingResult result) {
         log.info("Updating fiscal code..");
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             log.error("Request not correct!");
             return ResponseEntity.badRequest().build();
         }
-        UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), fiscalCode);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        /*UserDTO user = userService.addFiscalCode(myUserDetails.getUserDTO(), fiscalCode);
+        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();*/
+        return null;
     }
 
     @PutMapping("/addAddress")
     @ApiOperation(value = "Update user", notes = "Update address of user")
-    public ResponseEntity<UserDTO> addAddress(@RequestBody @Validated AddAddressRequest addAddressRequest, @AuthenticationPrincipal UserDetailsImpl myUserDetails, BindingResult bindingResult){
+    public ResponseEntity<UserDTO> addAddress(@RequestBody @Validated AddAddressRequest addAddressRequest, @AuthenticationPrincipal UserDetails myUserDetails, BindingResult bindingResult) {
         log.info("Updating address..");
-        if(!bindingResult.hasErrors()) {
+        /*if(!bindingResult.hasErrors()) {
             UserDTO user = userService.addAddress(myUserDetails.getUserDTO(), addAddressRequest.getAddress(), addAddressRequest.getHouseNumber(), addAddressRequest.getCity(), addAddressRequest.getPostalCode());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else {
             log.error("Request not correct!");
             throw new DataNotCorrectException("Address not Correct");
-        }
+        }*/
+        return null;
     }
 
     @PutMapping("/addNameAndSurname")
     @ApiOperation(value = "Update user", notes = "Update name and surname of user")
-    public ResponseEntity<UserDTO> addNameAndSurname(@RequestParam String name, @RequestParam String surname, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> addNameAndSurname(@RequestParam String name, @RequestParam String surname, @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Updating name and surname..");
-        UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), name, surname);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        /*UserDTO user = userService.addNameAndSurname(myUserDetails.getUserDTO(), name, surname);
+        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();*/
+        return null;
     }
 
     @PutMapping("/updateEmail")
     @ApiOperation(value = "Update user", notes = "Update email of user")
     @ExceptionHandler(value = EmailIsPresentException.class)
-    public ResponseEntity<UserDTO> updateEmail(@RequestParam String newEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> updateEmail(@RequestParam String newEmail, @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Updating email..");
-            UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), newEmail);
-            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+           /* UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), newEmail);
+            return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();*/
+        return null;
     }
 
     @PutMapping("/updateUsername")
     @ApiOperation(value = "Update user", notes = "Update username of user")
-    public ResponseEntity<UserDTO> updateUsername(@RequestParam String username, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> updateUsername(@RequestParam String username, @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Updating username..");
-        UserDTO user = userService.updateUsername(myUserDetails.getUserDTO(), username);
-        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
+        /*UserDTO user = userService.updateUsername(myUserDetails.getUserDTO(), username);
+        return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();*/
+        return null;
     }
 
     @PutMapping("/updateCellNumber")
     @ApiOperation(value = "Update user", notes = "Update cell number of user")
-    public ResponseEntity<UserDTO> updateCellNumber(@RequestParam String newCellNumber, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
+    public ResponseEntity<UserDTO> updateCellNumber(@RequestParam String newCellNumber, @AuthenticationPrincipal UserDetails myUserDetails) {
         log.info("Updating cell number..");
-        UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), newCellNumber);
-        return ResponseEntity.ok().body(user);
+       /* UserDTO user = userService.updateCellNumber(myUserDetails.getUserDTO(), newCellNumber);
+        return ResponseEntity.ok().body(user);*/
+        return null;
     }
 
     private UserDTO createUserDTO(final UpdateUserRequest updateUserRequest, final UserDTO userDTO){

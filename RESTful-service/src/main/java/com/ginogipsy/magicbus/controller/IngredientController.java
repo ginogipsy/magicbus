@@ -1,21 +1,19 @@
 package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.controller.payload.request.InsertIngredientRequest;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.service.BrandService;
 import com.ginogipsy.magicbus.service.IngredientService;
-import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -32,18 +30,19 @@ public class IngredientController {
         this.brandService = brandService;
     }
 
+    @RolesAllowed("mezz")
     @PutMapping("/insert")
     @ApiOperation(value = "Insert ingredient", notes = "Insert a new ingredient")
-    public ResponseEntity<IngredientDTO> insertIngredient(@RequestBody @Valid final InsertIngredientRequest insertIngredientRequest, final @AuthenticationPrincipal UserDetailsImpl myUserDetails, final BindingResult result) {
+    public ResponseEntity<IngredientDTO> insertIngredient(@RequestBody @Valid final InsertIngredientRequest insertIngredientRequest, final BindingResult result) {
         log.info("Checking request body..");
         if (result.hasErrors()) {
             log.error("Request is not correct!");
             return ResponseEntity.badRequest().build();
         }
-        log.info("Checking if user is logged..");
+        /*log.info("Checking if user is logged..");
         if (myUserDetails == null) {
             throw new UserNotFoundException("User not found!");
-        }
+        }*/
 
         log.info("Creating a new ingredientDTO..");
         final IngredientDTO ingredientDTO = new IngredientDTO();
