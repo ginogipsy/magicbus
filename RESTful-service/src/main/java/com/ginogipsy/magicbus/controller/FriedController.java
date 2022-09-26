@@ -39,14 +39,14 @@ public class FriedController {
     @PreAuthorize("hasAnyRole('mezz','user')")
     @PutMapping("/insert")
     @ApiOperation(value = "Insert fried", notes = "Insert a fried")
-    public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, @AuthenticationPrincipal Authentication myUserDetails, BindingResult result) {
+    public ResponseEntity<FriedDTO> insertFried(@RequestBody FriedDTO friedDTO, Authentication authentication, BindingResult result) {
         log.info("Checking request body..");
         if (result.hasErrors()) {
             log.error("Request is not correct!");
             return ResponseEntity.badRequest().build();
         }
         log.info("Checking if user is logged..");
-        if (myUserDetails == null) {
+        if (authentication == null) {
             throw new UserNotFoundException("User not found!");
         }
         log.info("Inserting new fried..");
