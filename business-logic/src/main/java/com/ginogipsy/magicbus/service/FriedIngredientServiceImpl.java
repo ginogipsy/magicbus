@@ -1,10 +1,9 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.ObjectNotFoundException;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.FriedIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
 @Slf4j
 @Service
@@ -27,14 +28,14 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     public FriedIngredientDTO insertIngredient(final String friedName, final String ingredientName) {
         log.info("Checking if this fried is present..");
         final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
-                .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
+                .orElseThrow(() -> new MagicbusException(FRIED_NOT_FOUND));
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
         if (Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO)).isPresent()) {
             log.error("It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!");
-            throw new DataNotCorrectException("It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!");
+            throw new MagicbusException(INGREDIENT_FRIED_IS_ALREADY_PRESENT, "It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!");
         }
         log.info("Saving the friedIngredient..");
         final FriedIngredientDTO friedIngredientDTO = new FriedIngredientDTO();
@@ -47,7 +48,7 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     public List<String> insertIngredients(final String friedName, final List<String> ingredientList) {
         log.info("Checking if this fried is present..");
         final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
-                .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
+                .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
         final List<String> addedIngredients = new ArrayList<>();
         for (final String ingredientName :
                 ingredientList) {
@@ -109,10 +110,10 @@ public class FriedIngredientServiceImpl implements FriedIngredientService {
     public String deleteByFriedAndIngredient(String friedName, String ingredientName) {
         log.info("Checking if this fried is present..");
         final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
-                .orElseThrow(() -> new ObjectNotFoundException("Fried is not Present!"));
+                .orElseThrow(() -> new MagicbusException(FRIED_NOT_FOUND));
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
         return mapperFactory.getFriedIngredientMapper().deleteByFriedAndIngredient(friedDTO, ingredientDTO);
     }

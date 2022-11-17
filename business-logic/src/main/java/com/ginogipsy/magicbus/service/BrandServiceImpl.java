@@ -1,15 +1,16 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.ObjectNotFoundException;
 import com.ginogipsy.magicbus.dto.BrandDTO;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
 @Slf4j
 @Service
@@ -26,7 +27,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandDTO findByName(final String name) {
         return Optional.ofNullable(privateFindByName(name))
-                .orElseThrow(() -> new ObjectNotFoundException("Brand " + name + " not found!"));
+                .orElseThrow(() -> new MagicbusException(BRAND_NOT_FOUND, "Brand " + name + " not found!"));
     }
 
     @Override
@@ -39,11 +40,11 @@ public class BrandServiceImpl implements BrandService {
         log.info("Checking if this brand is already present..");
         final String name = Optional.ofNullable(brandDTO)
                 .map(BrandDTO::getName)
-                .orElseThrow(() -> new DataNotCorrectException("Brand doesn't have to be null!"));
+                .orElseThrow(() -> new MagicbusException(BRAND_IS_NULL));
 
         if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
             log.error("It is already present a brand called " + name + "!");
-            throw new DataNotCorrectException("It is already present a brand called " + name + "!");
+            throw new MagicbusException(BRAND_IS_ALREADY_PRESENT, "It is already present a brand called " + name + "!");
         }
 
         log.info("Formatting name and description..");

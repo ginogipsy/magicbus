@@ -2,11 +2,11 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
-import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class FriedServiceImpl implements FriedService {
 
         if(mapperFactory.getFriedMapper().findByName(friedDTO.getName()) != null){
             log.error("Taste is already present on DB!");
-            throw new GustoIsPresentException("Taste ".concat(friedDTO.getName()).concat(" is already present!"));
+            throw new MagicbusException(BeErrorCodeEnum.TASTE_IS_ALREADY_PRESENT, "Taste ".concat(friedDTO.getName()).concat(" is already present!"));
         }
 
         friedDTO.setFriedDescription(stringUtility.formatAllMinusc(friedDTO.getFriedDescription()));
@@ -57,9 +57,9 @@ public class FriedServiceImpl implements FriedService {
     public FriedDTO findByName(String friedName) {
         log.info("Check if fried name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(friedName))
-                .orElseThrow(() -> new GustoNotFoundException("Taste name is null!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_IS_NULL, "Taste name is null!"));
         return Optional.ofNullable(mapperFactory.getFriedMapper()
-                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Taste "+friedName+" not found!"));
+                .findByName(n)).orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_NOT_FOUND, "Taste "+friedName+" not found!"));
     }
 
     @Override

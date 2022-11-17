@@ -1,8 +1,9 @@
 package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.BrandDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.service.BrandService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +39,7 @@ public class BrandController {
         }
         log.info("Checking if user is logged..");
         if (myUserDetails == null) {
-            throw new UserNotFoundException("User not found!");
+            throw new MagicbusException(BeErrorCodeEnum.USER_NOT_FOUND);
         }
         log.info("Inserting new fried..");
         return ResponseEntity.ok(brandService.insert(brandDTO));

@@ -1,10 +1,10 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.ObjectNotFoundException;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.ToppingIngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.INGREDIENT_TOPPING_IS_ALREADY_PRESENT;
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.TOPPING_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -27,15 +30,15 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     public ToppingIngredientDTO insertIngredient(final String toppingName, final String ingredientName) {
         log.info("Checking if this topping is present..");
         final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
-                .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TOPPING_NOT_FOUND));
 
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.INGREDIENT_NOT_FOUND));
 
         if (Optional.ofNullable(mapperFactory.getToppingIngredientMapper().findByToppingAndIngredient(toppingDTO, ingredientDTO)).isPresent()) {
             log.error("It is already present this ingredient " + ingredientName + " for this topping " + toppingName + "!");
-            throw new DataNotCorrectException("It is already present this ingredient " + ingredientName + " for this topping " + toppingName + "!");
+            throw new MagicbusException(INGREDIENT_TOPPING_IS_ALREADY_PRESENT, "It is already present this ingredient " + ingredientName + " for this topping " + toppingName + "!");
         }
 
         log.info("Saving the toppingIngredient..");
@@ -49,7 +52,7 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     public List<String> insertIngredients(final String toppingName, final List<String> ingredientList) {
         log.info("Checking if this topping is present..");
         final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
-                .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
+                .orElseThrow(() -> new MagicbusException(TOPPING_NOT_FOUND));
         final List<String> ingredientsAdded = new ArrayList<>();
         for (final String ingredientName :
                 ingredientList) {
@@ -112,11 +115,11 @@ public class ToppingIngredientServiceImpl implements ToppingIngredientService {
     public String deleteByToppingAndIngredient(final String toppingName, final String ingredientName) {
         log.info("Checking if this topping is present..");
         final ToppingDTO toppingDTO = Optional.ofNullable(privateFindToppingByName(toppingName))
-                .orElseThrow(() -> new ObjectNotFoundException("Topping is not present!"));
+                .orElseThrow(() -> new MagicbusException(TOPPING_NOT_FOUND));
 
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(TOPPING_NOT_FOUND));
 
         return mapperFactory.getToppingIngredientMapper().deleteByToppingAndIngredient(toppingDTO, ingredientDTO);
     }

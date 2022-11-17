@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.controller;
 
-import com.ginogipsy.magicbus.customexception.TokenRefreshException;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import org.modelmapper.spi.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class TokenControllerAdvice {
 
-    @ExceptionHandler(value = TokenRefreshException.class)
+    @ExceptionHandler(value = MagicbusException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorMessage handleTokenRefreshException(TokenRefreshException ex) {
+    public ErrorMessage handleTokenRefreshException(MagicbusException ex) {
         return new ErrorMessage(ex.getMessage());
     }
 }

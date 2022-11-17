@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.constraint;
 
-import com.ginogipsy.magicbus.customexception.notfound.FileNotFound;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import org.passay.*;
 import org.passay.dictionary.WordListDictionary;
 import org.passay.dictionary.WordLists;
@@ -14,6 +14,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.INVALID_PASSWORD_FILE_NOT_FOUND;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
@@ -41,7 +43,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
             fileReader.close();
         } catch (IOException e) {
-            throw new FileNotFound("could not load word list");
+            throw new MagicbusException(INVALID_PASSWORD_FILE_NOT_FOUND);
         }
     }
 

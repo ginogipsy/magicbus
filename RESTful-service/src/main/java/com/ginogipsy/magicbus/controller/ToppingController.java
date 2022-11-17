@@ -2,9 +2,10 @@ package com.ginogipsy.magicbus.controller;
 
 
 import com.ginogipsy.magicbus.controller.payload.request.InsertIngredientsRequest;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.ToppingIngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.service.ToppingIngredientService;
 import com.ginogipsy.magicbus.service.ToppingService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
@@ -38,7 +39,7 @@ public class ToppingController {
         log.info("Inserting a new topping..");
         if (myUserDetails == null) {
             log.error("User not signed!");
-            throw new UserNotFoundException("User not found!");
+            throw new MagicbusException(BeErrorCodeEnum.USER_NOT_FOUND);
         }
         log.info("Inserted!");
         return ResponseEntity.ok(toppingService.insertTopping(toppingDTO, myUserDetails.getUserDTO()));

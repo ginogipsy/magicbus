@@ -1,10 +1,9 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.ObjectNotFoundException;
 import com.ginogipsy.magicbus.dto.DoughDTO;
 import com.ginogipsy.magicbus.dto.DoughIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
 @Slf4j
 @Service
@@ -28,14 +29,14 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     public DoughIngredientDTO insertIngredient(final String doughName, final String ingredientName) {
         log.info("Checking if this dough is present..");
         final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
-                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+                .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
         if (Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO)).isPresent()) {
             log.error("It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
-            throw new DataNotCorrectException("It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
+            throw new MagicbusException(INGREDIENT_DOUGH_IS_ALREADY_PRESENT, "It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
         }
         log.info("Saving the doughIngredient..");
         final DoughIngredientDTO doughIngredientDTO = new DoughIngredientDTO();
@@ -48,7 +49,7 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     public List<String> insertIngredients(final String doughName, final List<String> ingredientList) {
         log.info("Checking if this dough is present..");
         final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
-                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+                .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
         final List<String> ingredientsAdded = new ArrayList<>();
         for (final String ingredientName :
                 ingredientList) {
@@ -106,10 +107,10 @@ public class DoughIngredientServiceImpl implements DoughIngredientService {
     public String deleteByDoughAndIngredient(final String doughName, final String ingredientName) {
         log.info("Checking if this dough is present..");
         final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
-                .orElseThrow(() -> new ObjectNotFoundException("Dough is not present!"));
+                .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
         log.info("Checking if this ingredient is present..");
         final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient is not present!"));
+                .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
         return mapperFactory.getDoughIngredientMapper().deleteByDoughAndIngredient(doughDTO, ingredientDTO);
     }

@@ -1,9 +1,9 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.ObjectNotFoundException;
 import com.ginogipsy.magicbus.dto.DoughDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class DoughServiceImpl implements DoughService {
     @Override
     public DoughDTO findByName(String name) {
         return Optional.ofNullable(privateFindByName(name))
-                .orElseThrow(() -> new ObjectNotFoundException("Ingredient " + name + " not found!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.INGREDIENT_NOT_FOUND, "Ingredient " + name + " not found!"));
     }
 
     @Override
@@ -39,11 +39,11 @@ public class DoughServiceImpl implements DoughService {
         log.info("Checking if this dough is already present..");
         final String name = Optional.ofNullable(doughDTO)
                 .map(DoughDTO::getName)
-                .orElseThrow(() -> new DataNotCorrectException("Ingredient doesn't have to be null!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.INGREDIENT_IS_NULL, "Ingredient doesn't have to be null!"));
 
         if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
             log.error("It is already present a dough called " + name + "!");
-            throw new DataNotCorrectException("It is already present a dough called " + name + "!");
+            throw new MagicbusException(BeErrorCodeEnum.DOUGH_IS_ALREADY_PRESENT, "It is already present a dough called " + name + "!");
         }
 
         log.info("Formatting name and description..");

@@ -1,8 +1,9 @@
 package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.controller.payload.request.InsertIngredientRequest;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.service.BrandService;
 import com.ginogipsy.magicbus.service.IngredientService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
@@ -42,7 +43,7 @@ public class IngredientController {
         }
         log.info("Checking if user is logged..");
         if (myUserDetails == null) {
-            throw new UserNotFoundException("User not found!");
+            throw new MagicbusException(BeErrorCodeEnum.USER_NOT_FOUND);
         }
 
         log.info("Creating a new ingredientDTO..");

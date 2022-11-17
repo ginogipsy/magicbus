@@ -1,9 +1,9 @@
 package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.AllergenNotFoundException;
 import com.ginogipsy.magicbus.dto.AllergenDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class AllergenServiceImpl implements AllergenService {
     @Override
     public AllergenDTO findByName(final String name) {
         return Optional.ofNullable(privateFindByName(name))
-                .orElseThrow(() -> new AllergenNotFoundException("Allergen named " + name + " not found"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_NOT_FOUND, "Allergen named " + name + " not found"));
     }
 
     @Override
@@ -39,11 +39,11 @@ public class AllergenServiceImpl implements AllergenService {
         log.info("Checking if this allergen is already present..");
         final String name = Optional.ofNullable(allergenDTO)
                 .map(AllergenDTO::getName)
-                .orElseThrow(() -> new DataNotCorrectException("Allergen doesn't have to be null!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_NULL));
 
         if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
             log.error("It is already present an ingredient called " + name + "!");
-            throw new DataNotCorrectException("It is already present an allergen called " + name + "!");
+            throw new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_ALREADY_PRESENT, "It is already present an allergen called " + name + "!");
         }
 
         log.info("Formatting name and description..");

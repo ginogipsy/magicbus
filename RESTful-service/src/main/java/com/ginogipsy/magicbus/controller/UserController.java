@@ -1,11 +1,10 @@
 package com.ginogipsy.magicbus.controller;
 
 
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.user.EmailIsPresentException;
-import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.AddAddressRequest;
 import com.ginogipsy.magicbus.controller.payload.request.usercontroller.UpdateUserRequest;
+import com.ginogipsy.magicbus.dto.UserDTO;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.ADDRESS_NOT_CORRECT;
 
 @Slf4j
 @RestController
@@ -68,7 +69,7 @@ public class UserController {
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else {
             log.error("Request not correct!");
-            throw new DataNotCorrectException("Address not Correct");
+            throw new MagicbusException(ADDRESS_NOT_CORRECT);
         }
     }
 
@@ -82,7 +83,6 @@ public class UserController {
 
     @PutMapping("/updateEmail")
     @ApiOperation(value = "Update user", notes = "Update email of user")
-    @ExceptionHandler(value = EmailIsPresentException.class)
     public ResponseEntity<UserDTO> updateEmail(@RequestParam String newEmail, @AuthenticationPrincipal UserDetailsImpl myUserDetails){
         log.info("Updating email..");
             UserDTO user = userService.updateEmail(myUserDetails.getUserDTO(), newEmail);

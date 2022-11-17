@@ -1,16 +1,17 @@
 package com.ginogipsy.magicbus.service;
 
-import com.ginogipsy.magicbus.customexception.TokenRefreshException;
 import com.ginogipsy.magicbus.dto.RefreshTokenDTO;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.REFRESH_TOKEN_EXPIRED;
 
 @Service
 public class RefreshTokenService {
@@ -41,7 +42,7 @@ public class RefreshTokenService {
     public RefreshTokenDTO verifyExpiration(RefreshTokenDTO refreshTokenDTO){
         if(refreshTokenDTO.getExpiryDate().compareTo(Instant.now()) < 0){
             mapperFactory.getRefreshTokenMapper().delete(refreshTokenDTO);
-            throw new TokenRefreshException(refreshTokenDTO.getToken(), "Refresh token was expired. Please make a new signin request");
+            throw new MagicbusException(REFRESH_TOKEN_EXPIRED);
         }
         return refreshTokenDTO;
     }

@@ -2,9 +2,10 @@ package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.controller.payload.request.InsertIngredientsRequest;
-import com.ginogipsy.magicbus.customexception.notfound.UserNotFoundException;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.FriedIngredientDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.service.FriedIngredientService;
 import com.ginogipsy.magicbus.service.FriedService;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
@@ -44,7 +45,7 @@ public class FriedController {
         }
         log.info("Checking if user is logged..");
         if (myUserDetails == null) {
-            throw new UserNotFoundException("User not found!");
+            throw new MagicbusException(BeErrorCodeEnum.USER_NOT_FOUND);
         }
         log.info("Inserting new fried..");
         return ResponseEntity.ok(friedService.insertFried(friedDTO, myUserDetails.getUserDTO()));
@@ -67,7 +68,7 @@ public class FriedController {
         }
         log.info("Checking if user is logged..");
         if (myUserDetails == null) {
-            throw new UserNotFoundException("User not found!");
+            throw new MagicbusException(BeErrorCodeEnum.USER_NOT_FOUND);
         }
         log.info("Preparing insert of ingredients for this fried " + insertIngredientsRequest.getNameElement() + "..");
         final List<String> ingredients = friedIngredientService.insertIngredients(insertIngredientsRequest.getNameElement(), insertIngredientsRequest.getIngredientList());

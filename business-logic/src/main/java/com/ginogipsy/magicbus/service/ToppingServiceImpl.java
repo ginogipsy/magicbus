@@ -2,13 +2,11 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.customexception.gusto.GustoIsPresentException;
-import com.ginogipsy.magicbus.customexception.notfound.BaseNotFoundException;
-import com.ginogipsy.magicbus.customexception.notfound.GustoNotFoundException;
-import com.ginogipsy.magicbus.customexception.notfound.StatusProductsNotFoundException;
 import com.ginogipsy.magicbus.domain.enums.Status;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,31 +29,31 @@ public class ToppingServiceImpl implements ToppingService {
     }
 
     @Override
-    public List<ToppingDTO> findByStatus(final String status) throws StatusProductsNotFoundException {
+    public List<ToppingDTO> findByStatus(final String status) throws MagicbusException {
            return mapperFactory.getToppingMapper().findByStatus(status);
     }
 
     @Override
-    public ToppingDTO findByName(final String tasteName) throws GustoNotFoundException {
+    public ToppingDTO findByName(final String tasteName) throws MagicbusException {
         log.info("Check if taste name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
-                .orElseThrow(() -> new GustoNotFoundException("test name is null!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_IS_NULL));
         log.info("Search taste name..");
         return Optional.ofNullable(mapperFactory.getToppingMapper()
-                .findByName(n)).orElseThrow(() -> new GustoNotFoundException("Taste "+tasteName+" not found!"));
+                .findByName(n)).orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_NOT_FOUND, "Taste "+tasteName+" not found!"));
     }
 
     @Override
-    public List<ToppingDTO> findTasteWhereNamesContains(final String tasteName) throws GustoNotFoundException {
+    public List<ToppingDTO> findTasteWhereNamesContains(final String tasteName) throws MagicbusException {
         log.info("Check if taste name is null..");
         final String n = Optional.ofNullable(stringUtility.formatAllMinusc(tasteName))
-                .orElseThrow(() -> new GustoNotFoundException("taste name is null!"));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_IS_NULL));
         log.info("Search taste name..");
         return mapperFactory.getToppingMapper().findByNomeContains(n);
     }
 
     @Override
-    public List<ToppingDTO> findByBase(final String base) throws BaseNotFoundException {
+    public List<ToppingDTO> findByBase(final String base) throws MagicbusException {
         return mapperFactory.getToppingMapper().findByBase(base);
     }
 
@@ -106,7 +104,7 @@ public class ToppingServiceImpl implements ToppingService {
 
         if(mapperFactory.getToppingMapper().findByName(toppingDTO.getName()) != null){
             log.error("Taste is already present in DB!");
-            throw new GustoIsPresentException("Taste ".concat(toppingDTO.getName()).concat(" is already present!"));
+            throw new MagicbusException(BeErrorCodeEnum.TASTE_IS_ALREADY_PRESENT, "Taste ".concat(toppingDTO.getName()).concat(" is already present!"));
         }
 
         toppingDTO.setToppingDescription(stringUtility.formatAllMinusc(toppingDTO.getToppingDescription()));

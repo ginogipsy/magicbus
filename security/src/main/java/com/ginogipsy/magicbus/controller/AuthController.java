@@ -4,12 +4,11 @@ import com.ginogipsy.magicbus.component.EmailService;
 import com.ginogipsy.magicbus.controller.payload.request.UpdatePasswordRequest;
 import com.ginogipsy.magicbus.controller.payload.request.TokenRefreshRequest;
 import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
-import com.ginogipsy.magicbus.customexception.TokenRefreshException;
-import com.ginogipsy.magicbus.customexception.controller.DataNotCorrectException;
-import com.ginogipsy.magicbus.customexception.notfound.RoleNotFoundException;
 import com.ginogipsy.magicbus.dto.RefreshTokenDTO;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
+import com.ginogipsy.magicbus.exceptionhandler.AttributeForErrorEnum;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import com.ginogipsy.magicbus.controller.payload.request.LoginRequest;
 import com.ginogipsy.magicbus.controller.payload.request.SignupRequest;
@@ -37,6 +36,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -105,8 +106,8 @@ public class AuthController {
                     String token = jwtUtils.generateTokenFromUsername(user.getUsername());
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 })
-                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+                .orElseThrow(() -> new MagicbusException(REFRESH_TOKEN_NOT_FOUND, String.format("Failed for [%s]: %s", requestRefreshToken, "Refresh token is not in database!")));
+
     }
 
     @PostMapping("/signUp")
@@ -143,39 +144,30 @@ public class AuthController {
         if(strRoles.isEmpty()){
             Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
                     .map(roles::add)
-                    .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
+                    .orElseThrow(() -> mapRoleException("USER"));
         }else{
             strRoles.forEach(role -> {
-            switch (role){
-                case "admin", "ADMIN":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("ADMIN"))
+                switch (role) {
+                    case "admin", "ADMIN" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("ADMIN"))
                             .map(roles::add)
-                            .orElseThrow(() -> new RoleNotFoundException("Error: Role ADMIN is not found."));
-                    break;
-                case "editor", "EDITOR":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("EDITOR"))
+                            .orElseThrow(() -> mapRoleException("ADMIN"));
+                    case "editor", "EDITOR" ->
+                            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("EDITOR"))
+                                    .map(roles::add)
+                                    .orElseThrow(() -> mapRoleException("EDITOR"));
+                    case "user", "USER" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
                             .map(roles::add)
-                            .orElseThrow(() -> new RoleNotFoundException("Error: Role EDITOR is not found."));
-                    break;
-                default:
-                case "user", "USER":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
+                            .orElseThrow(() -> mapRoleException("USER"));
+                    case "mezz", "MEZZ" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("MEZZ"))
                             .map(roles::add)
-                            .orElseThrow(() -> new RoleNotFoundException("Error: Role USER is not found."));
-                    break;
-                case "mezz","MEZZ":
-                    Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("MEZZ"))
-                            .map(roles::add)
-                            .orElseThrow(() -> new RoleNotFoundException("Error: Role MEZZ is not found."));
-                    break;
-
-            }
+                            .orElseThrow(() -> mapRoleException("MEZZ"));
+                }
         });
         }
 
         userDTO.setRoles(roles);
         userService.signUpUser(userDTO);
-        emailService.sendRegistrationMail(userDTO);
+        //emailService.sendRegistrationMail(userDTO);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
@@ -186,7 +178,13 @@ public class AuthController {
             UserDTO user = updatePassword.updatePassword(updatePasswordRequest.getEmail(), updatePasswordRequest.getOldPassword(), updatePasswordRequest.getNewPassword());
             return (user != null) ? ResponseEntity.ok().body(user) : ResponseEntity.badRequest().build();
         }else
-            throw new DataNotCorrectException("i dati inseriti non sono corretti");
+            throw new MagicbusException(DATA_NOT_CORRECT);
+    }
+
+    private MagicbusException mapRoleException(final String role) {
+        Map<String,String> attributeList = new HashMap<>();
+        attributeList.put(AttributeForErrorEnum.ATTRIBUTE_1.getDescription(), role);
+        return new MagicbusException(ROLE_NOT_FOUND, attributeList);
     }
 
 }

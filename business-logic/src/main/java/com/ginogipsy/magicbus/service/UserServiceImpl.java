@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.customexception.user.*;
+import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 import static java.util.Optional.*;
 
 @Slf4j
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO signUpUser(final UserDTO userDTO) {
         final UserDTO user = userUtility.reformatUserDTO(userDTO);
         log.info("Creation new user - START");
-        if (mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()) == null) {
+        if (mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()).size() == 0) {
             if (user.getFiscalCode() != null && mapperFactory.getUserMapper().findByFiscalCode(user.getFiscalCode()) != null) {
                 log.warn("Fiscal Code " + user.getFiscalCode() + " is already present in DB!");
                 user.setFiscalCode(null);
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
             if (mapperFactory.getUserMapper().findByCellNumber(user.getCellNumber()) != null) {
                 log.error("Number " + user.getCellNumber() + " is already present in DB!");
-                throw new CellPhoneIsPresentException("il numero è già presente");
+                throw new MagicbusException(PHONE_NUMBER_IS_PRESENT, "Number " + user.getCellNumber() + " is already present in DB!");
             }
 
             user.setPassword(user.getPassword());
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
             return mapperFactory.getUserMapper().save(user);
         }
         log.error("Email " + user.getEmail() + " or username " + user.getUsername() + " are already present in DB!");
-        throw new UsernameOrEmailArePresent("Username o email già presenti");
+        throw new MagicbusException(USERNAME_OR_EMAIL_ARE_PRESENT,"Email " + user.getEmail() + " or username " + user.getUsername() + " are already present!");
     }
 
 
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
         if (postalCode != null) {
             oldUser.setPostalCode(Optional.of(postalCode)
                     .filter(stringUtility::checkPostalCode)
-                    .orElseThrow(() -> new CapNotCorrectException("cap not correct")));
+                    .orElseThrow(() -> new MagicbusException(CAP_NOT_CORRECT)));
             log.error("CAP " + postalCode + " not correct!");
         }
         log.info("Add address - FINISH");
@@ -118,7 +119,7 @@ public class UserServiceImpl implements UserService {
             return mapperFactory.getUserMapper().save(oldUser);
         }
         log.error("fiscal code "+newFiscalCode+" is not correct!");
-        throw new CodiceFiscaleNotCorrectException("Fiscal code not correct!");
+        throw new MagicbusException(FISCAL_CODE_NOT_CORRECT);
     }
 
     @Override
@@ -152,7 +153,7 @@ public class UserServiceImpl implements UserService {
                 privateUpdateFiscalCode(oldUser, fiscalCode);
             } else {
                 log.error("Fiscal code not correct!");
-                throw new CodiceFiscaleNotCorrectException("Fiscal code not correct!");
+                throw new MagicbusException(FISCAL_CODE_NOT_CORRECT);
             }
         });
         log.info("Update credentials - FINISH");
@@ -162,7 +163,7 @@ public class UserServiceImpl implements UserService {
         log.info("Check new email");
         if (!oldUser.getEmail().equals(newEmail) && mapperFactory.getUserMapper().findUserByEmail(newEmail) != null) {
             log.error("New mail is already present in DB!");
-            throw new EmailIsPresentException("New mail is already present in DB!");
+            throw new MagicbusException(EMAIL_IS_PRESENT);
         }
         log.info("Set email to user");
         oldUser.setEmail(newEmail.toLowerCase().trim());
@@ -172,7 +173,7 @@ public class UserServiceImpl implements UserService {
         log.info("Check new username");
         if (!oldUser.getUsername().equals(username) && mapperFactory.getUserMapper().findUserByUsername(username) != null) {
             log.error("New username is already present in DB!");
-            throw new UsernameIsPresentException("New username is already present in DB!");
+            throw new MagicbusException(USERNAME_IS_PRESENT);
         }
         log.info("Set username to user");
         oldUser.setUsername(username.toLowerCase().trim());
@@ -182,7 +183,7 @@ public class UserServiceImpl implements UserService {
         log.info("Check new phone number");
         if (!oldUser.getCellNumber().equals(newCellNumber) && mapperFactory.getUserMapper().findByCellNumber(newCellNumber) != null) {
             log.error("New phone number is already present in DB!");
-            throw new CellPhoneIsPresentException("New cell number is already present in DB!");
+            throw new MagicbusException(PHONE_NUMBER_IS_PRESENT);
         }
         log.info("Set cell number to user");
         oldUser.setCellNumber(newCellNumber);
@@ -194,7 +195,7 @@ public class UserServiceImpl implements UserService {
 
         if (userOfNewCodiceFiscale != null && !oldUser.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
             log.error("New fiscal code is already present in DB!");
-            throw new CodiceFiscaleIsPresentException("New fiscal code is already present in DB!");
+            throw new MagicbusException(FISCAL_CODE_IS_PRESENT);
         }
         log.info("Set fiscal code to user");
         oldUser.setFiscalCode(newFiscalCode.toUpperCase().trim());
