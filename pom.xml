@@ -17,28 +17,39 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.2</version>
+        <version>2.7.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.ginogipsy</groupId>
-    <artifactId>magicbus</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>magicbus</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>magicbus-bom</artifactId>
+    <version>${revision}</version>
+
+    <name>${project.artifactId}</name>
+    <description>application for management of a pizzeria</description>
+
     <properties>
         <java.version>17</java.version>
+        <revision>0.0.1-SNAPSHOT</revision>
+        <guava.version>31.1-jre</guava.version>
+        <maven.versions.plugin>2.7</maven.versions.plugin>
+        <spring-mobile-device.version>1.1.5.RELEASE</spring-mobile-device.version>
         <apachecommons.version>1.10.0</apachecommons.version>
         <gson.version>2.10</gson.version>
         <jodatime.version>2.12.1</jodatime.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-annotations.version>1.6.9</swagger-annotations.version>
+        <jasypt.version>3.0.4</jasypt.version>
+        <glassfish.version>3.0.0</glassfish.version>
+        <starter-email.version>2.7.5</starter-email.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <passay.version>1.6.2</passay.version>
+        <thymeleaf-layout-dialect.version>3.1.0</thymeleaf-layout-dialect.version>
+        <thymeleaf-spring5.version>3.1.0.RC2</thymeleaf-spring5.version>
+        <modelmapper.version>3.1.0</modelmapper.version>
     </properties>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -53,57 +64,169 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${jodatime.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.mobile</groupId>
             <artifactId>spring-mobile-device</artifactId>
-            <version>1.1.5.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>3.0.0</version>
+            <version>${spring-mobile-device.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>3.0.4</version>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!-- START - com.ginogipsy dependencies -->
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>business-logic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>common-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>magicbus-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>RESTful-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>mail-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- FINISH - com.ginogipsy dependencies -->
+
+            <!-- START - security-module -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.passay</groupId>
+                <artifactId>passay</artifactId>
+                <version>${passay.version}</version>
+            </dependency>
+            <!-- FINISH - security-module -->
+
+            <!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>${glassfish.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${jodatime.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+
+
+            <!-- START - common-dto module -->
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${modelmapper.version}</version>
+            </dependency>
+            <!-- FINISH - common-dto module -->
+
+            <!-- START - exception module -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>${apachecommons.version}</version>
             </dependency>
+            <!-- FINISH - exception module -->
+
+            <!-- START - mail-server module -->
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${starter-email.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
+            <dependency>
+                <groupId>nz.net.ultraq.thymeleaf</groupId>
+                <artifactId>thymeleaf-layout-dialect</artifactId>
+                <version>${thymeleaf-layout-dialect.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf-spring5</artifactId>
+                <version>${thymeleaf-spring5.version}</version>
+            </dependency>
+            <!-- FINISH - mail-server module -->
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.versions.plugin}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>org.apache.commons:commons-collections4</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>com.github.ulisesbocchio</groupId>
                     <artifactId>jasypt-maven-plugin</artifactId>
