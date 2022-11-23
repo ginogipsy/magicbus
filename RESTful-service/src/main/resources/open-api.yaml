@@ -13,6 +13,8 @@ servers:
     variables:
       url-prefix-magicbus-be:
         default: http://localhost:8080
+        enum:
+          - http://localhost:8080
 tags:
   - name: magicbus ingredient operation
     description: crud operation on ingredient object
@@ -77,6 +79,20 @@ components:
         - name
         - description
 
+    MagicBusResult:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    IngredientResult:
+      type: object
+      properties:
+        ingredientDTO:
+          $ref: '#/components/schemas/IngredientDTO'
+
     Error:
       type: object
       properties:
@@ -89,53 +105,49 @@ components:
       items:
         $ref: '#/components/schemas/Error'
 
-    IngredientResult:
-      type: object
-      properties:
-        ingredientDTO:
-          $ref: '#/components/schemas/IngredientDTO'
+
   responses:
-      #400
-      BadRequestError:
-        description: Bad Request
-        content:
-          application/json:
-           schema:
+    #400
+    BadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
             $ref: '#/components/schemas/Error'
 
-      #401
-      UnauthorizedError:
-        description: Unauthorized
-        headers:
-          WWW_Authenticate:
-            schema:
-              type: string
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Error'
-      #404
-      NotFoundError:
-        description: Not Found
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Error'
+    #401
+    UnauthorizedError:
+      description: Unauthorized
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    #404
+    NotFoundError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 
-      #409
-      ConflictError:
-        description: Not Found
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Error'
-        #500
-      InternalServerError:
-        description: Internal Server Error
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Error'
+    #409
+    ConflictError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    #500
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     # The client sends HTTP requests with the Authorization header that contains the word
     # Basic word followed by a space and a base64-encoded string username:password.
