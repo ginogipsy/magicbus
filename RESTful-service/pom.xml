@@ -20,6 +20,44 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <importMappings>
+                                <importMapping>
+                                    IngredientDTO=com.ginogipsy.magicbus.dto.IngredientDTO,
+                                    MeasureUnit=com.ginogipsy.magicbus.domain.enums.MeasureUnit,
+                                    IngredientType=com.ginogipsy.magicbus.domain.enums.IngredientType,
+                                    AvailabilityPeriod=com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod
+                                </importMapping>
+                            </importMappings>
+                            <inputSpec>${basedir}/src/main/resources/open-api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>com.ginogipsy.magicbus.controller</apiPackage>
+                            <modelPackage>com.ginogipsy.magicbus.controller.model</modelPackage>
+                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <!--<templateResourcePath>open-api-template</templateResourcePath>-->
+                            <configOptions>
+                                <dateLibrary>joda</dateLibrary>
+                                <!--<sourceFolder>src/main/java/</sourceFolder>-->
+                                <delegatePattern>true</delegatePattern>
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>true</performBeanValidation>
+                                <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -37,6 +75,22 @@
             <groupId>com.ginogipsy</groupId>
             <artifactId>security</artifactId>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
         </dependency>
     </dependencies>
 
