@@ -48,6 +48,7 @@
         <springfox.version>3.0.0</springfox.version>
         <swagger-annotations.version>2.2.7</swagger-annotations.version>
         <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
+        <version-openapi-generator>5.0.1</version-openapi-generator>
     </properties>
 
     <dependencies>
