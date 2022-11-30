@@ -16,13 +16,175 @@ servers:
         enum:
           - http://localhost:8080
 tags:
+  - name: magicbus brand operation
+    description: crud operation on brand object
+  - name: magicbus fried operation
+    description: crud operation on fried object
+  - name: magicbus fried research operation
+    description: research operation on fried object
   - name: magicbus ingredient operation
     description: crud operation on ingredient object
+  - name: magicbus ingredient research operation
+    description: research operation on ingredient object
+  - name: magicbus signup operation
+    description: signup logic
+  - name: magicbus topping operation
+    description: crud operation on topping object
+  - name: magicbus topping research operation
+    description: research operation on topping object
+  - name: magicbus user operation
+    description: user logic
 
 security:
   - apiKeyAuth: []
 
 paths:
+  /brand/insert:
+    put:
+      tags:
+        - magicbus brand operation
+      summary: insert brand
+      operationId: insert-brand
+      requestBody:
+        description: insert brand request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertBrandRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /fried/insert:
+    put:
+      tags:
+        - magicbus fried operation
+      summary: fried ingredient
+      operationId: insert-fried
+      requestBody:
+        description: insert fried request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertFriedRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /fried/addIngredientsToFried:
+    put:
+      tags:
+        - magicbus fried operation
+      summary: add ingredients to fried
+      operationId: add-ingredients-to-fried
+      requestBody:
+        description: add ingredients to fried
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddIngredientsToFriedRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /friedResearch/findByName:
+    get:
+      tags:
+        - magicbus fried research operation
+      summary: find fried by name
+      operationId: find-fried-by-name
+      parameters:
+        - name: friedName
+          in: query
+          required: true
+          description: find fried by its name
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriedResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /friedResearch/findByStatus:
+    get:
+      tags:
+        - magicbus fried research operation
+      summary: find fried by status
+      operationId: find-fried-by-status
+      parameters:
+        - name: status
+          in: query
+          required: true
+          description: find fried by its status
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriedResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+
   /ingredient/insert:
     put:
       tags:
@@ -42,6 +204,35 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ingredientResearch/findByName:
+    get:
+      tags:
+        - magicbus ingredient research operation
+      summary: find ingredient by name
+      operationId: find-ingredient-by-name
+      parameters:
+        - name: ingredientName
+          in: query
+          required: true
+          description: find ingredient by its name
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/IngredientResult'
         400:
           $ref: '#/components/responses/BadRequestError'
@@ -52,8 +243,434 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
 
+  /ingredientResearch/findByNameContains:
+    get:
+      tags:
+        - magicbus ingredient research operation
+      summary: find ingredient by name part
+      operationId: find-ingredient-by-name-contains
+      parameters:
+        - name: ingredientName
+          in: query
+          required: true
+          description: find ingredient that the name contains a string
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ingredientResearch/findByStatus:
+    get:
+      tags:
+        - magicbus ingredient research operation
+      summary: find ingredient by status
+      operationId: find-ingredient-by-status
+      parameters:
+        - name: status
+          in: query
+          required: true
+          description: find ingredient by its status
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /topping/insert:
+    put:
+      tags:
+        - magicbus topping operation
+      summary: topping ingredient
+      operationId: insert-topping
+      requestBody:
+        description: insert topping request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertToppingRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /topping/addIngredientsToTopping:
+    put:
+      tags:
+        - magicbus topping operation
+      summary: add ingredients to topping
+      operationId: add-ingredients-to-topping
+      requestBody:
+        description: add ingredients to topping
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddIngredientsToToppingRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MagicBusResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/findByName:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by name
+      operationId: find-topping-by-name
+      parameters:
+        - name: toppingName
+          in: query
+          required: true
+          description: find topping by its name
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/findByNameContains:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by name part
+      operationId: find-topping-by-name-contains
+      parameters:
+        - name: toppingName
+          in: query
+          required: true
+          description: find topping that the name contains a string
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/findByProductCategory:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by product category
+      operationId: find-topping-by-product-category
+      parameters:
+        - name: productCategory
+          in: query
+          required: true
+          description: find topping by its product category
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/AvailabilityPeriod:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by availability period
+      operationId: find-topping-by-availability-period
+      parameters:
+        - name: availabilityPeriod
+          in: query
+          required: true
+          description: find topping by its availability period
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/findByAvailabilityAndStatus:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by availability and status
+      operationId: find-topping-by-availability-and-status
+      parameters:
+        - name: available
+          in: query
+          required: false
+          description: find topping by its availability
+          schema:
+            type: string
+            default: true
+        - name: status
+          in: query
+          required: true
+          description: find topping by its status
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /toppingResearch/findByAvailableAndAvailabilityPeriod:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by available and availability period
+      operationId: find-topping-by-available-and-availability-period
+      parameters:
+        - name: available
+          in: query
+          required: false
+          description: find topping by its status
+          schema:
+            type: string
+            default: true
+        - name: availabilityPeriod
+          in: query
+          required: false
+          description: find topping by its status
+          schema:
+            type: string
+            default: DISPONIBILE
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ingredientResearch/findByUserEntered:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by user entered
+      operationId: find-topping-by-user-entered
+      parameters:
+        - name: available
+          in: query
+          required: false
+          description: find topping by its available
+          schema:
+            type: string
+            default: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+  /ingredientResearch/findByUserEnteredAndStatus:
+    get:
+      tags:
+        - magicbus topping research operation
+      summary: find topping by user entered and status
+      operationId: find-ingredient-by-user-entered-and-status
+      parameters:
+        - name: available
+          in: query
+          required: false
+          description: find topping by its status
+          schema:
+            type: string
+            default: true
+        - name: status
+          in: query
+          required: true
+          description: find topping by its status
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingResult'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+
 components:
   schemas:
+    InsertBrandRequest:
+      type: object
+      properties:
+        brandName:
+          type: string
+        description:
+          type: string
+      required:
+        - brandName
+        - description
+    InsertFriedRequest:
+      type: object
+      properties:
+        friedName:
+          type: string
+        description:
+          type: string
+      required:
+        - friedName
+        - description
+    AddIngredientsToFriedRequest:
+      properties:
+        nameFried:
+          type: string
+        ingredientNameList:
+          type: array
+          minItems: 1
+          items:
+            type: string
+      required:
+        - nameFried
+        - ingredientList
+    InsertToppingRequest:
+      type: object
+      properties:
+        toppingName:
+          type: string
+        description:
+          type: string
+      required:
+        - toppingName
+        - description
+    AddIngredientsToToppingRequest:
+      properties:
+        nameTopping:
+          type: string
+        ingredientNameList:
+          type: array
+          minItems: 1
+          items:
+            type: string
+      required:
+        - nameTopping
+        - ingredientList
     InsertIngredientRequest:
       type: object
       properties:
@@ -79,6 +696,8 @@ components:
         - name
         - description
 
+    ## Result ##
+
     MagicBusResult:
       type: object
       properties:
@@ -87,11 +706,29 @@ components:
         message:
           type: string
 
+    FriedResult:
+      type: object
+      properties:
+        code:
+          type: string
+        ingredientDTO:
+          $ref: '#/components/schemas/FriedDTO'
+
     IngredientResult:
       type: object
       properties:
+        code:
+          type: string
         ingredientDTO:
           $ref: '#/components/schemas/IngredientDTO'
+
+    ToppingResult:
+      type: object
+      properties:
+        code:
+          type: string
+        ingredientDTO:
+          $ref: '#/components/schemas/ToppingDTO'
 
     Error:
       type: object

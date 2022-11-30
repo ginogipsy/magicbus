@@ -33,6 +33,8 @@
                             <importMappings>
                                 <importMapping>
                                     IngredientDTO=com.ginogipsy.magicbus.dto.IngredientDTO,
+                                    FriedDTO=com.ginogipsy.magicbus.dto.FriedDTO,
+                                    ToppingDTO=com.ginogipsy.magicbus.dto.ToppingDTO,
                                     MeasureUnit=com.ginogipsy.magicbus.domain.enums.MeasureUnit,
                                     IngredientType=com.ginogipsy.magicbus.domain.enums.IngredientType,
                                     AvailabilityPeriod=com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod
