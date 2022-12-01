@@ -1,8 +1,12 @@
 package com.ginogipsy.magicbus.controller;
 
 import com.ginogipsy.magicbus.component.EmailService;
-import com.ginogipsy.magicbus.controller.payload.request.UpdatePasswordRequest;
+import com.ginogipsy.magicbus.controller.payload.request.LoginRequest;
+import com.ginogipsy.magicbus.controller.payload.request.SignupRequest;
 import com.ginogipsy.magicbus.controller.payload.request.TokenRefreshRequest;
+import com.ginogipsy.magicbus.controller.payload.request.UpdatePasswordRequest;
+import com.ginogipsy.magicbus.controller.payload.response.JwtResponse;
+import com.ginogipsy.magicbus.controller.payload.response.MessageResponse;
 import com.ginogipsy.magicbus.controller.payload.response.TokenRefreshResponse;
 import com.ginogipsy.magicbus.dto.RefreshTokenDTO;
 import com.ginogipsy.magicbus.dto.RoleDTO;
@@ -10,16 +14,11 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.exceptionhandler.AttributeForErrorEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
-import com.ginogipsy.magicbus.controller.payload.request.LoginRequest;
-import com.ginogipsy.magicbus.controller.payload.request.SignupRequest;
-import com.ginogipsy.magicbus.controller.payload.response.JwtResponse;
-import com.ginogipsy.magicbus.controller.payload.response.MessageResponse;
 import com.ginogipsy.magicbus.security.jwt.JwtUtils;
-import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.RefreshTokenService;
+import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -73,7 +72,6 @@ public class AuthController {
     }
 
     @PostMapping("/signIn")
-    @ApiOperation(value = "signIn", notes = "login for user")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -95,7 +93,6 @@ public class AuthController {
     }
 
     @PostMapping("/refreshtoken")
-    @ApiOperation(value = "refreshToken", notes = "refresh token")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
@@ -111,7 +108,6 @@ public class AuthController {
     }
 
     @PostMapping("/signUp")
-    @ApiOperation(value = "signup", notes = "signup user")
     public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) throws MessagingException, IOException {
         if (Boolean.TRUE.equals(mapperFactory.getUserMapper().existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
