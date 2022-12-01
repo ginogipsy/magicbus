@@ -143,6 +143,11 @@ public class UserServiceImpl implements UserService {
         return mapperFactory.getUserMapper().findUserByEmail(email);
     }
 
+    @Override
+    public Optional<UserDTO> findByUsername(final String username) {
+        return Optional.ofNullable(mapperFactory.getUserMapper().findUserByUsername(username));
+    }
+
     private void modificaCredenziali(final UserDTO oldUser, final UserDTO updatedUser) {
         log.info("Update credentials - START");
         of(updatedUser.getEmail()).ifPresent(email -> privateUpdateEmail(oldUser, email));

@@ -25,9 +25,8 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandDTO findByName(final String name) {
-        return Optional.ofNullable(privateFindByName(name))
-                .orElseThrow(() -> new MagicbusException(BRAND_NOT_FOUND, "Brand " + name + " not found!"));
+    public Optional<BrandDTO> findByName(final String name) {
+        return Optional.ofNullable(privateFindByName(name));
     }
 
     @Override

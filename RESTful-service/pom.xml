@@ -47,6 +47,7 @@
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                             <!--<templateResourcePath>open-api-template</templateResourcePath>-->
                             <configOptions>
+                                <additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
                                 <dateLibrary>joda</dateLibrary>
                                 <!--<sourceFolder>src/main/java/</sourceFolder>-->
                                 <delegatePattern>true</delegatePattern>
