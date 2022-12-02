@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO addAddress(final UserDTO oldUser, final String address, final String houseNumber, final String city, final String postalCode) {
         log.info("Add address - START");
-        Optional.ofNullable(address).ifPresent(add -> oldUser.setAddress(stringUtility.formatAllMinusc(add)));
-        Optional.ofNullable(houseNumber).ifPresent(hn -> oldUser.setHouseNumber(stringUtility.formatAllMinusc(hn)));
-        Optional.ofNullable(city).ifPresent(c -> oldUser.setCity(stringUtility.formatAllMinusc(city)));
+        Optional.ofNullable(address).ifPresent(add -> oldUser.setAddress(stringUtility.formatAllLower(add)));
+        Optional.ofNullable(houseNumber).ifPresent(hn -> oldUser.setHouseNumber(stringUtility.formatAllLower(hn)));
+        Optional.ofNullable(city).ifPresent(c -> oldUser.setCity(stringUtility.formatAllLower(city)));
         if (postalCode != null) {
             oldUser.setPostalCode(Optional.of(postalCode)
                     .filter(stringUtility::checkPostalCode)
