@@ -1,9 +1,9 @@
 package com.ginogipsy.magicbus.dto;
 
 
-import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
-import com.ginogipsy.magicbus.domain.enums.IngredientType;
-import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriodEnum;
+import com.ginogipsy.magicbus.domain.enums.IngredientTypeEnum;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -21,10 +21,10 @@ public class IngredientDTO {
     private Boolean available;
     private Double additionalCostForClient;
     private Double purchaseCost;
-    private MeasureUnit measureUnit;
+    private MeasureUnitEnum measureUnitEnum;
     private Set<AllergenDTO> allergens;
-    private IngredientType ingredientType;
-    private AvailabilityPeriod availabilityPeriod;
+    private IngredientTypeEnum ingredientTypeEnum;
+    private AvailabilityPeriodEnum availabilityPeriodEnum;
     private BrandDTO brand;
     private List<String> toppings;
     private List<String> fried;

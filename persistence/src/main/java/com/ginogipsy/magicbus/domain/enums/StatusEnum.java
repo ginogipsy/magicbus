@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * @author ginogipsy
  */
-public enum Status {
+public enum StatusEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
     INSERITO                    ( "INSERITO"),
@@ -17,7 +17,7 @@ public enum Status {
 
     private final String description;
 
-    Status(final String description){
+    StatusEnum(final String description){
         this.description = description;
     }
 
@@ -25,8 +25,11 @@ public enum Status {
         return description;
     }
 
-    public static Status getStatus(final String description){
-        return Arrays.stream(Status.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static StatusEnum getStatus(final String description){
+        return Arrays.stream(StatusEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

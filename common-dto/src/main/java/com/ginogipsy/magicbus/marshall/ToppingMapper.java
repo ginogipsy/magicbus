@@ -46,7 +46,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByStatus(final String status) {
         log.info("Searching list of topping where status is "+status+"..");
         return Optional.ofNullable(status)
-                .map(s -> tasteRepository.findByStatus(Status.getStatus(s))
+                .map(s -> tasteRepository.findByStatus(StatusEnum.getStatus(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -56,7 +56,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByBase(final String base) {
         log.info("Searching list of topping where base is "+base+"..");
         return Optional.ofNullable(base)
-                .map(b -> tasteRepository.findByBase(Base.valueOf(b))
+                .map(b -> tasteRepository.findByBase(BaseEnum.valueOf(b))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -66,7 +66,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByAvailabilityPeriod(final String availabilityPeriod) {
         log.info("Searching list of topping where availability period is "+ availabilityPeriod+"..");
         return Optional.ofNullable(availabilityPeriod)
-                .map(ap -> tasteRepository.findByAvailabilityPeriod(AvailabilityPeriod.getAvailabilityPeriod(ap))
+                .map(ap -> tasteRepository.findByAvailabilityPeriod(AvailabilityPeriodEnum.getAvailabilityPeriod(ap))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -86,7 +86,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByAvailableAndStatus(final boolean available, final String status) {
         log.info("Searching list of topping where availability is "+available +" and status is " +status+"..");
         return Optional.ofNullable(status)
-                .map(s -> tasteRepository.findByAvailableAndStatus(available, Status.getStatus(s))
+                .map(s -> tasteRepository.findByAvailableAndStatus(available, StatusEnum.getStatus(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -96,7 +96,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByAvailableAndAvailabilityPeriod(final boolean available, final String availabilityPeriod) {
         log.info("Searching list of topping where availability is "+available +" and availability period is "+availabilityPeriod+"..");
         return Optional.ofNullable(availabilityPeriod)
-                .map(ap -> tasteRepository.findByAvailableAndAvailabilityPeriod(available, AvailabilityPeriod.getAvailabilityPeriod(ap))
+                .map(ap -> tasteRepository.findByAvailableAndAvailabilityPeriod(available, AvailabilityPeriodEnum.getAvailabilityPeriod(ap))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -114,7 +114,7 @@ public class ToppingMapper {
     public List<ToppingDTO> findByUserEnteredAndStatus(boolean userEntered, String status){
         log.info("Searching list of topping where user entered is "+userEntered +" and status is "+status+"..");
         return Optional.ofNullable(status)
-                .map(s -> tasteRepository.findByUserEnteredAndStatus(userEntered, Status.getStatus(s))
+                .map(s -> tasteRepository.findByUserEnteredAndStatus(userEntered, StatusEnum.getStatus(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

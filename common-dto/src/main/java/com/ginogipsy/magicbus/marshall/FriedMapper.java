@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 
 import com.ginogipsy.magicbus.domain.Fried;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.repository.FriedRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class FriedMapper {
     public List<FriedDTO> findByStatus(final String status) {
         log.info("Searching fried where status is " + status+ "..");
         return Optional.ofNullable(status)
-                .map(s -> friedRepository.findByStatus(Status.getStatus(s))
+                .map(s -> friedRepository.findByStatus(StatusEnum.getStatus(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

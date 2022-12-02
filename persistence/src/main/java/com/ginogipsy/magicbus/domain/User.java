@@ -11,7 +11,9 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 @Entity(name = "user")

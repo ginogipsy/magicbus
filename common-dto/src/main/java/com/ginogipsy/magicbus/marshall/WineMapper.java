@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.marshall;
 
 
 import com.ginogipsy.magicbus.domain.Wine;
-import com.ginogipsy.magicbus.domain.enums.WineQuality;
+import com.ginogipsy.magicbus.domain.enums.WineQualityEnum;
 import com.ginogipsy.magicbus.dto.WineDTO;
 import com.ginogipsy.magicbus.repository.WineRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class WineMapper {
     public List<WineDTO> findByWineQuality(final String wineQuality){
         log.info("Searching wines where wine quality is " + wineQuality+ "..");
         return Optional.ofNullable(wineQuality)
-                .map(wq -> wineRepository.findByWineQuality(WineQuality.valueOf(wq))
+                .map(wq -> wineRepository.findByWineQuality(WineQualityEnum.valueOf(wq))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -86,7 +86,7 @@ public class WineMapper {
     public List<WineDTO> findByAvailableAndWineQuality(final boolean available, final String wineQuality){
         log.info("Searching wines where availability is "+available+" and wine quality is " + wineQuality+ "..");
         return Optional.ofNullable(wineQuality)
-                .map(wq -> wineRepository.findByAvailableAndWineQuality(available, WineQuality.valueOf(wq))
+                .map(wq -> wineRepository.findByAvailableAndWineQuality(available, WineQualityEnum.valueOf(wq))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

@@ -1,13 +1,15 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.WineQuality;
+import com.ginogipsy.magicbus.domain.enums.WineQualityEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
 
-
+/**
+ * @author ginogipsy
+ */
 @Data
 @EqualsAndHashCode(exclude = "cantina", callSuper = false)
 @Entity(name = "vino")
@@ -20,7 +22,7 @@ public class Wine {
 
     @Column(name = "qualita_vino")
     @Enumerated(EnumType.STRING)
-    private WineQuality wineQuality;
+    private WineQualityEnum wineQualityEnum;
 
     @Column(name = "nome", unique = true)
     private String name;

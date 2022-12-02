@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.dto;
 
 
-import com.ginogipsy.magicbus.domain.enums.WineQuality;
+import com.ginogipsy.magicbus.domain.enums.WineQualityEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 public class WineDTO {
 
     private Integer id;
-    private WineQuality wineQuality;
+    private WineQualityEnum wineQualityEnum;
     private String name;
     private String description;
     private Double alcoholicContent;

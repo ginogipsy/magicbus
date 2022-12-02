@@ -4,21 +4,15 @@ import java.util.Arrays;
 /**
  * @author ginogipsy
  */
-public enum BeerType {
+public enum WineGrapesEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
-    PILSNER                     ( "PILSNER"),
-    WEISSE                      ( "WEISSE"),
-    ROSSA                       ( "ROSSA"),
-    IPA                         ( "IPA"),
-    APA                         ( "APA"),
-    DOPPIO_MALTO                ( "DOPPIO_MALTO"),
-    STOUT                       ( "STOUT");
+    ROSSO                       ( "ROSSO"),
+    BIANCO                      ( "BIANCO");
 
     private final String description;
 
-    BeerType(final String description){
-
+    WineGrapesEnum(final String description){
         this.description = description;
     }
 
@@ -26,8 +20,8 @@ public enum BeerType {
         return description;
     }
 
-    public static BeerType getBeerType(final String description){
-        return Arrays.stream(BeerType.values())
+    public static WineGrapesEnum getWineGrapes(final String description){
+        return Arrays.stream(WineGrapesEnum.values())
                 .filter(v -> v.getDescription().equals(description))
                 .findAny()
                 .orElse(UNDEFINED);
@@ -35,7 +29,7 @@ public enum BeerType {
 
     @Override
     public String toString() {
-        return "BeerType{" +
+        return "WineGrapes{" +
                 "description='" + description + '\'' +
                 '}';
     }

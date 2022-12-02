@@ -35,9 +35,9 @@
                                     IngredientDTO=com.ginogipsy.magicbus.dto.IngredientDTO,
                                     FriedDTO=com.ginogipsy.magicbus.dto.FriedDTO,
                                     ToppingDTO=com.ginogipsy.magicbus.dto.ToppingDTO,
-                                    MeasureUnit=com.ginogipsy.magicbus.domain.enums.MeasureUnit,
-                                    IngredientType=com.ginogipsy.magicbus.domain.enums.IngredientType,
-                                    AvailabilityPeriod=com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod
+                                    MeasureUnit=com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum,
+                                    IngredientType=com.ginogipsy.magicbus.domain.enums.IngredientTypeEnum,
+                                    AvailabilityPeriod=com.ginogipsy.magicbus.domain.enums.AvailabilityPeriodEnum
                                 </importMapping>
                             </importMappings>
                             <inputSpec>${basedir}/src/main/resources/open-api.yaml</inputSpec>

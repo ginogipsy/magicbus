@@ -3,7 +3,9 @@ package com.ginogipsy.magicbus.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "posizione_magicbus")
 @Data

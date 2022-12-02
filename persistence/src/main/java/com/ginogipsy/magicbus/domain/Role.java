@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.Profile;
+import com.ginogipsy.magicbus.domain.enums.ProfileEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -8,7 +8,9 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 @Entity(name = "role")
@@ -21,7 +23,7 @@ public class Role {
 
     @Column(name = "profilo", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    private Profile profile;
+    private ProfileEnum profileEnum;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users;

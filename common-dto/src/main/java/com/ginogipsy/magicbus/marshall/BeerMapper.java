@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Beer;
-import com.ginogipsy.magicbus.domain.enums.BeerType;
+import com.ginogipsy.magicbus.domain.enums.BeerTypeEnum;
 import com.ginogipsy.magicbus.dto.BeerDTO;
 import com.ginogipsy.magicbus.repository.BeerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +57,7 @@ public class BeerMapper {
     public List<BeerDTO> findByBeerType(final String beerType) {
         log.info("Searching beers where beerType is " + beerType+ "..");
         return Optional.ofNullable(beerType)
-                .map(bt -> beerRepository.findByBeerType(BeerType.valueOf(bt))
+                .map(bt -> beerRepository.findByBeerType(BeerTypeEnum.valueOf(bt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -85,7 +85,7 @@ public class BeerMapper {
     public List<BeerDTO> findByAvailableAndBeerType(final boolean available, final String beerType) {
         log.info("Searching list of beer where availability is " + available+ " and beerType is "+beerType+"..");
         return Optional.ofNullable(beerType)
-                .map(bt -> beerRepository.findByAvailableAndBeerType(available, BeerType.valueOf(bt))
+                .map(bt -> beerRepository.findByAvailableAndBeerType(available, BeerTypeEnum.valueOf(bt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

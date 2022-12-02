@@ -29,7 +29,10 @@ public enum ProductCategory {
     }
 
     public static ProductCategory getProductCategory(final String description){
-        return Arrays.stream(ProductCategory.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+        return Arrays.stream(ProductCategory.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

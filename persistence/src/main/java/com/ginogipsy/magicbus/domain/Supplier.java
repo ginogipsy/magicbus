@@ -5,7 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "fornitore")
 @Getter

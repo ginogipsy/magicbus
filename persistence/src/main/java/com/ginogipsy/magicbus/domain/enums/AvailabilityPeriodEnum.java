@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @author ginogipsy
  */
-public enum AvailabilityPeriod {
+public enum AvailabilityPeriodEnum {
 
     UNDEFINED         ( "UNDEFINED"),
     INVERNALE         ( "INVERNALE"),
@@ -18,7 +18,7 @@ public enum AvailabilityPeriod {
 
     private final String description;
 
-    AvailabilityPeriod(final String description){
+    AvailabilityPeriodEnum(final String description){
         this.description = description;
     }
 
@@ -26,8 +26,11 @@ public enum AvailabilityPeriod {
         return description;
     }
 
-    public static AvailabilityPeriod getAvailabilityPeriod(final String description){
-        return Arrays.stream(AvailabilityPeriod.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static AvailabilityPeriodEnum getAvailabilityPeriod(final String description){
+        return Arrays.stream(AvailabilityPeriodEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

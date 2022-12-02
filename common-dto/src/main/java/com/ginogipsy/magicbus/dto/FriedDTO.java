@@ -4,7 +4,7 @@ package com.ginogipsy.magicbus.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ginogipsy.magicbus.domain.enums.ProductCategory;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class FriedDTO {
     @NonNull
     private String friedDescription;
     private Double cost;
-    private Status status;
+    private StatusEnum statusEnum;
     private List<String> ingredients;
 
     @JsonIgnore

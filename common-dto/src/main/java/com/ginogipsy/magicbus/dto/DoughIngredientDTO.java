@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.dto;
 
-import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum;
 import lombok.Data;
 
 @Data
@@ -10,5 +10,5 @@ public class DoughIngredientDTO {
     private IngredientDTO ingredient;
     private DoughDTO dough;
     private Double quantity;
-    private MeasureUnit measureUnit;
+    private MeasureUnitEnum measureUnitEnum;
 }

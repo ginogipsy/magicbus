@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
@@ -93,12 +93,12 @@ public class ToppingServiceImpl implements ToppingService {
         if (userUtility.isOnlyAnUser(userDTO)) {
             toppingDTO.setUserEntered(true);
             toppingDTO.setAvailable(false);
-            toppingDTO.setStatus(Status.INSERITO);
+            toppingDTO.setStatusEnum(StatusEnum.INSERITO);
             toppingDTO.setName(stringUtility.formatAllMinusc(toppingDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
         } else {
             toppingDTO.setUserEntered(false);
             toppingDTO.setAvailable(true);
-            toppingDTO.setStatus(Status.DISPONIBILE);
+            toppingDTO.setStatusEnum(StatusEnum.DISPONIBILE);
             toppingDTO.setName(stringUtility.formatAllMinusc(toppingDTO.getName()));
         }
 

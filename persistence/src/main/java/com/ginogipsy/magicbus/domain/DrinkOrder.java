@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-
+/**
+ * @author ginogipsy
+ */
 @Data
 @EqualsAndHashCode(exclude = {"ordine", "bibita"})
 @Entity(name = "ordine_bibita")

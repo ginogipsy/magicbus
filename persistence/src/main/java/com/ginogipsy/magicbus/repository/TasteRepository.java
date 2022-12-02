@@ -14,13 +14,13 @@ public interface TasteRepository extends JpaRepository<Topping, Integer> {
 
     Optional<Topping> findByName(final String name);
     List<Topping> findByNameContains(final String name);
-    List<Topping> findByNameContainsAndStatus(final String name, final Status status);
-    List<Topping> findByStatus(final Status status);
-    List<Topping> findByBase(final Base base);
-    List<Topping> findByAvailabilityPeriod(final AvailabilityPeriod availabilityPeriod);
+    List<Topping> findByNameContainsAndStatus(final String name, final StatusEnum statusEnum);
+    List<Topping> findByStatus(final StatusEnum statusEnum);
+    List<Topping> findByBase(final BaseEnum baseEnum);
+    List<Topping> findByAvailabilityPeriod(final AvailabilityPeriodEnum availabilityPeriodEnum);
     List<Topping> findByProductCategory(final ProductCategory productCategory);
-    List<Topping> findByAvailableAndAvailabilityPeriod(final boolean available, final AvailabilityPeriod availabilityPeriod);
-    List<Topping> findByAvailableAndStatus(final boolean available, Status status);
+    List<Topping> findByAvailableAndAvailabilityPeriod(final boolean available, final AvailabilityPeriodEnum availabilityPeriodEnum);
+    List<Topping> findByAvailableAndStatus(final boolean available, StatusEnum statusEnum);
     List<Topping> findByUserEntered(final boolean userEntered);
-    List<Topping> findByUserEnteredAndStatus(final boolean userEntered, final  Status status);
+    List<Topping> findByUserEnteredAndStatus(final boolean userEntered, final StatusEnum statusEnum);
 }

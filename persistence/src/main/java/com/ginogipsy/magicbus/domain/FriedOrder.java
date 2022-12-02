@@ -4,7 +4,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "ordine_fritto")
 @Data

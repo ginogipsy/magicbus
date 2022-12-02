@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.enums.Profile;
+import com.ginogipsy.magicbus.domain.enums.ProfileEnum;
 import com.ginogipsy.magicbus.domain.Role;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.repository.RoleRepository;
@@ -25,7 +25,7 @@ public class RoleMapper {
     public RoleDTO findByProfile(final String profile){
         log.info("Searching role where profile is " + profile +"..");
         return Optional.ofNullable(profile)
-                .map(p -> roleRepository.findByProfile(Profile.getProfile(p)))
+                .map(p -> roleRepository.findByProfile(ProfileEnum.getProfile(p)))
                 .map(this::convertToDTO)
                 .orElse(null);
     }

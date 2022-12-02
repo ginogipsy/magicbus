@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * @author ginogipsy
  */
-public enum Base {
+public enum BaseEnum {
 
     UNDEFINED         ( "UNDEFINED"),
     BIANCA            ( "BIANCA"),
@@ -14,7 +14,7 @@ public enum Base {
 
     private final String description;
 
-    Base(final String description){
+    BaseEnum(final String description){
         this.description = description;
     }
 
@@ -22,8 +22,11 @@ public enum Base {
         return description;
     }
 
-    public static Base getBase(final String description){
-        return Arrays.stream(Base.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static BaseEnum getBase(final String description){
+        return Arrays.stream(BaseEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

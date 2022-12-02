@@ -1,8 +1,8 @@
 package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Drink;
-import com.ginogipsy.magicbus.domain.enums.DrinkType;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.DrinkTypeEnum;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import com.ginogipsy.magicbus.dto.DrinkDTO;
 import com.ginogipsy.magicbus.repository.DrinkRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class DrinkMapper {
     public List<DrinkDTO> findByDrinkType(final String drinkType){
         log.info("Searching drinks where drink type is " + drinkType+ "..");
         return Optional.ofNullable(drinkType)
-                .map(dt -> drinkRepository.findByDrinkType(DrinkType.valueOf(dt))
+                .map(dt -> drinkRepository.findByDrinkType(DrinkTypeEnum.valueOf(dt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -59,7 +59,7 @@ public class DrinkMapper {
     public List<DrinkDTO> findByStatus(final String status){
         log.info("Searching drinks where status is " + status+ "..");
         return Optional.ofNullable(status)
-                .map(s -> drinkRepository.findByStatus(Status.valueOf(s))
+                .map(s -> drinkRepository.findByStatus(StatusEnum.valueOf(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -70,7 +70,7 @@ public class DrinkMapper {
         log.info("Searching drinks where status is " + status+ "and drink type is "+drinkType+"..");
         return Optional.ofNullable(status)
                 .filter(s -> Objects.nonNull(drinkType))
-                .map(s -> drinkRepository.findByStatusAndDrinkType(Status.valueOf(s), DrinkType.valueOf(drinkType))
+                .map(s -> drinkRepository.findByStatusAndDrinkType(StatusEnum.valueOf(s), DrinkTypeEnum.valueOf(drinkType))
                                 .stream()
                                 .map(this::convertToDTO)
                                 .toList())

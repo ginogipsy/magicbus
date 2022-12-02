@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.dto;
 
 
-import com.ginogipsy.magicbus.domain.enums.BeerType;
+import com.ginogipsy.magicbus.domain.enums.BeerTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ public class BeerDTO {
     private String description;
     private Double alcoholContent;
     private Double cost;
-    private BeerType beerType;
+    private BeerTypeEnum beerTypeEnum;
     private BreweryDTO brewery;
     private Set<UserDTO> users;
     private Boolean available;

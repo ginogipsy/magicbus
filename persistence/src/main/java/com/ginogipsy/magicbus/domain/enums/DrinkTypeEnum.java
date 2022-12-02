@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * @author ginogipsy
  */
-public enum DrinkType {
+public enum DrinkTypeEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
     ACQUA                       ( "ACQUA"),
@@ -21,7 +21,7 @@ public enum DrinkType {
 
     private final String description;
 
-    DrinkType(final String description){
+    DrinkTypeEnum(final String description){
         this.description = description;
     }
 
@@ -29,8 +29,11 @@ public enum DrinkType {
         return description;
     }
 
-    public static DrinkType getDrinkType(final String description){
-        return Arrays.stream(DrinkType.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static DrinkTypeEnum getDrinkType(final String description){
+        return Arrays.stream(DrinkTypeEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

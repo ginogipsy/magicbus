@@ -1,11 +1,13 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "fritto_ingrediente")
 @Getter
@@ -31,5 +33,5 @@ public class FriedIngredient {
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
-    private MeasureUnit measureUnit;
+    private MeasureUnitEnum measureUnitEnum;
 }

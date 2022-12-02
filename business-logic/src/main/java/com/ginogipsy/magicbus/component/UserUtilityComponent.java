@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.component;
 
-import com.ginogipsy.magicbus.domain.enums.Profile;
+import com.ginogipsy.magicbus.domain.enums.ProfileEnum;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +43,6 @@ public class UserUtilityComponent implements UserUtility {
         log.info("UserUtilityComponent - isOnlyAnUser() -> verify if user named {} has only USER role ..", userDTO.getUsername());
         return userDTO.getRoles().size() == 1 && userDTO.getRoles()
                 .stream()
-                .anyMatch(r -> r.getProfile().equals(Profile.getProfile("USER")));
+                .anyMatch(r -> r.getProfileEnum().equals(ProfileEnum.getProfile("USER")));
     }
 }

@@ -2,7 +2,7 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
@@ -34,12 +34,12 @@ public class FriedServiceImpl implements FriedService {
         if(userUtility.isOnlyAnUser(userDTO)){
             friedDTO.setUserEntered(true);
             friedDTO.setAvailable(false);
-            friedDTO.setStatus(Status.INSERITO);
+            friedDTO.setStatusEnum(StatusEnum.INSERITO);
             friedDTO.setName(stringUtility.formatAllMinusc(friedDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
         }else{
             friedDTO.setUserEntered(false);
             friedDTO.setAvailable(true);
-            friedDTO.setStatus(Status.DISPONIBILE);
+            friedDTO.setStatusEnum(StatusEnum.DISPONIBILE);
             friedDTO.setName(stringUtility.formatAllMinusc(friedDTO.getName()));
         }
 
