@@ -5,23 +5,24 @@ import com.ginogipsy.magicbus.dto.AllergenDTO;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AllergenServiceImpl implements AllergenService {
 
     private final StringUtility stringUtility;
     private final MapperFactory mapperFactory;
-
-    public AllergenServiceImpl(StringUtility stringUtility, MapperFactory mapperFactory) {
-        this.stringUtility = stringUtility;
-        this.mapperFactory = mapperFactory;
-    }
 
     @Override
     public List<AllergenDTO> findAll() {
@@ -36,19 +37,19 @@ public class AllergenServiceImpl implements AllergenService {
 
     @Override
     public AllergenDTO insert(final AllergenDTO allergenDTO) {
-        log.info("Checking if this allergen is already present..");
+        log.info("AllergenServiceImpl - insert() -> Checking if this allergen is already present..");
         final String name = Optional.ofNullable(allergenDTO)
                 .map(AllergenDTO::getName)
                 .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_NULL));
 
         if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
-            log.error("It is already present an ingredient called " + name + "!");
+            log.error("AllergenServiceImpl - insert() -> It is already present an ingredient called " + name + "!");
             throw new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_ALREADY_PRESENT, "It is already present an allergen called " + name + "!");
         }
 
-        log.info("Formatting name and description..");
+        log.info("AllergenServiceImpl - insert() -> Formatting name and description..");
         privateFormatIngredient(allergenDTO);
-        log.info("Saving the ingredient..");
+        log.info("AllergenServiceImpl - insert() -> Saving the ingredient..");
         return mapperFactory.getAllergenMapper().save(allergenDTO);
     }
 
@@ -60,8 +61,8 @@ public class AllergenServiceImpl implements AllergenService {
 
     private void privateFormatIngredient(final AllergenDTO allergenDTO) {
         Optional.ofNullable(allergenDTO.getName())
-                .ifPresent(n -> allergenDTO.setName(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> allergenDTO.setName(stringUtility.formatAllLower(n)));
         Optional.ofNullable(allergenDTO.getDescription())
-                .ifPresent(n -> allergenDTO.setDescription(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> allergenDTO.setDescription(stringUtility.formatAllLower(n)));
     }
 }

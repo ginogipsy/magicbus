@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO addNameAndSurname(final UserDTO oldUser, final String name, final String surname) {
         log.info("Add name and surname - START");
-        oldUser.setName(stringUtility.formatWithFirstMaiusc(name));
-        oldUser.setSurname(stringUtility.formatWithFirstMaiusc(surname));
+        oldUser.setName(stringUtility.formatWithFirstUpper(name));
+        oldUser.setSurname(stringUtility.formatWithFirstUpper(surname));
         log.info("Add name and surname - FINISH");
         return mapperFactory.getUserMapper().save(oldUser);
     }
