@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 @NoArgsConstructor
 public class BeerDTO {

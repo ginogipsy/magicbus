@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class DoughDTO {
 

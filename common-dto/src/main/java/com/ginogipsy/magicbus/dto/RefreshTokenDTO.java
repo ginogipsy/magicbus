@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class RefreshTokenDTO {
 

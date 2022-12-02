@@ -13,6 +13,10 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 @Getter
 @Setter
 @RequiredArgsConstructor

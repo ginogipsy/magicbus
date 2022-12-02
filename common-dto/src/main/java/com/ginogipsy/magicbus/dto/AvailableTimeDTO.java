@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class AvailableTimeDTO {
 

@@ -12,6 +12,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

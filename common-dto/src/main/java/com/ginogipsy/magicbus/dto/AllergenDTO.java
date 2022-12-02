@@ -5,6 +5,10 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class AllergenDTO {
 

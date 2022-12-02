@@ -10,6 +10,10 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class IngredientDTO {
 
