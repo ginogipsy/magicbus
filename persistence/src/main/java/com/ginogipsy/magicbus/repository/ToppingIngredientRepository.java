@@ -6,14 +6,18 @@ import com.ginogipsy.magicbus.domain.ToppingIngredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
 public interface ToppingIngredientRepository extends JpaRepository<ToppingIngredient, Integer> {
 
-    List<ToppingIngredient> findByTopping(Topping topping);
+    List<ToppingIngredient> findByTopping(final Topping topping);
 
-    List<ToppingIngredient> findByIngredient(Ingredient ingredient);
+    List<ToppingIngredient> findByIngredient(final Ingredient ingredient);
 
-    ToppingIngredient findByToppingAndIngredient(Topping topping, Ingredient ingredient);
+    Optional<ToppingIngredient> findByToppingAndIngredient(final Topping topping, final Ingredient ingredient);
 
-    void deleteByToppingAndIngredient(Topping topping, Ingredient ingredient);
+    void deleteByToppingAndIngredient(final Topping topping, final Ingredient ingredient);
 }

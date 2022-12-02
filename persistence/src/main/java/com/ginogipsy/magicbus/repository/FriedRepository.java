@@ -5,11 +5,14 @@ import com.ginogipsy.magicbus.domain.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-
+/**
+ * @author ginogipsy
+ */
 public interface FriedRepository extends JpaRepository<Fried, Integer> {
 
-    Fried findByName(String name);
-    List<Fried> findByStatus(Status status);
+    Optional<Fried> findByName(final String name);
+    List<Fried> findByStatus(final Status status);
 
 }

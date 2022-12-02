@@ -2,6 +2,9 @@ package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
 
+/**
+ * @author ginogipsy
+ */
 public enum AvailabilityPeriod {
 
     UNDEFINED         ( "UNDEFINED"),
