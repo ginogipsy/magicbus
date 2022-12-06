@@ -13,6 +13,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
+/**
+ * @author ginogipsy
+ */
+
 public class UserDetailsImpl implements UserDetails {
 
     @Serial

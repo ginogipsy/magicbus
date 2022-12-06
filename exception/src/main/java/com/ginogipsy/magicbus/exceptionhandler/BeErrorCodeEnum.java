@@ -59,6 +59,8 @@ public enum BeErrorCodeEnum {
     PASSWORD_MISMATCH                            ("BE0038","Password mismatch!", HttpStatus.CONFLICT),
     USER_NOT_FOUND                               ("BE0039","User not found!", HttpStatus.NOT_FOUND),
     ADDRESS_NOT_CORRECT                          ("BE0040","Address not correct!", HttpStatus.BAD_REQUEST),
+    SAVE_FAILED                                  ("BE0041","save failed!", HttpStatus.INTERNAL_SERVER_ERROR),
+
 
     ;
 
