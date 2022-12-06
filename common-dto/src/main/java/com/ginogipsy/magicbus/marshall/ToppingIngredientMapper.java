@@ -8,30 +8,28 @@ import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.ToppingIngredientDTO;
 import com.ginogipsy.magicbus.repository.ToppingIngredientRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+/**
+ * @author ginogipsy
+ */
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ToppingIngredientMapper {
 
     private final ModelMapper modelMapper;
     private final ToppingIngredientRepository toppingIngredientRepository;
     private final ToppingMapper toppingMapper;
     private final IngredientMapper ingredientMapper;
-
-    public ToppingIngredientMapper(ModelMapper modelMapper, ToppingIngredientRepository toppingIngredientRepository, ToppingMapper toppingMapper, IngredientMapper ingredientMapper) {
-        this.modelMapper = modelMapper;
-        this.toppingIngredientRepository = toppingIngredientRepository;
-        this.toppingMapper = toppingMapper;
-        this.ingredientMapper = ingredientMapper;
-    }
 
     public ToppingIngredient convertToEntity(final ToppingIngredientDTO toppingIngredientDTO) {
         return Optional.ofNullable(toppingIngredientDTO)
@@ -45,20 +43,28 @@ public class ToppingIngredientMapper {
                 .orElse(null);
     }
 
-    public ToppingIngredientDTO save(final ToppingIngredientDTO toppingIngredientDTO) {
-        log.info("Saving toppingIngredient on db..");
+    public Optional<ToppingIngredient> convertToEntity(final Optional<ToppingIngredientDTO> toppingIngredientDTO) {
+        return Optional.ofNullable(toppingIngredientDTO)
+                .map(t -> modelMapper.map(t, ToppingIngredient.class));
+    }
+
+    public Optional<ToppingIngredientDTO> convertToDTO(final Optional<ToppingIngredient> toppingIngredient) {
+        return Optional.ofNullable(toppingIngredient)
+                .map(t -> modelMapper.map(t, ToppingIngredientDTO.class));
+    }
+
+    public Optional<ToppingIngredientDTO> save(final ToppingIngredientDTO toppingIngredientDTO) {
+        log.info("ToppingIngredientMapper - save() -> Saving topping/ingredient on db..");
         return Optional.ofNullable(toppingIngredientDTO)
                 .map(this::convertToEntity)
                 .map(toppingIngredientRepository::save)
-                .map(this::convertToDTO)
-                .orElse(null);
+                .map(this::convertToDTO);
     }
 
     public List<ToppingIngredientDTO> findByTopping(final ToppingDTO toppingDTO) {
-        final Topping topping = takeTopping(toppingDTO);
-        log.info("Searching toppingIngredient on db by dough..");
-        return Optional.ofNullable(topping)
-                .map(t -> toppingIngredientRepository.findByTopping(t)
+        final Optional<Topping> topping = takeTopping(toppingDTO);
+        log.info("ToppingIngredientMapper - findByTopping() -> Searching topping/ingredient list with topping named {} ..", topping.isPresent() ? topping.get().getName() : "");
+        return topping.map(t -> toppingIngredientRepository.findByTopping(t)
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -66,53 +72,53 @@ public class ToppingIngredientMapper {
     }
 
     public List<ToppingIngredientDTO> findByIngredient(final IngredientDTO ingredientDTO) {
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
-        log.info("Searching toppingIngredient on db by ingredient..");
-        return Optional.ofNullable(ingredient)
-                .map(i -> toppingIngredientRepository.findByIngredient(i)
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("ToppingIngredientMapper - findByIngredient() -> Searching topping/ingredient list with topping named {} ..", ingredient.isPresent() ? ingredient.get().getName() : "");
+        return ingredient.map(i -> toppingIngredientRepository.findByIngredient(i)
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
                 .orElse(new ArrayList<>());
     }
 
-    public ToppingIngredientDTO findByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
-        final Topping topping = takeTopping(toppingDTO);
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
+    public Optional<ToppingIngredientDTO> findByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
+        final Optional<Topping> topping = takeTopping(toppingDTO);
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("ToppingIngredientMapper - findByToppingAndIngredient() -> Deleting topping/ingredient with topping named {} and ingredient named '{}' ..", topping.isPresent() ? topping.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
 
-        return Optional.ofNullable(topping)
-                .filter(t -> Objects.nonNull(ingredient))
-                .map(t -> toppingIngredientRepository.findByToppingAndIngredient(t, ingredient))
-                .map(this::convertToDTO)
-                .orElse(null);
+        return topping.filter(t -> ingredient.isPresent())
+                .map(t -> toppingIngredientRepository.findByToppingAndIngredient(t, ingredient.get()))
+                .flatMap(this::convertToDTO);
     }
 
     public String deleteByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
-        final Topping topping = takeTopping(toppingDTO);
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
+        final Optional<Topping> topping = takeTopping(toppingDTO);
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("ToppingIngredientMapper - deleteByToppingAndIngredient() -> Deleting topping/ingredient with topping named {} and ingredient named '{}' ..", topping.isPresent() ? topping.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
 
-        log.info("Deleting toppingIngredient on db..");
-        if (topping != null && ingredient != null) {
-            toppingIngredientRepository.deleteByToppingAndIngredient(topping, ingredient);
-            log.info("deleted!");
-            return "deleted";
+        if (topping.isPresent()) {
+            if (ingredient.isPresent()) {
+                toppingIngredientRepository.deleteByToppingAndIngredient(topping.get(), ingredient.get());
+                log.info("deleted!");
+                return "deleted";
+            }
+            log.warn("ToppingIngredientMapper - deleteByToppingAndIngredient() -> ingredient is null!");
+            return "no deleted!";
         }
-        log.warn("An element between topping and ingredient is null!");
+        log.warn("ToppingIngredientMapper - deleteByToppingAndIngredient() -> topping is null!");
         return "no deleted!";
     }
 
-    private Topping takeTopping(final ToppingDTO toppingDTO) {
-        log.info("Verifying toppingDTO..");
+    private Optional<Topping> takeTopping(final ToppingDTO toppingDTO) {
+        log.info("ToppingIngredientMapper - takeTopping() -> Verifying toppingDTO..");
         return Optional.ofNullable(toppingDTO)
-                .map(toppingMapper::convertToEntity)
-                .orElse(null);
+                .map(toppingMapper::convertToEntity);
     }
 
 
-    private Ingredient takeIngredient(final IngredientDTO ingredientDTO) {
-        log.info("Verifying ingredientDTO..");
+    private Optional<Ingredient> takeIngredient(final IngredientDTO ingredientDTO) {
+        log.info("ToppingIngredientMapper - takeIngredient() -> Verifying ingredientDTO..");
         return Optional.ofNullable(ingredientDTO)
-                .map(ingredientMapper::convertToEntity)
-                .orElse(null);
+                .map(ingredientMapper::convertToEntity);
     }
 }

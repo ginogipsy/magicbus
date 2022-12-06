@@ -1,8 +1,14 @@
 package com.ginogipsy.magicbus.marshall;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author ginogipsy
+ */
+
 @Component
+@RequiredArgsConstructor
 public class MapperFactory {
 
     private final AllergenMapper allergenMapper;
@@ -32,36 +38,6 @@ public class MapperFactory {
     private final UserMapper userMapper;
     private final WineMapper wineMapper;
     private final RefreshTokenMapper refreshTokenMapper;
-
-    public MapperFactory(AllergenMapper allergenMapper, DrinkMapper drinkMapper, BeerMapper beerMapper, BreweryMapper breweryMapper, WineryMapper wineryMapper, SupplierMapper supplierMapper, FriedIngredientMapper friedIngredientMapper, FriedMapper friedMapper, ToppingIngredientMapper toppingIngredientMapper, ToppingMapper toppingMapper, DoughIngredientMapper doughIngredientMapper, DoughMapper doughMapper, IngredientMapper ingredientMapper, BrandMapper brandMapper, AvailableTimeMapper availableTimeMapper, DrinkOrderMapper drinkOrderMapper, BeerOrderMapper beerOrderMapper, FriedOrderMapper friedOrderMapper, ToppingOrderMapper toppingOrderMapper, OrderMapper orderMapper, WineOrderMapper wineOrderMapper, MagicbusLocationMapper magicbusLocationMapper, RoleMapper roleMapper, PaymentTypeMapper paymentTypeMapper, UserMapper userMapper, WineMapper wineMapper, RefreshTokenMapper refreshTokenMapper) {
-        this.allergenMapper = allergenMapper;
-        this.drinkMapper = drinkMapper;
-        this.beerMapper = beerMapper;
-        this.breweryMapper = breweryMapper;
-        this.wineryMapper = wineryMapper;
-        this.supplierMapper = supplierMapper;
-        this.friedIngredientMapper = friedIngredientMapper;
-        this.friedMapper = friedMapper;
-        this.toppingIngredientMapper = toppingIngredientMapper;
-        this.toppingMapper = toppingMapper;
-        this.doughIngredientMapper = doughIngredientMapper;
-        this.doughMapper = doughMapper;
-        this.ingredientMapper = ingredientMapper;
-        this.brandMapper = brandMapper;
-        this.availableTimeMapper = availableTimeMapper;
-        this.drinkOrderMapper = drinkOrderMapper;
-        this.beerOrderMapper = beerOrderMapper;
-        this.friedOrderMapper = friedOrderMapper;
-        this.toppingOrderMapper = toppingOrderMapper;
-        this.orderMapper = orderMapper;
-        this.wineOrderMapper = wineOrderMapper;
-        this.magicbusLocationMapper = magicbusLocationMapper;
-        this.roleMapper = roleMapper;
-        this.paymentTypeMapper = paymentTypeMapper;
-        this.userMapper = userMapper;
-        this.wineMapper = wineMapper;
-        this.refreshTokenMapper = refreshTokenMapper;
-    }
 
     public AllergenMapper getAllergenMapper() {
         return allergenMapper;

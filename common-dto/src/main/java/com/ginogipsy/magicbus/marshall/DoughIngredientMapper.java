@@ -7,30 +7,28 @@ import com.ginogipsy.magicbus.dto.DoughDTO;
 import com.ginogipsy.magicbus.dto.DoughIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.repository.DoughIngredientRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+/**
+ * @author ginogipsy
+ */
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DoughIngredientMapper {
 
     private final ModelMapper modelMapper;
     private final DoughIngredientRepository doughIngredientRepository;
     private final DoughMapper doughMapper;
     private final IngredientMapper ingredientMapper;
-
-    public DoughIngredientMapper(ModelMapper modelMapper, DoughIngredientRepository doughIngredientRepository, DoughMapper doughMapper, IngredientMapper ingredientMapper) {
-        this.modelMapper = modelMapper;
-        this.doughIngredientRepository = doughIngredientRepository;
-        this.doughMapper = doughMapper;
-        this.ingredientMapper = ingredientMapper;
-    }
 
     public DoughIngredient convertToEntity(final DoughIngredientDTO doughIngredientDTO) {
         return Optional.ofNullable(doughIngredientDTO)
@@ -44,31 +42,37 @@ public class DoughIngredientMapper {
                 .orElse(null);
     }
 
-    public DoughIngredientDTO findByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
-        final Dough dough = takeDough(doughDTO);
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
-
-        return Optional.ofNullable(dough)
-                .filter(d -> Objects.nonNull(ingredient))
-                .map(d -> doughIngredientRepository.findByDoughAndIngredient(d, ingredient))
-                .map(this::convertToDTO)
-                .orElse(null);
+    public Optional<DoughIngredient> convertToEntity(final Optional<DoughIngredientDTO> doughIngredientDTO) {
+        return Optional.ofNullable(doughIngredientDTO)
+                .map(di -> modelMapper.map(di, DoughIngredient.class));
     }
 
-    public DoughIngredientDTO save(final DoughIngredientDTO doughIngredientDTO) {
-        log.info("Saving doughIngredient on db..");
+    public Optional<DoughIngredientDTO> convertToDTO(final Optional<DoughIngredient> doughIngredient) {
+        return Optional.ofNullable(doughIngredient)
+                .map(di -> modelMapper.map(di, DoughIngredientDTO.class));
+    }
+
+    public Optional<DoughIngredientDTO> findByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
+        final Optional<Dough> dough = takeDough(doughDTO);
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("DoughIngredientMapper - findByDoughAndIngredient() -> Searching dough/ingredient with dough named {} and ingredient named '{}' ..", dough.isPresent() ? dough.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
+        return dough.filter(d -> ingredient.isPresent())
+                .map(d -> doughIngredientRepository.findByDoughAndIngredient(d, ingredient.get()))
+                .flatMap(this::convertToDTO);
+    }
+
+    public Optional<DoughIngredientDTO> save(final DoughIngredientDTO doughIngredientDTO) {
+        log.info("DoughIngredientMapper - save() -> Saving doughIngredient on db..");
         return Optional.ofNullable(doughIngredientDTO)
                 .map(this::convertToEntity)
                 .map(doughIngredientRepository::save)
-                .map(this::convertToDTO)
-                .orElse(null);
+                .map(this::convertToDTO);
     }
 
     public List<DoughIngredientDTO> findByDough(final DoughDTO doughDTO) {
-        final Dough dough = takeDough(doughDTO);
-        log.info("Searching doughIngredient on db by dough..");
-        return Optional.ofNullable(dough)
-                .map(d -> doughIngredientRepository.findByDough(d)
+        final Optional<Dough> dough = takeDough(doughDTO);
+        log.info("DoughIngredientMapper - findByDough() -> Searching dough/ingredient list with dough named {} ..", dough.isPresent() ? dough.get().getName() : "");
+        return dough.map(d -> doughIngredientRepository.findByDough(d)
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -76,10 +80,9 @@ public class DoughIngredientMapper {
     }
 
     public List<DoughIngredientDTO> findByIngredient(final IngredientDTO ingredientDTO) {
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
-        log.info("Searching doughIngredient on db by ingredient..");
-        return Optional.ofNullable(ingredient)
-                .map(i -> doughIngredientRepository.findByIngredient(i)
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("DoughIngredientMapper - findByIngredient() -> Searching dough/ingredient list with dough named {} ..", ingredient.isPresent() ? ingredient.get().getName() : "");
+        return ingredient.map(i -> doughIngredientRepository.findByIngredient(i)
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -87,29 +90,31 @@ public class DoughIngredientMapper {
     }
 
     public String deleteByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
-        final Dough dough = takeDough(doughDTO);
-        final Ingredient ingredient = takeIngredient(ingredientDTO);
-        log.info("Deleting doughIngredient on db..");
-        if (dough != null && ingredient != null) {
-            doughIngredientRepository.deleteByDoughAndIngredient(dough, ingredient);
-            log.info("deleted!");
-            return "deleted";
+        final Optional<Dough> dough = takeDough(doughDTO);
+        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        log.info("DoughIngredientMapper - deleteByDoughAndIngredient() -> Deleting dough/ingredient with dough named {} and ingredient named '{}' ..",dough.isPresent() ? dough.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
+        if (dough.isPresent()) {
+            if (ingredient.isPresent()) {
+                doughIngredientRepository.deleteByDoughAndIngredient(dough.get(), ingredient.get());
+                log.info("DoughIngredientMapper - deleteByDoughAndIngredient() -> deleted!");
+                return "deleted";
+            }
+            log.warn("DoughIngredientMapper - deleteByDoughAndIngredient() -> ingredient is null!");
+            return "no deleted!";
         }
-        log.warn("An element between dough and ingredient is null!");
+        log.warn("DoughIngredientMapper - deleteByDoughAndIngredient() -> dough is null!");
         return "no deleted!";
     }
 
-    private Dough takeDough(final DoughDTO doughDTO) {
-        log.info("Verifying doughDTO..");
+    private Optional<Dough> takeDough(final DoughDTO doughDTO) {
+        log.info("DoughIngredientMapper - takeDough() -> Verifying doughDTO..");
         return Optional.ofNullable(doughDTO)
-                .map(doughMapper::convertToEntity)
-                .orElse(null);
+                .map(doughMapper::convertToEntity);
     }
 
-    private Ingredient takeIngredient(final IngredientDTO ingredientDTO) {
-        log.info("Verifying ingredientDTO..");
+    private Optional<Ingredient> takeIngredient(final IngredientDTO ingredientDTO) {
+        log.info("DoughIngredientMapper - takeIngredient() -> Verifying ingredientDTO..");
         return Optional.ofNullable(ingredientDTO)
-                .map(ingredientMapper::convertToEntity)
-                .orElse(null);
+                .map(ingredientMapper::convertToEntity);
     }
 }
