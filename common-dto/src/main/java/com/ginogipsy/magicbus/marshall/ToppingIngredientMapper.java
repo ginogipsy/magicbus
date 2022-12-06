@@ -7,6 +7,7 @@ import com.ginogipsy.magicbus.domain.ToppingIngredient;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.dto.ToppingDTO;
 import com.ginogipsy.magicbus.dto.ToppingIngredientDTO;
+import com.ginogipsy.magicbus.marshall.utils.ConvertMapperUtils;
 import com.ginogipsy.magicbus.repository.ToppingIngredientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,7 @@ public class ToppingIngredientMapper {
 
     private final ModelMapper modelMapper;
     private final ToppingIngredientRepository toppingIngredientRepository;
-    private final ToppingMapper toppingMapper;
-    private final IngredientMapper ingredientMapper;
+    private final ConvertMapperUtils convertMapperUtils;
 
     public ToppingIngredient convertToEntity(final ToppingIngredientDTO toppingIngredientDTO) {
         return Optional.ofNullable(toppingIngredientDTO)
@@ -62,7 +62,7 @@ public class ToppingIngredientMapper {
     }
 
     public List<ToppingIngredientDTO> findByTopping(final ToppingDTO toppingDTO) {
-        final Optional<Topping> topping = takeTopping(toppingDTO);
+        final Optional<Topping> topping = convertMapperUtils.convertTopping(toppingDTO);
         log.info("ToppingIngredientMapper - findByTopping() -> Searching topping/ingredient list with topping named {} ..", topping.isPresent() ? topping.get().getName() : "");
         return topping.map(t -> toppingIngredientRepository.findByTopping(t)
                         .stream()
@@ -72,7 +72,7 @@ public class ToppingIngredientMapper {
     }
 
     public List<ToppingIngredientDTO> findByIngredient(final IngredientDTO ingredientDTO) {
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("ToppingIngredientMapper - findByIngredient() -> Searching topping/ingredient list with topping named {} ..", ingredient.isPresent() ? ingredient.get().getName() : "");
         return ingredient.map(i -> toppingIngredientRepository.findByIngredient(i)
                         .stream()
@@ -82,8 +82,8 @@ public class ToppingIngredientMapper {
     }
 
     public Optional<ToppingIngredientDTO> findByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
-        final Optional<Topping> topping = takeTopping(toppingDTO);
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Topping> topping = convertMapperUtils.convertTopping(toppingDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("ToppingIngredientMapper - findByToppingAndIngredient() -> Deleting topping/ingredient with topping named {} and ingredient named '{}' ..", topping.isPresent() ? topping.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
 
         return topping.filter(t -> ingredient.isPresent())
@@ -92,8 +92,8 @@ public class ToppingIngredientMapper {
     }
 
     public String deleteByToppingAndIngredient(final ToppingDTO toppingDTO, final IngredientDTO ingredientDTO) {
-        final Optional<Topping> topping = takeTopping(toppingDTO);
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Topping> topping = convertMapperUtils.convertTopping(toppingDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("ToppingIngredientMapper - deleteByToppingAndIngredient() -> Deleting topping/ingredient with topping named {} and ingredient named '{}' ..", topping.isPresent() ? topping.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
 
         if (topping.isPresent()) {
@@ -107,18 +107,5 @@ public class ToppingIngredientMapper {
         }
         log.warn("ToppingIngredientMapper - deleteByToppingAndIngredient() -> topping is null!");
         return "no deleted!";
-    }
-
-    private Optional<Topping> takeTopping(final ToppingDTO toppingDTO) {
-        log.info("ToppingIngredientMapper - takeTopping() -> Verifying toppingDTO..");
-        return Optional.ofNullable(toppingDTO)
-                .map(toppingMapper::convertToEntity);
-    }
-
-
-    private Optional<Ingredient> takeIngredient(final IngredientDTO ingredientDTO) {
-        log.info("ToppingIngredientMapper - takeIngredient() -> Verifying ingredientDTO..");
-        return Optional.ofNullable(ingredientDTO)
-                .map(ingredientMapper::convertToEntity);
     }
 }

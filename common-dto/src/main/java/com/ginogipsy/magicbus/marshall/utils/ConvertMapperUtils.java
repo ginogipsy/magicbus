@@ -21,5 +21,5 @@ public interface ConvertMapperUtils {
     Optional<Topping> convertTopping(final ToppingDTO toppingDTO);
     Optional<Ingredient> convertIngredient(final IngredientDTO ingredientDTO);
     Optional<Fried> convertFried(final FriedDTO friedDTO);
-    Optional<Dough> takeDough(final DoughDTO doughDTO);
+    Optional<Dough> convertDough(final DoughDTO doughDTO);
 }

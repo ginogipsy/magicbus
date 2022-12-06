@@ -2,10 +2,12 @@ package com.ginogipsy.magicbus.marshall;
 
 import com.ginogipsy.magicbus.domain.Dough;
 import com.ginogipsy.magicbus.domain.DoughIngredient;
+import com.ginogipsy.magicbus.domain.Fried;
 import com.ginogipsy.magicbus.domain.Ingredient;
 import com.ginogipsy.magicbus.dto.DoughDTO;
 import com.ginogipsy.magicbus.dto.DoughIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
+import com.ginogipsy.magicbus.marshall.utils.ConvertMapperUtils;
 import com.ginogipsy.magicbus.repository.DoughIngredientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +29,7 @@ public class DoughIngredientMapper {
 
     private final ModelMapper modelMapper;
     private final DoughIngredientRepository doughIngredientRepository;
-    private final DoughMapper doughMapper;
-    private final IngredientMapper ingredientMapper;
+    private final ConvertMapperUtils convertMapperUtils;
 
     public DoughIngredient convertToEntity(final DoughIngredientDTO doughIngredientDTO) {
         return Optional.ofNullable(doughIngredientDTO)
@@ -53,8 +54,8 @@ public class DoughIngredientMapper {
     }
 
     public Optional<DoughIngredientDTO> findByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
-        final Optional<Dough> dough = takeDough(doughDTO);
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Dough> dough = convertMapperUtils.convertDough(doughDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("DoughIngredientMapper - findByDoughAndIngredient() -> Searching dough/ingredient with dough named {} and ingredient named '{}' ..", dough.isPresent() ? dough.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
         return dough.filter(d -> ingredient.isPresent())
                 .map(d -> doughIngredientRepository.findByDoughAndIngredient(d, ingredient.get()))
@@ -70,7 +71,7 @@ public class DoughIngredientMapper {
     }
 
     public List<DoughIngredientDTO> findByDough(final DoughDTO doughDTO) {
-        final Optional<Dough> dough = takeDough(doughDTO);
+        final Optional<Dough> dough = convertMapperUtils.convertDough(doughDTO);
         log.info("DoughIngredientMapper - findByDough() -> Searching dough/ingredient list with dough named {} ..", dough.isPresent() ? dough.get().getName() : "");
         return dough.map(d -> doughIngredientRepository.findByDough(d)
                         .stream()
@@ -80,7 +81,7 @@ public class DoughIngredientMapper {
     }
 
     public List<DoughIngredientDTO> findByIngredient(final IngredientDTO ingredientDTO) {
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("DoughIngredientMapper - findByIngredient() -> Searching dough/ingredient list with dough named {} ..", ingredient.isPresent() ? ingredient.get().getName() : "");
         return ingredient.map(i -> doughIngredientRepository.findByIngredient(i)
                         .stream()
@@ -90,8 +91,8 @@ public class DoughIngredientMapper {
     }
 
     public String deleteByDoughAndIngredient(final DoughDTO doughDTO, final IngredientDTO ingredientDTO) {
-        final Optional<Dough> dough = takeDough(doughDTO);
-        final Optional<Ingredient> ingredient = takeIngredient(ingredientDTO);
+        final Optional<Dough> dough = convertMapperUtils.convertDough(doughDTO);
+        final Optional<Ingredient> ingredient = convertMapperUtils.convertIngredient(ingredientDTO);
         log.info("DoughIngredientMapper - deleteByDoughAndIngredient() -> Deleting dough/ingredient with dough named {} and ingredient named '{}' ..",dough.isPresent() ? dough.get().getName() : "", ingredient.isPresent() ? ingredient.get().getName() : "");
         if (dough.isPresent()) {
             if (ingredient.isPresent()) {
@@ -104,17 +105,5 @@ public class DoughIngredientMapper {
         }
         log.warn("DoughIngredientMapper - deleteByDoughAndIngredient() -> dough is null!");
         return "no deleted!";
-    }
-
-    private Optional<Dough> takeDough(final DoughDTO doughDTO) {
-        log.info("DoughIngredientMapper - takeDough() -> Verifying doughDTO..");
-        return Optional.ofNullable(doughDTO)
-                .map(doughMapper::convertToEntity);
-    }
-
-    private Optional<Ingredient> takeIngredient(final IngredientDTO ingredientDTO) {
-        log.info("DoughIngredientMapper - takeIngredient() -> Verifying ingredientDTO..");
-        return Optional.ofNullable(ingredientDTO)
-                .map(ingredientMapper::convertToEntity);
     }
 }
