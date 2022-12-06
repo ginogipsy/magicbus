@@ -19,6 +19,8 @@ import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,10 +39,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
-
+/**
+ * @author ginogipsy
+ */
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -51,25 +57,6 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UpdatePassword updatePassword;
     private final EmailService emailService;
-
-
-
-    public AuthController(AuthenticationManager authenticationManager,
-                          MapperFactory mapperFactory,
-                          JwtUtils jwtUtils,
-                          UserService userService,
-                          RefreshTokenService refreshTokenService,
-                          PasswordEncoder passwordEncoder,
-                          UpdatePassword updatePassword, EmailService emailService) {
-        this.authenticationManager = authenticationManager;
-        this.mapperFactory = mapperFactory;
-        this.jwtUtils = jwtUtils;
-        this.userService = userService;
-        this.refreshTokenService = refreshTokenService;
-        this.passwordEncoder = passwordEncoder;
-        this.updatePassword = updatePassword;
-        this.emailService = emailService;
-    }
 
     @PostMapping("/signIn")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -138,23 +125,23 @@ public class AuthController {
         Set<RoleDTO> roles = new HashSet<>();
         Set<String> strRoles = Optional.ofNullable(signUpRequest.getRoles()).orElse(new HashSet<>());
         if(strRoles.isEmpty()){
-            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
+            mapperFactory.getRoleMapper().findByProfile("USER")
                     .map(roles::add)
                     .orElseThrow(() -> mapRoleException("USER"));
         }else{
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin", "ADMIN" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("ADMIN"))
+                    case "admin", "ADMIN" -> mapperFactory.getRoleMapper().findByProfile("ADMIN")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("ADMIN"));
                     case "editor", "EDITOR" ->
-                            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("EDITOR"))
+                            mapperFactory.getRoleMapper().findByProfile("EDITOR")
                                     .map(roles::add)
                                     .orElseThrow(() -> mapRoleException("EDITOR"));
-                    case "user", "USER" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
+                    case "user", "USER" -> mapperFactory.getRoleMapper().findByProfile("USER")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("USER"));
-                    case "mezz", "MEZZ" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("MEZZ"))
+                    case "mezz", "MEZZ" -> mapperFactory.getRoleMapper().findByProfile("MEZZ")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("MEZZ"));
                 }
@@ -178,6 +165,7 @@ public class AuthController {
     }
 
     private MagicbusException mapRoleException(final String role) {
+        log.error("AuthController - mapRoleException() -> role not found!");
         Map<String,String> attributeList = new HashMap<>();
         attributeList.put(AttributeForErrorEnum.ATTRIBUTE_1.getDescription(), role);
         return new MagicbusException(ROLE_NOT_FOUND, attributeList);

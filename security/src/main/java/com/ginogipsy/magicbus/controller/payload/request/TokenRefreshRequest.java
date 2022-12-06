@@ -1,12 +1,15 @@
 package com.ginogipsy.magicbus.controller.payload.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
+/**
+ * @author ginogipsy
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TokenRefreshRequest {
 
     @NotBlank

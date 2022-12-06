@@ -1,10 +1,15 @@
 package com.ginogipsy.magicbus.controller.payload.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+/**
+ * @author ginogipsy
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TokenRefreshResponse {
 
     private String accessToken;
