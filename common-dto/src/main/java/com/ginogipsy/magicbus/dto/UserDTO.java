@@ -2,6 +2,7 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,13 +20,14 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserDTO {
 
     private int id;
-
+    @EqualsAndHashCode.Include
     @Email(message = "It is necessary an email format!")
     private String email;
-
+    @EqualsAndHashCode.Include
     @Min(value = 4, message = "Username must be at least 4 characters long!")
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -39,6 +41,7 @@ public class UserDTO {
     private String houseNumber;
     private String city;
     private String postalCode;
+    @EqualsAndHashCode.Include
     private String fiscalCode;
     private Boolean isEnabled;
 

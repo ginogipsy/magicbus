@@ -40,10 +40,10 @@ public class MagicbusIngredientOperationApiDelegateImpl implements MagicbusIngre
         Optional.ofNullable(insertIngredientRequest.getAvailabilityPeriodEnum()).ifPresent(ingredientToInsert::setAvailabilityPeriodEnum);
 
         Optional.ofNullable(insertIngredientRequest.getBrandName())
-                .flatMap(brandService::findByName)
+                .map(brandService::findByName)
                 .ifPresent(ingredientToInsert::setBrand);
 
-        ingredientService.save(ingredientToInsert);
+        ingredientService.insert(ingredientToInsert);
         return ResponseUtils.buildSuccessResult("Ingredient named "+insertIngredientRequest.getName()+" has been inserted correctly!");
     }
 }

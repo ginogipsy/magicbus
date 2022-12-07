@@ -30,36 +30,45 @@ public class AllergenServiceImpl implements AllergenService {
     }
 
     @Override
-    public AllergenDTO findByName(final String name) {
-        return Optional.ofNullable(privateFindByName(name))
-                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_NOT_FOUND, "Allergen named " + name + " not found"));
+    public AllergenDTO findByName(final String allergenName) {
+        return privateFindByName(allergenName)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_NOT_FOUND, "Allergen named " + allergenName + " not found"));
     }
 
     @Override
     public AllergenDTO insert(final AllergenDTO allergenDTO) {
-        log.info("AllergenServiceImpl - insert() -> Checking if this allergen is already present..");
-        final String name = Optional.ofNullable(allergenDTO)
+        log.info("AllergenServiceImpl - insert() -> Checking if allergen is null..");
+        final String allergenName = Optional.ofNullable(allergenDTO)
                 .map(AllergenDTO::getName)
                 .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_NULL));
 
-        if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
-            log.error("AllergenServiceImpl - insert() -> It is already present an ingredient called " + name + "!");
-            throw new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_ALREADY_PRESENT, "It is already present an allergen called " + name + "!");
+        if (privateFindByName(allergenName).isPresent()) {
+            log.error("AllergenServiceImpl - insert() -> It is already present an allergen called {}!", allergenName);
+            throw new MagicbusException(BeErrorCodeEnum.ALLERGEN_IS_ALREADY_PRESENT, "It is already present an allergen called " + allergenName + "!");
         }
 
-        log.info("AllergenServiceImpl - insert() -> Formatting name and description..");
-        privateFormatIngredient(allergenDTO);
-        log.info("AllergenServiceImpl - insert() -> Saving the ingredient..");
-        return mapperFactory.getAllergenMapper().save(allergenDTO);
+        privateFormatAllergen(allergenDTO);
+        log.info("AllergenServiceImpl - insert() -> Saving the allergen..");
+
+        return mapperFactory.getAllergenMapper().save(allergenDTO)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.SAVE_FAILED));
     }
 
-    private AllergenDTO privateFindByName(final String name) {
-        return Optional.ofNullable(name)
-                .map(n -> mapperFactory.getAllergenMapper().findByName(n))
-                .orElse(null);
+    private Optional<AllergenDTO> privateFindByName(final String allergenName) {
+        stringUtility.formatAllLower(allergenName);
+        log.info("AllergenServiceImpl - privateFindByName() -> Finding allergen named '{}'..", allergenName);
+        return Optional.ofNullable(allergenName)
+                .flatMap(n -> mapperFactory.getAllergenMapper().findByName(n));
     }
 
-    private void privateFormatIngredient(final AllergenDTO allergenDTO) {
+    private void privateFormatAllergen(final AllergenDTO allergenDTO) {
+        log.info("AllergenServiceImpl - privateFormatAllergen() -> Formatting name and description..");
+
+        if(allergenDTO == null) {
+            log.warn("AllergenServiceImpl - privateFormatAllergen() -> allergenDTO is null!");
+            return;
+        }
+
         Optional.ofNullable(allergenDTO.getName())
                 .ifPresent(n -> allergenDTO.setName(stringUtility.formatAllLower(n)));
         Optional.ofNullable(allergenDTO.getDescription())

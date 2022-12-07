@@ -5,6 +5,10 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 public interface UserService {
 
     UserDTO signUpUser(UserDTO userDTO);

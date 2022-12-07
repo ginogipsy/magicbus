@@ -6,15 +6,19 @@ import com.ginogipsy.magicbus.dto.IngredientDTO;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 public interface FriedIngredientService {
 
     FriedIngredientDTO insertIngredient(final String friedName, final String ingredientName);
 
     List<String> insertIngredients(final String friedName, final List<String> ingredientList);
 
-    List<IngredientDTO> findByFried(final String friedName);
+    List<IngredientDTO> findIngredientListByFried(final String friedName);
 
-    List<FriedDTO> findByIngredient(final String ingredientName);
+    List<FriedDTO> findFriedListByIngredient(final String ingredientName);
 
     String deleteByFriedAndIngredient(final String friedName, final String ingredientName);
 }

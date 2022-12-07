@@ -49,7 +49,7 @@ public class MagicbusFriedOperationApiDelegateImpl implements MagicbusFriedOpera
         Optional.ofNullable(insertFriedRequest.getAvailable()).ifPresent(friedToInsert::setAvailable);
         //Optional.ofNullable(insertFriedRequest.getProductCategory()).ifPresent(friedDTO::setProductCategory);
 
-        friedService.insertFried(friedToInsert, user);
+        friedService.insert(friedToInsert, user);
         return ResponseUtils.buildSuccessResult("Fried named "+insertFriedRequest.getFriedName()+" has been inserted correctly!");
     }
 }

@@ -2,10 +2,12 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.component.UserUtility;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,52 +16,57 @@ import java.util.*;
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 import static java.util.Optional.*;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final MapperFactory mapperFactory;
     private final StringUtility stringUtility;
     private final UserUtility userUtility;
 
-    public UserServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
-        this.mapperFactory = mapperFactory;
-        this.stringUtility = stringUtility;
-        this.userUtility = userUtility;
-    }
-
     @Override
     public UserDTO signUpUser(final UserDTO userDTO) {
-        final UserDTO user = userUtility.reformatUserDTO(userDTO);
-        log.info("Creation new user - START");
-        if (mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()).size() == 0) {
-            if (user.getFiscalCode() != null && mapperFactory.getUserMapper().findByFiscalCode(user.getFiscalCode()) != null) {
-                log.warn("Fiscal Code " + user.getFiscalCode() + " is already present in DB!");
-                user.setFiscalCode(null);
-            }
+        log.info("UserServiceImpl - signUpUser() -> Creation new user - START");
+        final UserDTO user = Optional.ofNullable(userDTO).map(userUtility::reformatUserDTO)
+                        .orElseThrow(() -> new MagicbusException(USER_NOT_FOUND, "UserDTO is null!"));
 
-            if (mapperFactory.getUserMapper().findByCellNumber(user.getCellNumber()) != null) {
-                log.error("Number " + user.getCellNumber() + " is already present in DB!");
-                throw new MagicbusException(PHONE_NUMBER_IS_PRESENT, "Number " + user.getCellNumber() + " is already present in DB!");
-            }
-
-            user.setPassword(user.getPassword());
-            Set<RoleDTO> role = new HashSet<>();
-            RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfile("USER");
-            role.add(roleDTO);
-            user.setRoles(role);
-            user.setIsEnabled(true);
-            log.info("Creation new user - FINISH");
-            return mapperFactory.getUserMapper().save(user);
+        if(!mapperFactory.getUserMapper().findByUsernameOrEmail(user.getUsername(), user.getEmail()).isEmpty()) {
+            final String resultString = "Email " + user.getEmail() + " or username " + user.getUsername() + " are already present in DB!";
+            log.error("UserServiceImpl - signUpUser() -> {}", resultString);
+            throw new MagicbusException(USERNAME_OR_EMAIL_ARE_PRESENT,resultString);
         }
-        log.error("Email " + user.getEmail() + " or username " + user.getUsername() + " are already present in DB!");
-        throw new MagicbusException(USERNAME_OR_EMAIL_ARE_PRESENT,"Email " + user.getEmail() + " or username " + user.getUsername() + " are already present!");
+
+        if(user.getFiscalCode() != null && mapperFactory.getUserMapper().findByFiscalCode(user.getFiscalCode()).isPresent()) {
+            log.warn("Fiscal Code " + user.getFiscalCode() + " is already present in DB!");
+            user.setFiscalCode(null);
+        }
+
+        if (mapperFactory.getUserMapper().findByCellNumber(user.getCellNumber()).isPresent()) {
+            final String resultString1 = "Number " + user.getCellNumber() + " is already present in DB!";
+            log.error("UserServiceImpl - signUpUser() -> {}", resultString1);
+            throw new MagicbusException(PHONE_NUMBER_IS_PRESENT, resultString1);
+        }
+
+        user.setPassword(user.getPassword());
+        Set<RoleDTO> role = new HashSet<>();
+        RoleDTO roleDTO = mapperFactory.getRoleMapper().findByProfile("USER").orElse(null);
+        role.add(roleDTO);
+        user.setRoles(role);
+        user.setIsEnabled(true);
+        log.info("UserServiceImpl - signUpUser() -> Creation new user - FINISH");
+        return mapperFactory.getUserMapper().save(user)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
 
     @Override
     public UserDTO addAddress(final UserDTO oldUser, final String address, final String houseNumber, final String city, final String postalCode) {
-        log.info("Add address - START");
+        log.info("UserServiceImpl - addAddress() -> Add address - START");
         Optional.ofNullable(address).ifPresent(add -> oldUser.setAddress(stringUtility.formatAllLower(add)));
         Optional.ofNullable(houseNumber).ifPresent(hn -> oldUser.setHouseNumber(stringUtility.formatAllLower(hn)));
         Optional.ofNullable(city).ifPresent(c -> oldUser.setCity(stringUtility.formatAllLower(city)));
@@ -67,27 +74,28 @@ public class UserServiceImpl implements UserService {
             oldUser.setPostalCode(Optional.of(postalCode)
                     .filter(stringUtility::checkPostalCode)
                     .orElseThrow(() -> new MagicbusException(CAP_NOT_CORRECT)));
-            log.error("CAP " + postalCode + " not correct!");
         }
-        log.info("Add address - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - addAddress() -> Add address - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO addNameAndSurname(final UserDTO oldUser, final String name, final String surname) {
-        log.info("Add name and surname - START");
+        log.info("UserServiceImpl - addNameAndSurname() -> Add name and surname - START");
         oldUser.setName(stringUtility.formatWithFirstUpper(name));
         oldUser.setSurname(stringUtility.formatWithFirstUpper(surname));
-        log.info("Add name and surname - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - addNameAndSurname() -> Add name and surname - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO updateUser(final UserDTO oldUser, final UserDTO updatedUser) {
-        log.info("Update user - START");
+        log.info("UserServiceImpl - updateUser() -> Update user - START");
         final UserDTO user = userUtility.reformatUserDTO(updatedUser);
 
-        modificaCredenziali(oldUser, user);
+        updateCredentials(oldUser, user);
         ofNullable(user.getName()).ifPresent(oldUser::setName);
         ofNullable(user.getSurname()).ifPresent(oldUser::setSurname);
         ofNullable(user.getAddress()).ifPresent(oldUser::setAddress);
@@ -98,58 +106,76 @@ public class UserServiceImpl implements UserService {
                 oldUser.setPostalCode(cap);
             }
         });
-        log.info("Update user - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - updateUser() -> Update user - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO updateEmail(final UserDTO oldUser, final String newEmail) {
-        log.info("Update email - START");
+        log.info("UserServiceImpl - updateEmail() -> Update email - START");
         privateUpdateEmail(oldUser, newEmail);
-        log.info("Update email - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - updateEmail() -> Update email - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO addFiscalCode(final UserDTO oldUser, final String newFiscalCode) {
-        log.info("Add fiscal code - START");
-        if (stringUtility.checkFiscalCode(newFiscalCode)) {
-            privateUpdateFiscalCode(oldUser, newFiscalCode);
-            log.info("Add fiscal code - FINISH");
-            return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - addFiscalCode() -> Add fiscal code - START");
+
+        if (!stringUtility.checkFiscalCode(newFiscalCode)) {
+            log.error("UserServiceImpl - addFiscalCode() -> fiscal code "+newFiscalCode+" is not correct!");
+            throw new MagicbusException(FISCAL_CODE_NOT_CORRECT);
         }
-        log.error("fiscal code "+newFiscalCode+" is not correct!");
-        throw new MagicbusException(FISCAL_CODE_NOT_CORRECT);
+
+        privateUpdateFiscalCode(oldUser, newFiscalCode);
+        log.info("UserServiceImpl - addFiscalCode() -> Add fiscal code - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO updateUsername(final UserDTO oldUser, final String username) {
-        log.info("Update username - START");
+        log.info("UserServiceImpl - updateUsername() -> Update username - START");
         privateUpdateUsername(oldUser, username);
-        log.info("Update username - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - updateUsername() -> Update username - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public UserDTO updateCellNumber(final UserDTO oldUser, final String newCellNumber) {
-        log.info("Update cell number - START");
+        log.info("UserServiceImpl - updateCellNumber() -> Update cell number - START");
         privateUpdateNumCell(oldUser, newCellNumber);
-        log.info("Update cell number - FINISH");
-        return mapperFactory.getUserMapper().save(oldUser);
+        log.info("UserServiceImpl - updateCellNumber() -> Update cell number - FINISH");
+        return mapperFactory.getUserMapper().save(oldUser)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
-    public UserDTO findByEmail(String email) {
-        return mapperFactory.getUserMapper().findUserByEmail(email);
+    public UserDTO findByEmail(final String email) {
+        log.info("UserServiceImpl - findByEmail() -> Checking if email name is null..");
+        final String usr = Optional.ofNullable(email)
+                .map(stringUtility::formatAllLower)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.NAME_IS_NULL));
+        log.info("UserServiceImpl - findByEmail() -> Finding user named '{}'..", usr);
+        return mapperFactory.getUserMapper().findUserByEmail(usr)
+                .orElseThrow(() -> new MagicbusException(USER_NOT_FOUND));
     }
 
     @Override
     public Optional<UserDTO> findByUsername(final String username) {
-        return Optional.ofNullable(mapperFactory.getUserMapper().findUserByUsername(username));
+        log.info("UserServiceImpl - findByUsername() -> Checking if username name is null..");
+        final String usr = Optional.ofNullable(username)
+                .map(stringUtility::formatAllLower)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.NAME_IS_NULL));
+        log.info("UserServiceImpl - findByUsername() -> Finding user named '{}'..", usr);
+        return mapperFactory.getUserMapper().findUserByUsername(usr);
     }
 
-    private void modificaCredenziali(final UserDTO oldUser, final UserDTO updatedUser) {
-        log.info("Update credentials - START");
+    private void updateCredentials(final UserDTO oldUser, final UserDTO updatedUser) {
+        log.info("UserServiceImpl - updateCredentials() -> Update credentials - START");
         of(updatedUser.getEmail()).ifPresent(email -> privateUpdateEmail(oldUser, email));
         of(updatedUser.getUsername()).ifPresent(username -> privateUpdateUsername(oldUser, username));
         of(updatedUser.getCellNumber()).ifPresent(cellNumb -> privateUpdateNumCell(oldUser, cellNumb));
@@ -157,52 +183,59 @@ public class UserServiceImpl implements UserService {
             if (stringUtility.checkFiscalCode(fiscalCode)) {
                 privateUpdateFiscalCode(oldUser, fiscalCode);
             } else {
-                log.error("Fiscal code not correct!");
+                log.error("UserServiceImpl - updateCredentials() -> Fiscal code not correct!");
                 throw new MagicbusException(FISCAL_CODE_NOT_CORRECT);
             }
         });
-        log.info("Update credentials - FINISH");
+        log.info("UserServiceImpl - updateCredentials() -> Update credentials - FINISH");
     }
 
     private void privateUpdateEmail(final UserDTO oldUser, final String newEmail) {
-        log.info("Check new email");
-        if (!oldUser.getEmail().equals(newEmail) && mapperFactory.getUserMapper().findUserByEmail(newEmail) != null) {
-            log.error("New mail is already present in DB!");
+        final Optional<UserDTO> usrOfNewEmail = mapperFactory.getUserMapper().findUserByUsername(newEmail);
+        log.info("UserServiceImpl - privateUpdateEmail() -> Check new email");
+        if (usrOfNewEmail.isPresent() && !usrOfNewEmail.get().equals(oldUser)) {
+            log.error("UserServiceImpl - privateUpdateEmail() -> New mail is already present in DB!");
             throw new MagicbusException(EMAIL_IS_PRESENT);
         }
-        log.info("Set email to user");
+        log.info("UserServiceImpl - privateUpdateEmail() -> Set email to user");
         oldUser.setEmail(newEmail.toLowerCase().trim());
     }
 
     private void privateUpdateUsername(final UserDTO oldUser, final String username) {
-        log.info("Check new username");
-        if (!oldUser.getUsername().equals(username) && mapperFactory.getUserMapper().findUserByUsername(username) != null) {
-            log.error("New username is already present in DB!");
+        log.info("UserServiceImpl - privateUpdateUsername() -> Check new username");
+        final Optional<UserDTO> usrOfNewUsername = mapperFactory.getUserMapper().findUserByUsername(username);
+
+        if (usrOfNewUsername.isPresent() && !usrOfNewUsername.get().equals(oldUser)) {
+            log.error("UserServiceImpl - privateUpdateUsername() -> New username is already present in DB!");
             throw new MagicbusException(USERNAME_IS_PRESENT);
         }
-        log.info("Set username to user");
+        log.info("UserServiceImpl - privateUpdateUsername() -> Set username to user");
         oldUser.setUsername(username.toLowerCase().trim());
     }
 
     private void privateUpdateNumCell(final UserDTO oldUser, final String newCellNumber) {
-        log.info("Check new phone number");
-        if (!oldUser.getCellNumber().equals(newCellNumber) && mapperFactory.getUserMapper().findByCellNumber(newCellNumber) != null) {
-            log.error("New phone number is already present in DB!");
+        final Optional<UserDTO> usrOfNewCellNumber = mapperFactory.getUserMapper().findByCellNumber(newCellNumber);
+        log.info("UserServiceImpl - privateUpdateNumCell() -> Check new phone number");
+
+        if (usrOfNewCellNumber.isPresent() && !usrOfNewCellNumber.get().equals(oldUser)) {
+            log.error("UserServiceImpl - privateUpdateNumCell() -> New phone number is already present in DB!");
             throw new MagicbusException(PHONE_NUMBER_IS_PRESENT);
         }
-        log.info("Set cell number to user");
+
+        log.info("UserServiceImpl - privateUpdateNumCell() -> Set cell number to user");
         oldUser.setCellNumber(newCellNumber);
     }
 
-    private void privateUpdateFiscalCode(UserDTO oldUser, final String newFiscalCode) {
-        log.info("Check new fiscal code");
-        UserDTO userOfNewCodiceFiscale = mapperFactory.getUserMapper().findByFiscalCode(newFiscalCode);
+    private void privateUpdateFiscalCode(final UserDTO oldUser, final String newFiscalCode) {
+        log.info("UserServiceImpl - privateUpdateFiscalCode() -> Checking if there is another user with this fiscal code..");
+        final Optional<UserDTO> userOfNewFiscalCode = mapperFactory.getUserMapper().findByFiscalCode(newFiscalCode);
 
-        if (userOfNewCodiceFiscale != null && !oldUser.getEmail().equals(userOfNewCodiceFiscale.getEmail())) {
-            log.error("New fiscal code is already present in DB!");
+
+        if (userOfNewFiscalCode.isPresent() && !userOfNewFiscalCode.get().equals(oldUser)) {
+            log.error("UserServiceImpl - privateUpdateFiscalCode() -> New fiscal code is already present in DB!");
             throw new MagicbusException(FISCAL_CODE_IS_PRESENT);
         }
-        log.info("Set fiscal code to user");
+        log.info("UserServiceImpl - privateUpdateFiscalCode() -> Set fiscal code to user");
         oldUser.setFiscalCode(newFiscalCode.toUpperCase().trim());
     }
 }

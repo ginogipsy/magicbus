@@ -5,9 +5,13 @@ import com.ginogipsy.magicbus.dto.BrandDTO;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 public interface BrandService {
 
-    Optional<BrandDTO> findByName(final String name);
+    BrandDTO findByName(final String name);
 
     List<BrandDTO> findAll();
 

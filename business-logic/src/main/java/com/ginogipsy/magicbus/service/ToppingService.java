@@ -5,26 +5,30 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 public interface ToppingService {
 
-    List<ToppingDTO> findByStatus(String status);
+    List<ToppingDTO> findByStatus(final String status);
 
-    ToppingDTO findByName(String name);
+    ToppingDTO findByName(final String name);
 
-    List<ToppingDTO> findTasteWhereNamesContains(String name);
+    List<ToppingDTO> findTasteWhereNamesContains(final String name);
 
-    List<ToppingDTO> findByBase(String base);
+    List<ToppingDTO> findByBase(final String base);
 
-    List<ToppingDTO> findByProductCategory(String productCategory);
+    List<ToppingDTO> findByProductCategory(final String productCategory);
 
-    List<ToppingDTO> findByAvailabilityPeriod(String availabilityPeriod);
+    List<ToppingDTO> findByAvailabilityPeriod(final String availabilityPeriod);
 
-    List<ToppingDTO> findByAvailabilityAndStatus(boolean availability, String status);
+    List<ToppingDTO> findByAvailabilityAndStatus(final boolean availability, final String status);
 
-    List<ToppingDTO> findByAvailableAndAvailabilityPeriod(boolean availability, String availabilityPeriod);
+    List<ToppingDTO> findByAvailableAndAvailabilityPeriod(final boolean availability, final String availabilityPeriod);
 
-    List<ToppingDTO> findByUserEntered(boolean userEntered);
-    List<ToppingDTO> findByUserEnteredAndStatus(boolean userEntered, String status);
+    List<ToppingDTO> findByUserEntered(final boolean userEntered);
+    List<ToppingDTO> findByUserEnteredAndStatus(final boolean userEntered, final String status);
 
-    ToppingDTO insertTopping(ToppingDTO toppingDTO, UserDTO userDTO);
+    ToppingDTO insert(final ToppingDTO toppingDTO, final UserDTO userDTO);
 }

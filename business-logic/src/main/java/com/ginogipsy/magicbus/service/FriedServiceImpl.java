@@ -8,62 +8,61 @@ import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FriedServiceImpl implements FriedService {
 
     private final MapperFactory mapperFactory;
     private final StringUtility stringUtility;
     private final UserUtility userUtility;
 
-    public FriedServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility, UserUtility userUtility) {
-        this.mapperFactory = mapperFactory;
-        this.stringUtility = stringUtility;
-        this.userUtility = userUtility;
-    }
-
-
     @Override
-    public FriedDTO insertFried(FriedDTO friedDTO, UserDTO userDTO) {
+    public FriedDTO insert(final FriedDTO friedDTO, final UserDTO userDTO) {
         if(userUtility.isOnlyAnUser(userDTO)){
             friedDTO.setUserEntered(true);
             friedDTO.setAvailable(false);
             friedDTO.setStatusEnum(StatusEnum.INSERITO);
-            friedDTO.setName(stringUtility.formatAllMinusc(friedDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
+            friedDTO.setName(stringUtility.formatAllLower(friedDTO.getName()).concat(" by ").concat(userDTO.getUsername()));
         }else{
             friedDTO.setUserEntered(false);
             friedDTO.setAvailable(true);
             friedDTO.setStatusEnum(StatusEnum.DISPONIBILE);
-            friedDTO.setName(stringUtility.formatAllMinusc(friedDTO.getName()));
+            friedDTO.setName(stringUtility.formatAllLower(friedDTO.getName()));
         }
 
-        if(mapperFactory.getFriedMapper().findByName(friedDTO.getName()) != null){
-            log.error("Taste is already present on DB!");
-            throw new MagicbusException(BeErrorCodeEnum.TASTE_IS_ALREADY_PRESENT, "Taste ".concat(friedDTO.getName()).concat(" is already present!"));
+        if(mapperFactory.getFriedMapper().findByName(friedDTO.getName()).isPresent()){
+            log.info("AllergenServiceImpl - insert() -> Checking if allergen is null..");
+            throw new MagicbusException(BeErrorCodeEnum.FRIED_IS_ALREADY_PRESENT, "Fried ".concat(friedDTO.getName()).concat(" is already present!"));
         }
 
-        friedDTO.setFriedDescription(stringUtility.formatAllMinusc(friedDTO.getFriedDescription()));
+        friedDTO.setFriedDescription(stringUtility.formatAllLower(friedDTO.getFriedDescription()));
         friedDTO.setUserCreator(userDTO);
         return mapperFactory.getFriedMapper().save(friedDTO);
     }
 
     @Override
-    public FriedDTO findByName(String friedName) {
-        log.info("Check if fried name is null..");
-        final String n = Optional.ofNullable(stringUtility.formatAllMinusc(friedName))
-                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_IS_NULL, "Taste name is null!"));
-        return Optional.ofNullable(mapperFactory.getFriedMapper()
-                .findByName(n)).orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.TASTE_NOT_FOUND, "Taste "+friedName+" not found!"));
+    public FriedDTO findByName(final String friedName) {
+        stringUtility.formatAllLower(friedName);
+        log.info("FriedServiceImpl - findByName() -> Finding fried named '{}'..", friedName);
+        return mapperFactory.getFriedMapper()
+                .findByName(friedName)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.FRIED_NOT_FOUND, "Fried "+friedName+" not found!"));
     }
 
     @Override
-    public List<FriedDTO> findByStatus(String status) {
-        return mapperFactory.getFriedMapper().findByStatus(status).stream().toList();
+    public List<FriedDTO> findByStatus(final String status) {
+        return mapperFactory.getFriedMapper().findByStatus(status);
     }
 }
