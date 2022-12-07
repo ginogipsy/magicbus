@@ -19,8 +19,6 @@ import com.ginogipsy.magicbus.service.RefreshTokenService;
 import com.ginogipsy.magicbus.service.UpdatePassword;
 import com.ginogipsy.magicbus.service.UserDetailsImpl;
 import com.ginogipsy.magicbus.service.UserService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,11 +40,9 @@ import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 /**
  * @author ginogipsy
  */
-@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -57,6 +53,25 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UpdatePassword updatePassword;
     private final EmailService emailService;
+
+
+
+    public AuthController(AuthenticationManager authenticationManager,
+                          MapperFactory mapperFactory,
+                          JwtUtils jwtUtils,
+                          UserService userService,
+                          RefreshTokenService refreshTokenService,
+                          PasswordEncoder passwordEncoder,
+                          UpdatePassword updatePassword, EmailService emailService) {
+        this.authenticationManager = authenticationManager;
+        this.mapperFactory = mapperFactory;
+        this.jwtUtils = jwtUtils;
+        this.userService = userService;
+        this.refreshTokenService = refreshTokenService;
+        this.passwordEncoder = passwordEncoder;
+        this.updatePassword = updatePassword;
+        this.emailService = emailService;
+    }
 
     @PostMapping("/signIn")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -73,9 +88,9 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        RefreshTokenDTO refreshTokenDTO = refreshTokenService.createRefreshToken(userDetails.getId());
+        RefreshTokenDTO refreshTokenDTO = refreshTokenService.createRefreshToken(userDetails.id());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshTokenDTO.getToken(), userDetails.getId(),
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshTokenDTO.getToken(), userDetails.id(),
                 userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
@@ -135,7 +150,7 @@ public class AuthController {
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("ADMIN"));
                     case "editor", "EDITOR" ->
-                            mapperFactory.getRoleMapper().findByProfile("EDITOR")
+                           mapperFactory.getRoleMapper().findByProfile("EDITOR")
                                     .map(roles::add)
                                     .orElseThrow(() -> mapRoleException("EDITOR"));
                     case "user", "USER" -> mapperFactory.getRoleMapper().findByProfile("USER")
@@ -145,7 +160,7 @@ public class AuthController {
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("MEZZ"));
                 }
-        });
+            });
         }
 
         userDTO.setRoles(roles);
@@ -165,7 +180,6 @@ public class AuthController {
     }
 
     private MagicbusException mapRoleException(final String role) {
-        log.error("AuthController - mapRoleException() -> role not found!");
         Map<String,String> attributeList = new HashMap<>();
         attributeList.put(AttributeForErrorEnum.ATTRIBUTE_1.getDescription(), role);
         return new MagicbusException(ROLE_NOT_FOUND, attributeList);

@@ -2,21 +2,17 @@ package com.ginogipsy.magicbus.controller.payload.request;
 
 
 import com.ginogipsy.magicbus.constraint.ValidPassword;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
-
 /**
  * @author ginogipsy
  */
 @Data
-@AllArgsConstructor
 public class SignupRequest {
 
     @NonNull

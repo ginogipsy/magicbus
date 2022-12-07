@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
 /**
  * @author ginogipsy
  */
@@ -59,7 +58,7 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public Integer getId() {
+    public Integer id() {
         return id;
     }
 

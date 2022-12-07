@@ -1,18 +1,13 @@
 package com.ginogipsy.magicbus.controller.payload.request;
 
 import com.ginogipsy.magicbus.constraint.ValidPassword;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
-
 /**
  * @author ginogipsy
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UpdatePasswordRequest {
 
 

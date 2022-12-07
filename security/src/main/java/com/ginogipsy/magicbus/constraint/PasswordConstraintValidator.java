@@ -16,11 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.INVALID_PASSWORD_FILE_NOT_FOUND;
-
 /**
  * @author ginogipsy
  */
-
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
     private DictionaryRule dictionaryRule;
