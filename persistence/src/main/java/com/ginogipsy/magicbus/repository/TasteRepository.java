@@ -14,13 +14,13 @@ public interface TasteRepository extends JpaRepository<Topping, Integer> {
 
     Optional<Topping> findByName(final String name);
     List<Topping> findByNameContains(final String name);
-    List<Topping> findByNameContainsAndStatus(final String name, final StatusEnum statusEnum);
-    List<Topping> findByStatus(final StatusEnum statusEnum);
-    List<Topping> findByBase(final BaseEnum baseEnum);
-    List<Topping> findByAvailabilityPeriod(final AvailabilityPeriodEnum availabilityPeriodEnum);
-    List<Topping> findByProductCategory(final ProductCategory productCategory);
-    List<Topping> findByAvailableAndAvailabilityPeriod(final boolean available, final AvailabilityPeriodEnum availabilityPeriodEnum);
-    List<Topping> findByAvailableAndStatus(final boolean available, StatusEnum statusEnum);
+    List<Topping> findByNameContainsAndStatusEnum(final String name, final StatusEnum statusEnum);
+    List<Topping> findByStatusEnum(final StatusEnum statusEnum);
+    List<Topping> findByBaseEnum(final BaseEnum baseEnum);
+    List<Topping> findByAvailabilityPeriodEnum(final AvailabilityPeriodEnum availabilityPeriodEnum);
+    List<Topping> findByProductCategoryEnum(final ProductCategoryEnum productCategoryEnum);
+    List<Topping> findByAvailableAndAvailabilityPeriodEnum(final boolean available, final AvailabilityPeriodEnum availabilityPeriodEnum);
+    List<Topping> findByAvailableAndStatusEnum(final boolean available, StatusEnum statusEnum);
     List<Topping> findByUserEntered(final boolean userEntered);
-    List<Topping> findByUserEnteredAndStatus(final boolean userEntered, final StatusEnum statusEnum);
+    List<Topping> findByUserEnteredAndStatusEnum(final boolean userEntered, final StatusEnum statusEnum);
 }

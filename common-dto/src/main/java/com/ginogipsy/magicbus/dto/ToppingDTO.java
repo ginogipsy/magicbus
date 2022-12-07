@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriodEnum;
 import com.ginogipsy.magicbus.domain.enums.BaseEnum;
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
 import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +47,7 @@ public class ToppingDTO {
     private Byte[] image;
     private BaseEnum baseEnum;
     private AvailabilityPeriodEnum availabilityPeriodEnum;
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
 
     @JsonIgnore
     private Set<UserDTO> users;

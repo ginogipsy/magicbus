@@ -76,7 +76,7 @@ public class WineMapper {
     public List<WineDTO> findByWineQuality(final String wineQuality){
         log.info("WineMapper - findByWineQuality() -> Searching wines where wine quality is {}..", wineQuality);
         return Optional.ofNullable(wineQuality)
-                .map(wq -> wineRepository.findByWineQuality(WineQualityEnum.valueOf(wq))
+                .map(wq -> wineRepository.findByWineQualityEnum(WineQualityEnum.valueOf(wq))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -96,7 +96,7 @@ public class WineMapper {
     public List<WineDTO> findByAvailableAndWineQuality(final boolean available, final String wineQuality){
         log.info("WineMapper - findByAvailableAndWineQuality() -> Searching wines where availability is {} and winery name is {}..", available, wineQuality);
         return Optional.ofNullable(wineQuality)
-                .map(wq -> wineRepository.findByAvailableAndWineQuality(available, WineQualityEnum.valueOf(wq))
+                .map(wq -> wineRepository.findByAvailableAndWineQualityEnum(available, WineQualityEnum.valueOf(wq))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

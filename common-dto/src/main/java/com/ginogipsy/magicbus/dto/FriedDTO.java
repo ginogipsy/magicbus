@@ -3,7 +3,7 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
 import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ public class FriedDTO {
 
     @JsonIgnore
     private Byte[] image;
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
     private Boolean available;
     private boolean userEntered;
 

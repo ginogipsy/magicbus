@@ -1,9 +1,7 @@
 package com.ginogipsy.magicbus.marshall;
 
-import com.ginogipsy.magicbus.domain.Beer;
 import com.ginogipsy.magicbus.domain.enums.ProfileEnum;
 import com.ginogipsy.magicbus.domain.Role;
-import com.ginogipsy.magicbus.dto.BeerDTO;
 import com.ginogipsy.magicbus.dto.RoleDTO;
 import com.ginogipsy.magicbus.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class RoleMapper {
     public Optional<RoleDTO> findByProfile(final String profile){
         log.info("RoleMapper - findByProfile() -> Searching role where profile is {}..", profile);
         return Optional.ofNullable(profile)
-                .flatMap(p -> roleRepository.findByProfile(ProfileEnum.getProfile(p)))
+                .flatMap(p -> roleRepository.findByProfileEnum(ProfileEnum.getProfile(p)))
                 .map(this::convertToDTO);
     }
 

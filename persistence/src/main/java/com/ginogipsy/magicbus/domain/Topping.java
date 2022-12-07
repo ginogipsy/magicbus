@@ -59,7 +59,7 @@ public class Topping {
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
 
     @ManyToMany(mappedBy = "favoriteToppings", fetch = FetchType.LAZY)
     @JsonIgnore

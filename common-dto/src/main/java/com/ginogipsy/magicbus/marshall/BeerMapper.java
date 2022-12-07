@@ -67,7 +67,7 @@ public class BeerMapper {
     public List<BeerDTO> findByBeerType(final String beerType) {
         log.info("BeerMapper - findByBeerType() -> Searching beers where beer type is '{}'..", beerType);
         return Optional.ofNullable(beerType)
-                .map(bt -> beerRepository.findByBeerType(BeerTypeEnum.valueOf(bt))
+                .map(bt -> beerRepository.findByBeerTypeEnum(BeerTypeEnum.valueOf(bt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -95,7 +95,7 @@ public class BeerMapper {
     public List<BeerDTO> findByAvailableAndBeerType(final boolean available, final String beerType) {
         log.info("BeerMapper - findByAvailableAndBeerType() -> Searching beers where available is '{}' and beer type is '{}'..", available, beerType);
         return Optional.ofNullable(beerType)
-                .map(bt -> beerRepository.findByAvailableAndBeerType(available, BeerTypeEnum.valueOf(bt))
+                .map(bt -> beerRepository.findByAvailableAndBeerTypeEnum(available, BeerTypeEnum.valueOf(bt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

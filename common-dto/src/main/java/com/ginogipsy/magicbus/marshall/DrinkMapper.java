@@ -58,7 +58,7 @@ public class DrinkMapper {
     public List<DrinkDTO> findByDrinkType(final String drinkType){
         log.info("DrinkMapper - findByDrinkType() -> Searching drinks where drink type is " + drinkType+ "..");
         return Optional.ofNullable(drinkType)
-                .map(dt -> drinkRepository.findByDrinkType(DrinkTypeEnum.valueOf(dt))
+                .map(dt -> drinkRepository.findByDrinkTypeEnum(DrinkTypeEnum.valueOf(dt))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
@@ -68,18 +68,18 @@ public class DrinkMapper {
     public List<DrinkDTO> findByStatus(final String status){
         log.info("DrinkMapper - findByStatus() -> Searching drinks where status is " + status+ "..");
         return Optional.ofNullable(status)
-                .map(s -> drinkRepository.findByStatus(StatusEnum.valueOf(s))
+                .map(s -> drinkRepository.findByStatusEnum(StatusEnum.valueOf(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())
                 .orElse(new ArrayList<>());
     }
 
-    List<DrinkDTO> findByStatusAndType(final String status, final String drinkType){
-        log.info("DrinkMapper - findByStatusAndType() -> Searching drinks where status is " + status+ "and drink type is "+drinkType+"..");
+    List<DrinkDTO> findByStatusAndType(final String status, final String drinkTypeEnum){
+        log.info("DrinkMapper - findByStatusAndType() -> Searching drinks where status is " + status+ "and drink type is "+drinkTypeEnum+"..");
         return Optional.ofNullable(status)
-                .filter(s -> Objects.nonNull(drinkType))
-                .map(s -> drinkRepository.findByStatusAndDrinkType(StatusEnum.valueOf(s), DrinkTypeEnum.valueOf(drinkType))
+                .filter(s -> Objects.nonNull(drinkTypeEnum))
+                .map(s -> drinkRepository.findByStatusEnumAndDrinkTypeEnum(StatusEnum.valueOf(s), DrinkTypeEnum.valueOf(drinkTypeEnum))
                                 .stream()
                                 .map(this::convertToDTO)
                                 .toList())

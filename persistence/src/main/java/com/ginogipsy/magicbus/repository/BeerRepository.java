@@ -15,8 +15,8 @@ public interface BeerRepository extends JpaRepository<Beer, Integer> {
 
     Optional<Beer> findByName(final String name);
     List<Beer> findByBrewery_Name(final String name);
-    List<Beer> findByBeerType(final BeerTypeEnum beerTypeEnum);
+    List<Beer> findByBeerTypeEnum(final BeerTypeEnum beerTypeEnum);
     List<Beer> findByAvailable(final boolean available);
     List<Beer> findByAvailableAndBrewery_Name(final boolean available, final String breweryName);
-    List<Beer> findByAvailableAndBeerType(final boolean available, final BeerTypeEnum beerTypeEnum);
+    List<Beer> findByAvailableAndBeerTypeEnum(final boolean available, final BeerTypeEnum beerTypeEnum);
 }

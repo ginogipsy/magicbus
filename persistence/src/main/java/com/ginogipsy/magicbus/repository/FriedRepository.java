@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface FriedRepository extends JpaRepository<Fried, Integer> {
 
     Optional<Fried> findByName(final String name);
-    List<Fried> findByStatus(final StatusEnum statusEnum);
+    List<Fried> findByStatusEnum(final StatusEnum statusEnum);
 
 }

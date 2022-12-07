@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface DrinkRepository extends JpaRepository<Drink, Integer> {
 
     Optional<Drink> findByName(final String name);
-    List<Drink> findByDrinkType(final DrinkTypeEnum drinkTypeEnum);
-    List<Drink> findByStatus(final StatusEnum statusEnum);
-    List<Drink> findByStatusAndDrinkType(final StatusEnum statusEnum, final DrinkTypeEnum drinkTypeEnum);
+    List<Drink> findByDrinkTypeEnum(final DrinkTypeEnum drinkTypeEnum);
+    List<Drink> findByStatusEnum(final StatusEnum statusEnum);
+    List<Drink> findByStatusEnumAndDrinkTypeEnum(final StatusEnum statusEnum, final DrinkTypeEnum drinkTypeEnum);
 }

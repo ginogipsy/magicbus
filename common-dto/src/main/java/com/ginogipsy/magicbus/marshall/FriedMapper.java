@@ -57,7 +57,7 @@ public Optional<Fried> convertToEntity(final Optional<FriedDTO> friedDTO) {
     public List<FriedDTO> findByStatus(final String status) {
         log.info("FriedMapper - findByName() -> Searching fried where status is {} .. ", status);
         return Optional.ofNullable(status)
-                .map(s -> friedRepository.findByStatus(StatusEnum.getStatus(s))
+                .map(s -> friedRepository.findByStatusEnum(StatusEnum.getStatus(s))
                         .stream()
                         .map(this::convertToDTO)
                         .toList())

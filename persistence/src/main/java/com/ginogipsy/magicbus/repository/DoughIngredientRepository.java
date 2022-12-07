@@ -14,11 +14,11 @@ import java.util.Optional;
 
 public interface DoughIngredientRepository extends JpaRepository<DoughIngredient, Integer> {
 
-    List<DoughIngredient> findByDough(Dough dough);
+    List<DoughIngredient> findByDough(final Dough dough);
 
-    List<DoughIngredient> findByIngredient(Ingredient ingredient);
+    List<DoughIngredient> findByIngredient(final Ingredient ingredient);
 
-    Optional<DoughIngredient> findByDoughAndIngredient(Dough dough, Ingredient ingredient);
+    Optional<DoughIngredient> findByDoughAndIngredient(final Dough dough, final Ingredient ingredient);
 
-    void deleteByDoughAndIngredient(Dough dough, Ingredient ingredient);
+    void deleteByDoughAndIngredient(final Dough dough, final Ingredient ingredient);
 }
