@@ -2,17 +2,21 @@ package com.ginogipsy.magicbus.component;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 public interface StringUtility {
 
-    boolean checkFiscalCode(String checkFiscalCode);
+    boolean checkFiscalCode(final String checkFiscalCode);
 
-    String formatAllMinusc(String string);
+    String formatAllLower(final String string);
 
-    String formatAllMaiusc(String string);
+    String formatAllUpper(final String string);
 
-    String formatWithFirstMaiusc(String string);
+    String formatWithFirstUpper(final String string);
 
-    boolean checkPostalCode(String postalCode);
+    boolean checkPostalCode(final String postalCode);
 
     String convertListOfStringsJson(final String nameOfJsonObj, final List<String> listOfStrings);
 

@@ -1,21 +1,25 @@
 package com.ginogipsy.magicbus.dto;
 
 
-import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.DrinkType;
-import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
+import com.ginogipsy.magicbus.domain.enums.DrinkTypeEnum;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum;
 import lombok.Data;
+
+/**
+ * @author ginogipsy
+ */
 
 @Data
 public class DrinkDTO {
 
     private Integer id;
     private String name;
-    private DrinkType drinkType;
+    private DrinkTypeEnum drinkTypeEnum;
     private String description;
     private Double literCost;
     private Double size;
-    private MeasureUnit measureUnit;
+    private MeasureUnitEnum measureUnitEnum;
     private Double cost;
-    private Status status;
+    private StatusEnum statusEnum;
 }

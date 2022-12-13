@@ -1,28 +1,33 @@
 package com.ginogipsy.magicbus.component;
 
-import com.ginogipsy.magicbus.domain.enums.Profile;
+import com.ginogipsy.magicbus.domain.enums.ProfileEnum;
 import com.ginogipsy.magicbus.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class UserUtilityComponent implements UserUtility {
 
     private final StringUtility stringUtility;
 
-    public UserUtilityComponent(StringUtility stringUtility) {
-        this.stringUtility = stringUtility;
-    }
-
     @Override
     public UserDTO reformatUserDTO(final UserDTO userDTO) {
 
-        Optional.ofNullable(userDTO.getName()).ifPresent(name -> userDTO.setName(stringUtility.formatWithFirstMaiusc(name)));
-        Optional.ofNullable(userDTO.getSurname()).ifPresent(surname -> userDTO.setSurname(stringUtility.formatWithFirstMaiusc(surname)));
+        log.info("UserUtilityComponent - reformatUserDTO() -> reformat this user's fields ..");
+        Optional.ofNullable(userDTO.getName()).ifPresent(name -> userDTO.setName(stringUtility.formatWithFirstUpper(name)));
+        Optional.ofNullable(userDTO.getSurname()).ifPresent(surname -> userDTO.setSurname(stringUtility.formatWithFirstUpper(surname)));
         Optional.ofNullable(userDTO.getFiscalCode()).ifPresent(cf -> userDTO.setFiscalCode(cf.toUpperCase()));
-        Optional.ofNullable(userDTO.getAddress()).ifPresent(street -> userDTO.setAddress(stringUtility.formatWithFirstMaiusc(street)));
-        Optional.ofNullable(userDTO.getCity()).ifPresent(city -> userDTO.setCity(stringUtility.formatWithFirstMaiusc(city)));
+        Optional.ofNullable(userDTO.getAddress()).ifPresent(street -> userDTO.setAddress(stringUtility.formatWithFirstUpper(street)));
+        Optional.ofNullable(userDTO.getCity()).ifPresent(city -> userDTO.setCity(stringUtility.formatWithFirstUpper(city)));
         Optional.ofNullable(userDTO.getHouseNumber()).ifPresent(houseNum -> userDTO.setHouseNumber(houseNum.trim()));
         Optional.ofNullable(userDTO.getPostalCode()).ifPresent(postalCode -> userDTO.setPostalCode(postalCode.trim()));
         Optional.ofNullable(userDTO.getUsername()).ifPresent(username -> userDTO.setUsername(username.toLowerCase().trim()));
@@ -34,7 +39,10 @@ public class UserUtilityComponent implements UserUtility {
     }
 
     @Override
-    public boolean isOnlyAnUser(UserDTO userDTO) {
-        return userDTO.getRoles().size() == 1 && userDTO.getRoles().stream().anyMatch(r -> r.getProfile().equals(Profile.getProfile("USER")));
+    public boolean isOnlyAnUser(final UserDTO userDTO) {
+        log.info("UserUtilityComponent - isOnlyAnUser() -> verify if user named {} has only USER role ..", userDTO.getUsername());
+        return userDTO.getRoles().size() == 1 && userDTO.getRoles()
+                .stream()
+                .anyMatch(r -> r.getProfileEnum().equals(ProfileEnum.getProfile("USER")));
     }
 }

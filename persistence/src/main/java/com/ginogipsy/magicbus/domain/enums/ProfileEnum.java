@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum Profile {
+/**
+ * @author ginogipsy
+ */
+public enum ProfileEnum {
 
     GUEST          ("GUEST"),
     USER           ("USER"),
@@ -12,7 +14,7 @@ public enum Profile {
 
     private final String description;
 
-    Profile(final String description){
+    ProfileEnum(final String description){
         this.description = description;
     }
 
@@ -20,7 +22,10 @@ public enum Profile {
         return description;
     }
 
-    public static Profile getProfile(final String description){
-        return Arrays.stream(Profile.values()).filter(v -> v.getProfile().equals(description)).findAny().orElse(GUEST);
+    public static ProfileEnum getProfile(final String description){
+        return Arrays.stream(ProfileEnum.values())
+                .filter(v -> v.getProfile().equals(description))
+                .findAny()
+                .orElse(GUEST);
     }
 }

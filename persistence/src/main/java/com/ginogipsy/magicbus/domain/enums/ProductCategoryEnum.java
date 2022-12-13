@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum ProductCategory {
+/**
+ * @author ginogipsy
+ */
+public enum ProductCategoryEnum {
 
     UNDEFINED         ("UNDEFINED"),
     PIZZA             ("PIZZA"),
@@ -18,7 +20,7 @@ public enum ProductCategory {
 
     private final String description;
 
-    ProductCategory(final String description){
+    ProductCategoryEnum(final String description){
         this.description = description;
     }
 
@@ -26,8 +28,11 @@ public enum ProductCategory {
         return description;
     }
 
-    public static ProductCategory getProductCategory(final String description){
-        return Arrays.stream(ProductCategory.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static ProductCategoryEnum getProductCategory(final String description){
+        return Arrays.stream(ProductCategoryEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

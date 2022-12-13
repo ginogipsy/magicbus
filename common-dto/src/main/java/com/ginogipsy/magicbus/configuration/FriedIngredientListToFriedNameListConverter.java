@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 public class FriedIngredientListToFriedNameListConverter extends AbstractConverter<Set<FriedIngredient>, List<String>> {
 
     @Override

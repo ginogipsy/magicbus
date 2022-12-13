@@ -5,27 +5,28 @@ import com.ginogipsy.magicbus.dto.DoughDTO;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DoughServiceImpl implements DoughService {
 
     private final StringUtility stringUtility;
     private final MapperFactory mapperFactory;
 
-    public DoughServiceImpl(StringUtility stringUtility, MapperFactory mapperFactory) {
-        this.stringUtility = stringUtility;
-        this.mapperFactory = mapperFactory;
-    }
-
     @Override
-    public DoughDTO findByName(String name) {
-        return Optional.ofNullable(privateFindByName(name))
+    public DoughDTO findByName(final String name) {
+        return privateFindByName(name)
                 .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.INGREDIENT_NOT_FOUND, "Ingredient " + name + " not found!"));
     }
 
@@ -35,33 +36,43 @@ public class DoughServiceImpl implements DoughService {
     }
 
     @Override
-    public DoughDTO save(DoughDTO doughDTO) {
-        log.info("Checking if this dough is already present..");
+    public DoughDTO save(final DoughDTO doughDTO) {
         final String name = Optional.ofNullable(doughDTO)
                 .map(DoughDTO::getName)
                 .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.INGREDIENT_IS_NULL, "Ingredient doesn't have to be null!"));
 
-        if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
-            log.error("It is already present a dough called " + name + "!");
-            throw new MagicbusException(BeErrorCodeEnum.DOUGH_IS_ALREADY_PRESENT, "It is already present a dough called " + name + "!");
+        log.info("DoughServiceImpl - save() -> Checking if this dough is already present..");
+        if (privateFindByName(name).isPresent()) {
+            final String resultString = "It is already present a dough called " + name + "!";
+            log.error("DoughServiceImpl - save() -> {}", resultString);
+            throw new MagicbusException(BeErrorCodeEnum.DOUGH_IS_ALREADY_PRESENT, resultString);
         }
 
-        log.info("Formatting name and description..");
-        privateFormatIngredient(doughDTO);
-        log.info("Saving the ingredient..");
-        return mapperFactory.getDoughMapper().save(doughDTO);
+        privateFormatDough(doughDTO);
+        log.info("DoughServiceImpl - save() -> Saving the dough..");
+        return mapperFactory.getDoughMapper().save(doughDTO)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.SAVE_FAILED));
     }
 
-    private DoughDTO privateFindByName(final String name) {
-        return Optional.ofNullable(name)
-                .map(n -> mapperFactory.getDoughMapper().findByName(n))
-                .orElse(null);
+    private Optional<DoughDTO> privateFindByName(final String doughName) {
+        stringUtility.formatAllLower(doughName);
+        log.info("DoughServiceImpl - privateFindByName() -> Finding dough named '{}'..", doughName);
+
+        return Optional.ofNullable(doughName)
+                .flatMap(n -> mapperFactory.getDoughMapper().findByName(n));
     }
 
-    private void privateFormatIngredient(final DoughDTO doughDTO) {
+    private void privateFormatDough(final DoughDTO doughDTO) {
+        log.info("DoughServiceImpl - privateFormatDough() -> Formatting name and description..");
+
+        if(doughDTO == null) {
+            log.warn("DoughServiceImpl - privateFormatDough() -> doughDTO is null!");
+            return;
+        }
+
         Optional.ofNullable(doughDTO.getName())
-                .ifPresent(n -> doughDTO.setName(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> doughDTO.setName(stringUtility.formatAllLower(n)));
         Optional.ofNullable(doughDTO.getDescription())
-                .ifPresent(n -> doughDTO.setDescription(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> doughDTO.setDescription(stringUtility.formatAllLower(n)));
     }
 }

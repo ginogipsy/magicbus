@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum BeerType {
+/**
+ * @author ginogipsy
+ */
+public enum BeerTypeEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
     PILSNER                     ( "PILSNER"),
@@ -15,7 +17,7 @@ public enum BeerType {
 
     private final String description;
 
-    BeerType(final String description){
+    BeerTypeEnum(final String description){
 
         this.description = description;
     }
@@ -24,8 +26,8 @@ public enum BeerType {
         return description;
     }
 
-    public static BeerType getBeerType(final String description){
-        return Arrays.stream(BeerType.values())
+    public static BeerTypeEnum getBeerType(final String description){
+        return Arrays.stream(BeerTypeEnum.values())
                 .filter(v -> v.getDescription().equals(description))
                 .findAny()
                 .orElse(UNDEFINED);

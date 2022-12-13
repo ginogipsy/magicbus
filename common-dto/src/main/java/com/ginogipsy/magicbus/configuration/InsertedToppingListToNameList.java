@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 public class InsertedToppingListToNameList extends AbstractConverter<Set<Topping>, List<String>> {
     @Override
     protected List<String> convert(Set<Topping> toppings) {

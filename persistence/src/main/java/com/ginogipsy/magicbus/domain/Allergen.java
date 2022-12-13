@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 @Entity(name = "allergene")

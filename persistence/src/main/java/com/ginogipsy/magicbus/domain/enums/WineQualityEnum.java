@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum WineQuality {
+/**
+ * @author ginogipsy
+ */
+public enum WineQualityEnum {
 
     UNDEFINED         ( "UNDEFINED"),
     PINOT_GRIGIO      ( "PINOT_GRIGIO"),
@@ -13,7 +15,7 @@ public enum WineQuality {
 
     private final String description;
 
-    WineQuality(final String description){
+    WineQualityEnum(final String description){
 
         this.description = description;
     }
@@ -22,8 +24,11 @@ public enum WineQuality {
         return description;
     }
 
-    public static WineQuality getWineQuality(final String description){
-        return Arrays.stream(WineQuality.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static WineQualityEnum getWineQuality(final String description){
+        return Arrays.stream(WineQualityEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

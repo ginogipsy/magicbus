@@ -1,11 +1,13 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "ordine_gusto")
 @Data
@@ -43,7 +45,7 @@ public class ToppingOrder {
     }
 
     public void setDough(Dough dough){
-        if(topping.getProductCategory().equals(ProductCategory.PIZZA) || topping.getProductCategory().equals(ProductCategory.CALZONE) || topping.getProductCategory().equals(ProductCategory.PANINO)){
+        if(topping.getProductCategoryEnum().equals(ProductCategoryEnum.PIZZA) || topping.getProductCategoryEnum().equals(ProductCategoryEnum.CALZONE) || topping.getProductCategoryEnum().equals(ProductCategoryEnum.PANINO)){
             this.dough = dough;
             this.totalCost = totalCost + dough.getAdditionalCost()*this.quantity;
         }

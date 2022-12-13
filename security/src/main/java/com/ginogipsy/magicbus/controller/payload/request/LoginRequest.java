@@ -5,7 +5,9 @@ import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
+/**
+ * @author ginogipsy
+ */
 @Data
 public class LoginRequest {
 

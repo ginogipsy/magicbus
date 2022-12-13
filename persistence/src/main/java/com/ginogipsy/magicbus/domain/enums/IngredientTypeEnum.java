@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum IngredientType {
+/**
+ * @author ginogipsy
+ */
+public enum IngredientTypeEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
     CARNE                       ( "CARNE"),
@@ -22,7 +24,7 @@ public enum IngredientType {
 
     private final String description;
 
-    IngredientType(final String description){
+    IngredientTypeEnum(final String description){
 
         this.description = description;
     }
@@ -31,8 +33,11 @@ public enum IngredientType {
         return description;
     }
 
-    public static IngredientType getIngredientType(final String description){
-        return Arrays.stream(IngredientType.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static IngredientTypeEnum getIngredientType(final String description){
+        return Arrays.stream(IngredientTypeEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

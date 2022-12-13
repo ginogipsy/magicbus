@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "birrificio")
 @Data

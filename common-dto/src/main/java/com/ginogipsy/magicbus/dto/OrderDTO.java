@@ -5,6 +5,10 @@ import org.joda.time.LocalDate;
 
 import java.util.List;
 
+/**
+ * @author ginogipsy
+ */
+
 @Data
 public class OrderDTO {
 

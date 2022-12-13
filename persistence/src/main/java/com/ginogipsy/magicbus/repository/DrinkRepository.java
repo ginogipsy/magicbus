@@ -1,16 +1,20 @@
 package com.ginogipsy.magicbus.repository;
 
 import com.ginogipsy.magicbus.domain.Drink;
-import com.ginogipsy.magicbus.domain.enums.Status;
-import com.ginogipsy.magicbus.domain.enums.DrinkType;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
+import com.ginogipsy.magicbus.domain.enums.DrinkTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * @author ginogipsy
+ */
 public interface DrinkRepository extends JpaRepository<Drink, Integer> {
 
-    Drink findByName(String name);
-    List<Drink> findByDrinkType(DrinkType drinkType);
-    List<Drink> findByStatus(Status status);
-    List<Drink> findByStatusAndDrinkType(Status status, DrinkType drinkType);
+    Optional<Drink> findByName(final String name);
+    List<Drink> findByDrinkTypeEnum(final DrinkTypeEnum drinkTypeEnum);
+    List<Drink> findByStatusEnum(final StatusEnum statusEnum);
+    List<Drink> findByStatusEnumAndDrinkTypeEnum(final StatusEnum statusEnum, final DrinkTypeEnum drinkTypeEnum);
 }

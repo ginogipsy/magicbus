@@ -11,8 +11,11 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.REFRESH_TOKEN_EXPIRED;
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
+/**
+ * @author ginogipsy
+ */
 @Service
 public class RefreshTokenService {
 
@@ -26,17 +29,18 @@ public class RefreshTokenService {
     }
 
     public Optional<RefreshTokenDTO> findByToken(final String token){
-        return Optional.ofNullable(mapperFactory.getRefreshTokenMapper().findByToken(token));
+        return mapperFactory.getRefreshTokenMapper().findByToken(token);
     }
 
     public RefreshTokenDTO createRefreshToken(final Integer userId){
         RefreshTokenDTO refreshTokenDTO = new RefreshTokenDTO();
 
-        refreshTokenDTO.setUser(mapperFactory.getUserMapper().findById(userId));
+        refreshTokenDTO.setUser(mapperFactory.getUserMapper().findById(userId).orElseThrow(() -> new MagicbusException(USER_NOT_FOUND)));
         refreshTokenDTO.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshTokenDTO.setToken(UUID.randomUUID().toString());
 
-        return mapperFactory.getRefreshTokenMapper().save(refreshTokenDTO);
+        return mapperFactory.getRefreshTokenMapper().save(refreshTokenDTO)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     public RefreshTokenDTO verifyExpiration(RefreshTokenDTO refreshTokenDTO){

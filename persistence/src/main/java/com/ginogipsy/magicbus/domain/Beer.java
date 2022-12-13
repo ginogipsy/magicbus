@@ -1,6 +1,6 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.BeerType;
+import com.ginogipsy.magicbus.domain.enums.BeerTypeEnum;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -8,6 +8,9 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
 
 @Getter
 @Setter
@@ -35,7 +38,7 @@ public class Beer {
 
     @Column(name = "tipologia_birra")
     @Enumerated(EnumType.STRING)
-    private BeerType beerType;
+    private BeerTypeEnum beerTypeEnum;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "birrificio_id")

@@ -3,8 +3,8 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,10 @@ import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
+
+/**
+ * @author ginogipsy
+ */
 
 @Getter
 @Setter
@@ -25,12 +29,12 @@ public class FriedDTO {
     @NonNull
     private String friedDescription;
     private Double cost;
-    private Status status;
+    private StatusEnum statusEnum;
     private List<String> ingredients;
 
     @JsonIgnore
     private Byte[] image;
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
     private Boolean available;
     private boolean userEntered;
 

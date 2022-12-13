@@ -1,14 +1,16 @@
 package com.ginogipsy.magicbus.domain;
 
-import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
-import com.ginogipsy.magicbus.domain.enums.IngredientType;
-import com.ginogipsy.magicbus.domain.enums.MeasureUnit;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriodEnum;
+import com.ginogipsy.magicbus.domain.enums.IngredientTypeEnum;
+import com.ginogipsy.magicbus.domain.enums.MeasureUnitEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "ingrediente")
 @Data
@@ -36,18 +38,18 @@ public class Ingredient {
 
     @Column(name = "unita_di_misura")
     @Enumerated(EnumType.STRING)
-    private MeasureUnit measureUnit;
+    private MeasureUnitEnum measureUnitEnum;
 
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
     private Set<Allergen> allergens;
 
     @Column(name = "tipologia_ingrediente")
     @Enumerated(EnumType.STRING)
-    private IngredientType ingredientType;
+    private IngredientTypeEnum ingredientTypeEnum;
 
     @Column(name = "periodo_disponibilita")
     @Enumerated(EnumType.STRING)
-    private AvailabilityPeriod availabilityPeriod;
+    private AvailabilityPeriodEnum availabilityPeriodEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marca_id")

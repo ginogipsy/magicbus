@@ -35,15 +35,15 @@ public class MagicbusIngredientOperationApiDelegateImpl implements MagicbusIngre
 
         Optional.ofNullable(insertIngredientRequest.getAdditionalCostForClient()).ifPresent(ac -> ingredientToInsert.setAdditionalCostForClient(ac.doubleValue()));
         Optional.ofNullable(insertIngredientRequest.getPurchaseCost()).ifPresent(ac -> ingredientToInsert.setPurchaseCost(ac.doubleValue()));
-        Optional.ofNullable(insertIngredientRequest.getMeasureUnit()).ifPresent(ingredientToInsert::setMeasureUnit);
-        Optional.ofNullable(insertIngredientRequest.getIngredientType()).ifPresent(ingredientToInsert::setIngredientType);
-        Optional.ofNullable(insertIngredientRequest.getAvailabilityPeriod()).ifPresent(ingredientToInsert::setAvailabilityPeriod);
+        Optional.ofNullable(insertIngredientRequest.getMeasureUnitEnum()).ifPresent(ingredientToInsert::setMeasureUnitEnum);
+        Optional.ofNullable(insertIngredientRequest.getIngredientTypeEnum()).ifPresent(ingredientToInsert::setIngredientTypeEnum);
+        Optional.ofNullable(insertIngredientRequest.getAvailabilityPeriodEnum()).ifPresent(ingredientToInsert::setAvailabilityPeriodEnum);
 
         Optional.ofNullable(insertIngredientRequest.getBrandName())
-                .flatMap(brandService::findByName)
+                .map(brandService::findByName)
                 .ifPresent(ingredientToInsert::setBrand);
 
-        ingredientService.save(ingredientToInsert);
+        ingredientService.insert(ingredientToInsert);
         return ResponseUtils.buildSuccessResult("Ingredient named "+insertIngredientRequest.getName()+" has been inserted correctly!");
     }
 }

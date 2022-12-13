@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
-
+/**
+ * @author ginogipsy
+ */
 @Entity
 @Table(name = "ordine_pagamento")
 @Data

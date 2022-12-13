@@ -7,6 +7,10 @@ import org.modelmapper.AbstractConverter;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 public class AppreciatedUsersListToCountConverter extends AbstractConverter<Set<User>, Integer> {
 
     @Override

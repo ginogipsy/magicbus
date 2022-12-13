@@ -1,10 +1,12 @@
 package com.ginogipsy.magicbus.service;
 
+import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.dto.DoughDTO;
 import com.ginogipsy.magicbus.dto.DoughIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,116 +16,130 @@ import java.util.Optional;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DoughIngredientServiceImpl implements DoughIngredientService {
 
     private final MapperFactory mapperFactory;
-
-    public DoughIngredientServiceImpl(MapperFactory mapperFactory) {
-        this.mapperFactory = mapperFactory;
-    }
+    private final StringUtility stringUtility;
 
 
     @Override
     public DoughIngredientDTO insertIngredient(final String doughName, final String ingredientName) {
-        log.info("Checking if this dough is present..");
-        final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
+        final DoughDTO doughDTO = privateFindDoughByName(doughName)
                 .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName)
                 .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
-        if (Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO)).isPresent()) {
-            log.error("It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
-            throw new MagicbusException(INGREDIENT_DOUGH_IS_ALREADY_PRESENT, "It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!");
+        if (mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO).isPresent()) {
+            final String stringResult = "It is already present this ingredient " + ingredientName + " for this dough " + doughName + "!";
+            log.error("DoughIngredientServiceImpl - insertIngredient() -> {}", stringResult);
+            throw new MagicbusException(INGREDIENT_DOUGH_IS_ALREADY_PRESENT, stringResult);
         }
-        log.info("Saving the doughIngredient..");
+
+        log.info("DoughIngredientServiceImpl - insertIngredient() -> Saving the doughIngredient..");
         final DoughIngredientDTO doughIngredientDTO = new DoughIngredientDTO();
         doughIngredientDTO.setIngredient(ingredientDTO);
         doughIngredientDTO.setDough(doughDTO);
-        return mapperFactory.getDoughIngredientMapper().save(doughIngredientDTO);
+        return mapperFactory.getDoughIngredientMapper().save(doughIngredientDTO)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public List<String> insertIngredients(final String doughName, final List<String> ingredientList) {
-        log.info("Checking if this dough is present..");
-        final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
+        final DoughDTO doughDTO = privateFindDoughByName(doughName)
                 .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
-        final List<String> ingredientsAdded = new ArrayList<>();
+
+        final List<String> ingredientAddedResultList = new ArrayList<>();
+
         for (final String ingredientName :
                 ingredientList) {
-            log.info("Checking if this ingredient is present..");
-            final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
-            if (Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO)).isPresent()) {
-                final String error = "It is already present this ingredient \"" + ingredientName + "\" for this dough \"" + doughName + "\"!";
-                log.error(error);
-                ingredientsAdded.add(error);
+
+            final Optional<IngredientDTO> ingredientDTO = privateFindIngredientByName(ingredientName);
+
+            if(ingredientDTO.isEmpty()) {
+                log.warn("DoughIngredientServiceImpl - insertIngredients() -> Ingredient named '{}' doesn't exist!", ingredientName);
                 continue;
             }
-            log.info("Saving the doughIngredient..");
+
+            if(mapperFactory.getDoughIngredientMapper().findByDoughAndIngredient(doughDTO, ingredientDTO.get()).isPresent()) {
+                final String stringResult = "It is already present this ingredient \"" + ingredientName + "\" for this dough \"" + doughName + "\"!";
+                log.warn("DoughIngredientServiceImpl - insertIngredients() -> {}", stringResult);
+                continue;
+            }
+
+            log.info("DoughIngredientServiceImpl - insertIngredients() -> Adding ingredient named '{}'..", ingredientName);
             final DoughIngredientDTO doughIngredientDTO = new DoughIngredientDTO();
-            doughIngredientDTO.setIngredient(ingredientDTO);
+            doughIngredientDTO.setIngredient(ingredientDTO.get());
             doughIngredientDTO.setDough(doughDTO);
             mapperFactory.getDoughIngredientMapper().save(doughIngredientDTO);
-            ingredientsAdded.add(doughIngredientDTO.getIngredient().getName());
+            ingredientAddedResultList.add(doughIngredientDTO.getIngredient().getName());
         }
-        return ingredientsAdded;
+        return ingredientAddedResultList;
     }
 
     @Override
-    public List<IngredientDTO> findByDough(final String doughName) {
-        log.info("Checking if this dough is present..");
-        final DoughDTO doughDTO = privateFindDoughByName(doughName);
-        if (Optional.ofNullable(doughDTO).isEmpty()) {
-            log.warn("this dough doesn't exists..");
+    public List<IngredientDTO> findIngredientListByDough(final String doughName) {
+        final Optional<DoughDTO> doughDTO = privateFindDoughByName(doughName);
+
+        if (doughDTO.isEmpty()) {
+            log.warn("DoughIngredientServiceImpl - findIngredientListByDough() -> Dough named '{}' doesn't exist!", doughName);
             return new ArrayList<>();
         }
-        log.info("Start searching ingredients for this dough..");
-        return Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByDough(doughDTO))
-                .map(i -> i.stream()
-                        .map(DoughIngredientDTO::getIngredient)
-                        .toList())
-                .orElse(new ArrayList<>());
+
+        log.info("DoughIngredientServiceImpl - findIngredientListByDough() -> Finding ingredient list.. ");
+        return mapperFactory.getDoughIngredientMapper().findByDough(doughDTO.get())
+                .stream()
+                .map(DoughIngredientDTO::getIngredient)
+                .toList();
     }
 
     @Override
-    public List<DoughDTO> findByIngredient(final String ingredientName) {
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
-        if (Optional.ofNullable(ingredientDTO).isEmpty()) {
-            log.warn("this ingredient doesn't exists..");
+    public List<DoughDTO> findDoughListByIngredient(final String ingredientName) {
+        final Optional<IngredientDTO> ingredientDTO = privateFindIngredientByName(ingredientName);
+
+        if (ingredientDTO.isEmpty()) {
+            log.warn("DoughIngredientServiceImpl - findDoughListByIngredient() -> Ingredient named '{}' doesn't exist!", ingredientName);
             return new ArrayList<>();
         }
-        log.info("Start searching doughs for this ingredient..");
-        return Optional.ofNullable(mapperFactory.getDoughIngredientMapper().findByIngredient(ingredientDTO))
-                .map(dis -> dis.stream()
-                        .map(DoughIngredientDTO::getDough)
-                        .toList())
-                .orElse(new ArrayList<>());
+
+        log.info("DoughIngredientServiceImpl - findDoughListByIngredient() -> Finding dough list.. ");
+        return mapperFactory.getDoughIngredientMapper()
+                .findByIngredient(ingredientDTO.get())
+                .stream()
+                .map(DoughIngredientDTO::getDough)
+                .toList();
     }
 
     @Override
     public String deleteByDoughAndIngredient(final String doughName, final String ingredientName) {
-        log.info("Checking if this dough is present..");
-        final DoughDTO doughDTO = Optional.ofNullable(privateFindDoughByName(doughName))
+        final DoughDTO doughDTO = privateFindDoughByName(doughName)
                 .orElseThrow(() -> new MagicbusException(DOUGH_NOT_FOUND));
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName)
                 .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
+        log.info("DoughIngredientServiceImpl - deleteByDoughAndIngredient() -> Deleting dough/ingredient..");
         return mapperFactory.getDoughIngredientMapper().deleteByDoughAndIngredient(doughDTO, ingredientDTO);
     }
 
-    private DoughDTO privateFindDoughByName(final String doughName) {
+    private Optional<DoughDTO> privateFindDoughByName(final String doughName) {
+        stringUtility.formatAllLower(doughName);
+        log.info("DoughIngredientServiceImpl - privateFindDoughByName() -> Finding dough named '{}'..", doughName);
         return Optional.ofNullable(doughName)
-                .map(n -> mapperFactory.getDoughMapper().findByName(n))
-                .orElse(null);
+                .flatMap(n -> mapperFactory.getDoughMapper().findByName(n));
     }
 
-    private IngredientDTO privateFindIngredientByName(final String ingredientName) {
+    private Optional<IngredientDTO> privateFindIngredientByName(final String ingredientName) {
+        stringUtility.formatAllLower(ingredientName);
+        log.info("DoughIngredientServiceImpl - privateFindIngredientByName() -> Finding ingredient named '{}'..", ingredientName);
         return Optional.ofNullable(ingredientName)
-                .map(n -> mapperFactory.getIngredientMapper().findByName(n))
-                .orElse(null);
+                .flatMap(n -> mapperFactory.getIngredientMapper().findByName(n));
     }
 }

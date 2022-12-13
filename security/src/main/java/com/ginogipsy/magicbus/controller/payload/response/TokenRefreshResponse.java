@@ -2,7 +2,9 @@ package com.ginogipsy.magicbus.controller.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 public class TokenRefreshResponse {

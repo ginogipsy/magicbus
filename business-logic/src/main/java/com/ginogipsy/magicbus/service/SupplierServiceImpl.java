@@ -2,8 +2,10 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.dto.SupplierDTO;
+import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +14,21 @@ import java.util.Optional;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
 
     private final MapperFactory mapperFactory;
     private final StringUtility stringUtility;
 
-    public SupplierServiceImpl(MapperFactory mapperFactory, StringUtility stringUtility) {
-        this.mapperFactory = mapperFactory;
-        this.stringUtility = stringUtility;
-    }
-
     @Override
     public SupplierDTO findByName(final String name) {
-        return Optional.ofNullable(privateFindByName(name))
+        return privateFindByName(name)
                 .orElseThrow(() -> new MagicbusException(BRAND_NOT_FOUND, "Brand " + name + " not found!"));
     }
 
@@ -36,38 +38,44 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierDTO save(final SupplierDTO supplierDTO) {
-        log.info("Checking if this supplier is already present..");
-        final String name = Optional.ofNullable(supplierDTO)
+    public SupplierDTO insert(final SupplierDTO supplierDTO) {
+        log.info("SupplierServiceImpl - insert() -> Checking if supplier is null..");
+        final String supplierName = Optional.ofNullable(supplierDTO)
                 .map(SupplierDTO::getName)
-                .orElseThrow(() -> new MagicbusException(BRAND_IS_NULL));
+                .orElseThrow(() -> new MagicbusException(SUPPLIER_IS_NULL));
 
-        if (Optional.ofNullable(privateFindByName(name)).isPresent()) {
-            log.error("It is already present a supplier called " + name + "!");
-            throw new MagicbusException(SUPPLIER_IS_ALREADY_PRESENT, "It is already present a supplier called " + name + "!");
+        if (privateFindByName(supplierName).isPresent()) {
+            log.error("SupplierServiceImpl - insert() -> It is already present a supplier called {}!", supplierName);
+            throw new MagicbusException(SUPPLIER_IS_ALREADY_PRESENT, "It is already present a supplier called " + supplierName + "!");
         }
 
-        log.info("Formatting all..");
-        privateFormatIngredient(supplierDTO);
-        log.info("Saving the supplier..");
-        return mapperFactory.getSupplierMapper().save(supplierDTO);
+        privateFormatSupplier(supplierDTO);
+        log.info("SupplierServiceImpl - insert() -> Saving the supplier..");
+        return mapperFactory.getSupplierMapper().save(supplierDTO)
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.SAVE_FAILED));
     }
 
-    private SupplierDTO privateFindByName(final String name) {
+    private Optional<SupplierDTO> privateFindByName(final String name) {
         return Optional.ofNullable(name)
-                .map(n -> mapperFactory.getSupplierMapper().findByName(n))
-                .orElse(null);
+                .flatMap(n -> mapperFactory.getSupplierMapper().findByName(n));
     }
 
-    private void privateFormatIngredient(final SupplierDTO supplierDTO) {
+    private void privateFormatSupplier(final SupplierDTO supplierDTO) {
+        log.info("SupplierServiceImpl - privateFormatSupplier() -> Formatting name and description..");
+
+        if(supplierDTO == null) {
+            log.warn("SupplierServiceImpl - privateFormatSupplier() -> supplierDTO is null!");
+            return;
+        }
+
         Optional.ofNullable(supplierDTO.getName())
-                .ifPresent(n -> supplierDTO.setName(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> supplierDTO.setName(stringUtility.formatAllLower(n)));
         Optional.ofNullable(supplierDTO.getStreet())
-                .ifPresent(n -> supplierDTO.setStreet(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> supplierDTO.setStreet(stringUtility.formatAllLower(n)));
         Optional.ofNullable(supplierDTO.getPostalCode())
                 .filter(stringUtility::checkPostalCode)
                 .ifPresent(supplierDTO::setPostalCode);
         Optional.ofNullable(supplierDTO.getCity())
-                .ifPresent(n -> supplierDTO.setCity(stringUtility.formatAllMinusc(n)));
+                .ifPresent(n -> supplierDTO.setCity(stringUtility.formatAllLower(n)));
     }
 }

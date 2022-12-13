@@ -1,14 +1,16 @@
 package com.ginogipsy.magicbus.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 @Entity
@@ -32,7 +34,7 @@ public class Fried {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusEnum statusEnum;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fried", fetch = FetchType.EAGER)
     private Set<FriedIngredient> ingredients;
@@ -43,7 +45,7 @@ public class Fried {
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
 
     @ManyToMany(mappedBy = "favoriteFried", fetch = FetchType.LAZY)
     @JsonIgnore

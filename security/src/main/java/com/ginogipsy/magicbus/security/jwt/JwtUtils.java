@@ -9,7 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
+/**
+ * @author ginogipsy
+ */
 @Component
 public class JwtUtils {
 

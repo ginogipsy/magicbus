@@ -1,8 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
 import java.util.Arrays;
-
-public enum WineGrapes {
+/**
+ * @author ginogipsy
+ */
+public enum WineGrapesEnum {
 
     UNDEFINED                   ( "UNDEFINED"),
     ROSSO                       ( "ROSSO"),
@@ -10,7 +12,7 @@ public enum WineGrapes {
 
     private final String description;
 
-    WineGrapes(final String description){
+    WineGrapesEnum(final String description){
         this.description = description;
     }
 
@@ -18,8 +20,11 @@ public enum WineGrapes {
         return description;
     }
 
-    public static WineGrapes getWineGrapes(final String description){
-        return Arrays.stream(WineGrapes.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static WineGrapesEnum getWineGrapes(final String description){
+        return Arrays.stream(WineGrapesEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 
     @Override

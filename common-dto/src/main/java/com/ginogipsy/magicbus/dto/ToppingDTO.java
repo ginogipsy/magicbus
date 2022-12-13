@@ -3,10 +3,10 @@ package com.ginogipsy.magicbus.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriod;
-import com.ginogipsy.magicbus.domain.enums.Base;
-import com.ginogipsy.magicbus.domain.enums.ProductCategory;
-import com.ginogipsy.magicbus.domain.enums.Status;
+import com.ginogipsy.magicbus.domain.enums.AvailabilityPeriodEnum;
+import com.ginogipsy.magicbus.domain.enums.BaseEnum;
+import com.ginogipsy.magicbus.domain.enums.ProductCategoryEnum;
+import com.ginogipsy.magicbus.domain.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * @author ginogipsy
+ */
 
 @Getter
 @Setter
@@ -35,15 +39,15 @@ public class ToppingDTO {
     @Min(value = 10, message = "A name has at least 10 chars!")
     private String toppingDescription;
     private Boolean traditional;
-    private Status status;
+    private StatusEnum statusEnum;
     private Double cost;
     private Boolean veganOption;
 
     @JsonIgnore
     private Byte[] image;
-    private Base base;
-    private AvailabilityPeriod availabilityPeriod;
-    private ProductCategory productCategory;
+    private BaseEnum baseEnum;
+    private AvailabilityPeriodEnum availabilityPeriodEnum;
+    private ProductCategoryEnum productCategoryEnum;
 
     @JsonIgnore
     private Set<UserDTO> users;

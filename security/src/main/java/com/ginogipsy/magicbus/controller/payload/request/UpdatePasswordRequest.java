@@ -4,7 +4,9 @@ import com.ginogipsy.magicbus.constraint.ValidPassword;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-
+/**
+ * @author ginogipsy
+ */
 @Data
 public class UpdatePasswordRequest {
 

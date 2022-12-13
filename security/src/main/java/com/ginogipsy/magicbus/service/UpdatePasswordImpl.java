@@ -2,16 +2,15 @@ package com.ginogipsy.magicbus.service;
 
 import com.ginogipsy.magicbus.dto.UserDTO;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
-
 import com.ginogipsy.magicbus.marshall.MapperFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
-import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.PASSWORD_MISMATCH;
-import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.USER_NOT_FOUND;
-
+/**
+ * @author ginogipsy
+ */
 @Service
 public class UpdatePasswordImpl implements UpdatePassword {
 
@@ -25,10 +24,11 @@ public class UpdatePasswordImpl implements UpdatePassword {
 
     @Override
     public UserDTO updatePassword(String email, String oldPassword, String newPassword) {
-        UserDTO userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findUserByEmail(email)).orElseThrow(() -> new MagicbusException(USER_NOT_FOUND));
+        UserDTO userDTO = mapperFactory.getUserMapper().findUserByEmail(email).orElseThrow(() -> new MagicbusException(USER_NOT_FOUND));
         if(passwordEncoder.matches(oldPassword.trim(), userDTO.getPassword())){
             userDTO.setPassword(passwordEncoder.encode(newPassword.trim()));
-            return mapperFactory.getUserMapper().save(userDTO);
+            return mapperFactory.getUserMapper().save(userDTO)
+                    .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
         }
         throw new MagicbusException(PASSWORD_MISMATCH);
     }

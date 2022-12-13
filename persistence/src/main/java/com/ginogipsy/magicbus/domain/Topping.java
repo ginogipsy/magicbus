@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
-
+/**
+ * @author ginogipsy
+ */
 @Getter
 @Setter
 @Entity(name = "gusto")
@@ -32,7 +34,7 @@ public class Topping {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusEnum statusEnum;
 
     @Column(name = "costo")
     private Double cost;
@@ -49,15 +51,15 @@ public class Topping {
 
     @Column(name = "base")
     @Enumerated(EnumType.STRING)
-    private Base base;
+    private BaseEnum baseEnum;
 
     @Column(name = "periodo_disponibilita")
     @Enumerated(EnumType.STRING)
-    private AvailabilityPeriod availabilityPeriod;
+    private AvailabilityPeriodEnum availabilityPeriodEnum;
 
     @Column(name = "categoria_prodotto")
     @Enumerated(EnumType.STRING)
-    private ProductCategory productCategory;
+    private ProductCategoryEnum productCategoryEnum;
 
     @ManyToMany(mappedBy = "favoriteToppings", fetch = FetchType.LAZY)
     @JsonIgnore

@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author ginogipsy
+ */
+
 public class ToppingIngredientListToIngredientNameListConverter extends AbstractConverter<Set<ToppingIngredient>, List<String>> {
     @Override
     protected List<String> convert(Set<ToppingIngredient> toppingIngredients) {

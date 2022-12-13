@@ -1,10 +1,12 @@
 package com.ginogipsy.magicbus.service;
 
+import com.ginogipsy.magicbus.component.StringUtility;
 import com.ginogipsy.magicbus.dto.FriedDTO;
 import com.ginogipsy.magicbus.dto.FriedIngredientDTO;
 import com.ginogipsy.magicbus.dto.IngredientDTO;
 import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import com.ginogipsy.magicbus.marshall.MapperFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,119 +16,130 @@ import java.util.Optional;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
 
+/**
+ * @author ginogipsy
+ */
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FriedIngredientServiceImpl implements FriedIngredientService {
 
     private final MapperFactory mapperFactory;
-
-    public FriedIngredientServiceImpl(MapperFactory mapperFactory) {
-        this.mapperFactory = mapperFactory;
-    }
-
+    private final StringUtility stringUtility;
     @Override
     public FriedIngredientDTO insertIngredient(final String friedName, final String ingredientName) {
-        log.info("Checking if this fried is present..");
-        final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
+
+        final FriedDTO friedDTO = privateFindFriedByName(friedName)
                 .orElseThrow(() -> new MagicbusException(FRIED_NOT_FOUND));
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName)
                 .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
-        if (Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO)).isPresent()) {
-            log.error("It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!");
-            throw new MagicbusException(INGREDIENT_FRIED_IS_ALREADY_PRESENT, "It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!");
+        if (mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO).isPresent()) {
+            final String stringResult = "It is already present this ingredient " + ingredientName + " for this fried " + friedName + "!";
+            log.error("FriedIngredientServiceImpl - insertIngredient() -> {}", stringResult);
+            throw new MagicbusException(INGREDIENT_DOUGH_IS_ALREADY_PRESENT, stringResult);
         }
-        log.info("Saving the friedIngredient..");
+
+        log.info("FriedIngredientServiceImpl - insertIngredient() -> Saving the friedIngredient..");
         final FriedIngredientDTO friedIngredientDTO = new FriedIngredientDTO();
         friedIngredientDTO.setIngredient(ingredientDTO);
         friedIngredientDTO.setFried(friedDTO);
-        return mapperFactory.getFriedIngredientMapper().save(friedIngredientDTO);
+        return mapperFactory.getFriedIngredientMapper()
+                .save(friedIngredientDTO)
+                .orElseThrow(() -> new MagicbusException(SAVE_FAILED));
     }
 
     @Override
     public List<String> insertIngredients(final String friedName, final List<String> ingredientList) {
-        log.info("Checking if this fried is present..");
-        final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
+        final FriedDTO friedDTO = privateFindFriedByName(friedName)
                 .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
-        final List<String> addedIngredients = new ArrayList<>();
+
+        final List<String> addedIngredientList = new ArrayList<>();
+
         for (final String ingredientName :
                 ingredientList) {
-            log.info("Checking if this ingredient is present..");
-            final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
-            if (Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO)).isPresent()) {
-                final String error = "It is already present this ingredient \"" + ingredientName + "\" for this fried \"" + friedName + "\"!";
-                log.error(error);
-                addedIngredients.add(error);
+
+            final Optional<IngredientDTO> ingredientDTO = privateFindIngredientByName(ingredientName);
+
+            if (ingredientDTO.isEmpty()) {
+                log.warn("FriedIngredientServiceImpl - insertIngredients() -> Ingredient named '{}' doesn't exist!", ingredientName);
                 continue;
             }
-            log.info("Saving the friedIngredient..");
-            Optional.ofNullable(ingredientDTO).ifPresent(i -> {
-                log.info("Saving the friedIngredient..");
-                final FriedIngredientDTO friedIngredientDTO = new FriedIngredientDTO();
-                friedIngredientDTO.setIngredient(i);
-                friedIngredientDTO.setFried(friedDTO);
-                mapperFactory.getFriedIngredientMapper().save(friedIngredientDTO);
-                addedIngredients.add(friedIngredientDTO.getIngredient().getName());
-            });
+
+            if (mapperFactory.getFriedIngredientMapper().findByFriedAndIngredient(friedDTO, ingredientDTO.get()).isPresent()) {
+                final String stringResult = "It is already present this ingredient \"" + ingredientName + "\" for this fried \"" + friedName + "\"!";
+                log.warn("FriedIngredientServiceImpl - insertIngredients() -> {}", stringResult);
+                continue;
+            }
+            log.info("FriedIngredientServiceImpl - insertIngredients() -> Adding ingredient named '{}'..", ingredientName);
+
+            final FriedIngredientDTO friedIngredientDTO = new FriedIngredientDTO();
+            friedIngredientDTO.setIngredient(ingredientDTO.get());
+            friedIngredientDTO.setFried(friedDTO);
+            mapperFactory.getFriedIngredientMapper().save(friedIngredientDTO);
+            addedIngredientList.add(friedIngredientDTO.getIngredient().getName());
         }
-        return addedIngredients;
+        return addedIngredientList;
     }
 
     @Override
-    public List<IngredientDTO> findByFried(final String friedName) {
-        log.info("Checking if this fried is present..");
-        final FriedDTO friedDTO = privateFindFriedByName(friedName);
-        if (Optional.ofNullable(friedDTO).isEmpty()) {
-            log.warn("this dough doesn't exists..");
+    public List<IngredientDTO> findIngredientListByFried(final String friedName) {
+        final Optional<FriedDTO> friedDTO = privateFindFriedByName(friedName);
+
+        if (friedDTO.isEmpty()) {
+            log.warn("FriedIngredientServiceImpl - findIngredientListByFried() -> Fried named '{}' doesn't exist!", friedName);
             return new ArrayList<>();
         }
 
-        log.info("Start searching ingredients for this fried..");
-        return Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByFried(friedDTO))
-                .map(l -> l.stream()
-                        .map(FriedIngredientDTO::getIngredient)
-                        .toList())
-                .orElse(new ArrayList<>());
+        log.info("FriedIngredientServiceImpl - findFriedListByIngredient() -> Finding ingredient list.. ");
+        return mapperFactory.getFriedIngredientMapper()
+                .findByFried(friedDTO.get())
+                .stream()
+                .map(FriedIngredientDTO::getIngredient)
+                .toList();
     }
 
     @Override
-    public List<FriedDTO> findByIngredient(final String ingredientName) {
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName);
-        if (Optional.ofNullable(ingredientDTO).isEmpty()) {
-            log.warn("this ingredient doesn't exists..");
+    public List<FriedDTO> findFriedListByIngredient(final String ingredientName) {
+        final Optional<IngredientDTO> ingredientDTO = privateFindIngredientByName(ingredientName);
+        if (ingredientDTO.isEmpty()) {
+            log.warn("FriedIngredientServiceImpl - findFriedListByIngredient() -> Ingredient named '{}' doesn't exist!", ingredientName);
             return new ArrayList<>();
         }
-        log.info("Start searching fried for this ingredient..");
-        return Optional.ofNullable(mapperFactory.getFriedIngredientMapper().findByIngredient(ingredientDTO))
-                .map(l -> l.stream()
-                        .map(FriedIngredientDTO::getFried)
-                        .toList())
-                .orElse(new ArrayList<>());
+        log.info("FriedIngredientServiceImpl - findFriedListByIngredient() -> Finding fried list.. ");
+        return mapperFactory.getFriedIngredientMapper().findByIngredient(ingredientDTO.get())
+                .stream()
+                .map(FriedIngredientDTO::getFried)
+                .toList();
     }
 
     @Override
-    public String deleteByFriedAndIngredient(String friedName, String ingredientName) {
-        log.info("Checking if this fried is present..");
-        final FriedDTO friedDTO = Optional.ofNullable(privateFindFriedByName(friedName))
+    public String deleteByFriedAndIngredient(final String friedName, final String ingredientName) {
+        final FriedDTO friedDTO = privateFindFriedByName(friedName)
                 .orElseThrow(() -> new MagicbusException(FRIED_NOT_FOUND));
-        log.info("Checking if this ingredient is present..");
-        final IngredientDTO ingredientDTO = Optional.ofNullable(privateFindIngredientByName(ingredientName))
+
+        final IngredientDTO ingredientDTO = privateFindIngredientByName(ingredientName)
                 .orElseThrow(() -> new MagicbusException(INGREDIENT_NOT_FOUND));
 
+        log.info("FriedIngredientServiceImpl - deleteByFriedAndIngredient() -> Deleting fried/ingredient..");
         return mapperFactory.getFriedIngredientMapper().deleteByFriedAndIngredient(friedDTO, ingredientDTO);
     }
 
-    private FriedDTO privateFindFriedByName(final String friedName) {
+    private Optional<FriedDTO> privateFindFriedByName(final String friedName) {
+        stringUtility.formatAllLower(friedName);
+        log.info("FriedIngredientServiceImpl - privateFindFriedByName() -> Finding fried named '{}'..", friedName);
+
         return Optional.ofNullable(friedName)
-                .map(n -> mapperFactory.getFriedMapper().findByName(n))
-                .orElse(null);
+                .flatMap(n -> mapperFactory.getFriedMapper().findByName(n));
     }
 
-    private IngredientDTO privateFindIngredientByName(final String ingredientName) {
+    private Optional<IngredientDTO> privateFindIngredientByName(final String ingredientName) {
+        stringUtility.formatAllLower(ingredientName);
+        log.info("FriedIngredientServiceImpl - privateFindIngredientByName() -> Finding ingredient named '{}'..", ingredientName);
+
         return Optional.ofNullable(ingredientName)
-                .map(n -> mapperFactory.getIngredientMapper().findByName(n))
-                .orElse(null);
+                .flatMap(n -> mapperFactory.getIngredientMapper().findByName(n));
     }
 }

@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        UserDTO userDTO = Optional.ofNullable(mapperFactory.getUserMapper().findUserByUsername(username))
+        UserDTO userDTO = mapperFactory.getUserMapper().findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
         return UserDetailsImpl.build(userDTO);

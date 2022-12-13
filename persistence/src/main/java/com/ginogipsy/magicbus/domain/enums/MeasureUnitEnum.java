@@ -1,9 +1,10 @@
 package com.ginogipsy.magicbus.domain.enums;
 
-
 import java.util.Arrays;
-
-public enum MeasureUnit {
+/**
+ * @author ginogipsy
+ */
+public enum MeasureUnitEnum {
 
     UNDEFINED         ( "UNDEFINED"),
     KG                ( "KG"),
@@ -20,7 +21,7 @@ public enum MeasureUnit {
 
     private final String description;
 
-    MeasureUnit(final String description) {
+    MeasureUnitEnum(final String description) {
         this.description = description;
     }
 
@@ -28,7 +29,10 @@ public enum MeasureUnit {
         return description;
     }
 
-    public static MeasureUnit getMeasureUnit(final String description){
-        return Arrays.stream(MeasureUnit.values()).filter(v -> v.getDescription().equals(description)).findAny().orElse(UNDEFINED);
+    public static MeasureUnitEnum getMeasureUnit(final String description){
+        return Arrays.stream(MeasureUnitEnum.values())
+                .filter(v -> v.getDescription().equals(description))
+                .findAny()
+                .orElse(UNDEFINED);
     }
 }

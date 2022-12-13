@@ -712,12 +712,12 @@ components:
           type: number
         purchaseCost:
           type: number
-        measureUnit:
-          $ref: '#/components/schemas/MeasureUnit'
-        ingredientType:
-          $ref: '#/components/schemas/IngredientType'
-        availabilityPeriod:
-          $ref: '#/components/schemas/AvailabilityPeriod'
+        measureUnitEnum:
+          $ref: '#/components/schemas/MeasureUnitEnum'
+        ingredientTypeEnum:
+          $ref: '#/components/schemas/IngredientTypeEnum'
+        availabilityPeriodEnum:
+          $ref: '#/components/schemas/AvailabilityPeriodEnum'
         brandName:
           type: string
       required:

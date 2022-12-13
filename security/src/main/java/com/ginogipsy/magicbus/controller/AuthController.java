@@ -37,7 +37,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum.*;
-
+/**
+ * @author ginogipsy
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -86,9 +88,9 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        RefreshTokenDTO refreshTokenDTO = refreshTokenService.createRefreshToken(userDetails.getId());
+        RefreshTokenDTO refreshTokenDTO = refreshTokenService.createRefreshToken(userDetails.id());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshTokenDTO.getToken(), userDetails.getId(),
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshTokenDTO.getToken(), userDetails.id(),
                 userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
@@ -138,27 +140,27 @@ public class AuthController {
         Set<RoleDTO> roles = new HashSet<>();
         Set<String> strRoles = Optional.ofNullable(signUpRequest.getRoles()).orElse(new HashSet<>());
         if(strRoles.isEmpty()){
-            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
+            mapperFactory.getRoleMapper().findByProfile("USER")
                     .map(roles::add)
                     .orElseThrow(() -> mapRoleException("USER"));
         }else{
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin", "ADMIN" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("ADMIN"))
+                    case "admin", "ADMIN" -> mapperFactory.getRoleMapper().findByProfile("ADMIN")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("ADMIN"));
                     case "editor", "EDITOR" ->
-                            Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("EDITOR"))
+                           mapperFactory.getRoleMapper().findByProfile("EDITOR")
                                     .map(roles::add)
                                     .orElseThrow(() -> mapRoleException("EDITOR"));
-                    case "user", "USER" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("USER"))
+                    case "user", "USER" -> mapperFactory.getRoleMapper().findByProfile("USER")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("USER"));
-                    case "mezz", "MEZZ" -> Optional.ofNullable(mapperFactory.getRoleMapper().findByProfile("MEZZ"))
+                    case "mezz", "MEZZ" -> mapperFactory.getRoleMapper().findByProfile("MEZZ")
                             .map(roles::add)
                             .orElseThrow(() -> mapRoleException("MEZZ"));
                 }
-        });
+            });
         }
 
         userDTO.setRoles(roles);

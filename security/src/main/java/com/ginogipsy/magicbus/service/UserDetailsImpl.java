@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author ginogipsy
+ */
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -38,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(UserDTO userDTO) {
         List<GrantedAuthority> authorities = userDTO.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getProfile().getProfile()))
+                .map(role -> new SimpleGrantedAuthority(role.getProfileEnum().getProfile()))
                 .collect(Collectors.toList());
 
         return new UserDetailsImpl(
@@ -55,7 +58,7 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public Integer getId() {
+    public Integer id() {
         return id;
     }
 
