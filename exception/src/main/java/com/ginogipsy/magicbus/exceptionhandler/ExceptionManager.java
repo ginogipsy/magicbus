@@ -1,7 +1,5 @@
 package com.ginogipsy.magicbus.exceptionhandler;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
@@ -22,14 +20,14 @@ public class ExceptionManager {
 
     @ExceptionHandler(MagicbusException.class)
     public ResponseEntity<Error> magicbusException(final MagicbusException magicbusException) {
-        log.error("ExceptionHandler - magicbusException - message: {}", magicbusException.getCustomMessage());
+        log.error("ExceptionHandler - magicbusException() - message: {}", magicbusException.getCustomMessage());
         magicbusException.printStackTrace();
         return buildError(magicbusException);
     }
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<Error> exception(final Exception ex) {
-        log.error("ExceptionHandler - genericException - message: {}", ex.getMessage());
+        log.error("ExceptionHandler - exception() - message: {}", ex.getMessage());
         ex.printStackTrace();
         return buildGenericError(ex.getMessage());
     }
@@ -52,10 +50,5 @@ public class ExceptionManager {
         return ResponseEntity.status(BeErrorCodeEnum.GENERIC_ERROR.getHttpStatus()).body(error);
     }
 
-    @Data
-    @AllArgsConstructor
-    static class Error {
-        private String code;
-        private String message;
-    }
+    private record Error(String code, String message) {}
 }

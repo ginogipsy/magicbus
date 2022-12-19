@@ -50,7 +50,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         if (privateFindByName(ingredientName).isPresent()) {
             log.error("IngredientServiceImpl - insert() -> It is already present an ingredient called {}!", ingredientName);
-            throw new MagicbusException(INGREDIENT_IS_ALREADY_PRESENT, "It is already present an allergen called " + ingredientName + "!");
+            throw new MagicbusException(INGREDIENT_IS_ALREADY_PRESENT, "It is already present an ingredient called " + ingredientName + "!");
         }
 
         privateFormatIngredient(ingredientDTO);
