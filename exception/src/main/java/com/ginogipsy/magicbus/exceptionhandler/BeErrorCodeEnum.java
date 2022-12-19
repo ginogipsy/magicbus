@@ -39,7 +39,7 @@ public enum BeErrorCodeEnum {
     INGREDIENT_DOUGH_IS_ALREADY_PRESENT          ("BE0018","Ingredient is already present for this dough!", HttpStatus.CONFLICT),
     NAME_IS_NULL                                 ("BE0019","The name is null!", HttpStatus.NOT_FOUND),
     SUPPLIER_IS_NULL                             ("BE0020","Supplier is null!", HttpStatus.NOT_FOUND),
-    //TASTE_NOT_FOUND                              ("BE0021","Taste not found!", HttpStatus.NOT_FOUND),
+    LOGIN_FAILED                                 ("BE0021","Login Failed!", HttpStatus.UNAUTHORIZED),
     ALLERGEN_IS_ALREADY_PRESENT                  ("BE0022","Allergen is already present!", HttpStatus.CONFLICT),
     ALLERGEN_IS_NULL                             ("BE0023","Allergen is null!", HttpStatus.NOT_FOUND),
     ALLERGEN_NOT_FOUND                           ("BE0024","Allergen not found!", HttpStatus.NOT_FOUND),
