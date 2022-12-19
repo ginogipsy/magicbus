@@ -1,7 +1,7 @@
 package com.ginogipsy.magicbus.security.auth;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.ginogipsy.magicbus.exceptionhandler.BeErrorCodeEnum;
-import com.ginogipsy.magicbus.exceptionhandler.MagicbusException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -56,7 +56,14 @@ public class ApiKeyAuthFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException {
+        final BeErrorCodeEnum beErrorCodeEnum = BeErrorCodeEnum.LOGIN_FAILED;
         log.error("ApiKeyAuthFilter - unsuccessfulAuthentication() -> Authentication failed!");
-        throw  new MagicbusException(BeErrorCodeEnum.LOGIN_FAILED, failed.getMessage());
+        final Error error = new Error(beErrorCodeEnum.getCode(), failed.getMessage());
+        final String responseBody = new JsonMapper().writeValueAsString(error);
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(beErrorCodeEnum.getHttpStatus().value());
+        response.getWriter().write(responseBody);
     }
+
+    private record Error(String code, String message) {}
 }

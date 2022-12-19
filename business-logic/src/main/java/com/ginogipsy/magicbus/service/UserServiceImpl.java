@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
         log.info("UserServiceImpl - findByUsername() -> Checking if username name is null..");
         final String usr = Optional.ofNullable(username)
                 .map(stringUtility::formatAllLower)
-                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.NAME_IS_NULL));
+                .orElseThrow(() -> new MagicbusException(BeErrorCodeEnum.NAME_IS_NULL, "username is null!"));
         log.info("UserServiceImpl - findByUsername() -> Finding user named '{}'..", usr);
         return mapperFactory.getUserMapper().findUserByUsername(usr);
     }
