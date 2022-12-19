@@ -1,30 +1,33 @@
 package com.ginogipsy.magicbus.security.config;
 
+import com.ginogipsy.magicbus.security.auth.ApiKeyAuthFilter;
+import com.ginogipsy.magicbus.security.auth.ApiKeyAuthManager;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
-import com.ginogipsy.magicbus.security.auth.ApiKeyAuthManager;
-import com.ginogipsy.magicbus.security.auth.ApiKeyAuthFilter;
 
 /**
  * @author francesco.grossi
  */
 @Configuration
-@EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(
+        // securedEnabled = true,
+        // jsr250Enabled = true,
+        prePostEnabled = true)
+public class SecurityConfig {
 
     private final ApiKeyAuthManager apiKeyAuthManager;
     private final ApiKeyAuthFilter apiKeyAuthFilter;
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    @Bean
+    protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -36,10 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .addFilterBefore(apiKeyAuthFilter, AnonymousAuthenticationFilter.class);
+
+        return httpSecurity.build();
     }
 
     @Bean
-    @Override
     public AuthenticationManager authenticationManager() {
         return this.apiKeyAuthManager;
     }
