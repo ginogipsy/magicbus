@@ -37,7 +37,7 @@ public class LogScheduler {
         log.info("LogScheduler - printDateAndCorrectExecutionOfApp() -> adding a line in log file..");
         final String fileName = DateTime.now().toString("YY-MM-dd").concat(".txt");
         final BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(folderPath, fileName).toString(), true));
-        writer.write(DateTime.now().toString(DateTimeFormat.fullDate()).concat(" -> fino a qui tutto bene ..\n"));
+        writer.write(DateTime.now().toString(DateTimeFormat.fullDateTime()).concat(" -> fino a qui tutto bene ..\n"));
         writer.close();
     }
 }
