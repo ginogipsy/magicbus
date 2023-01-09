@@ -12,6 +12,7 @@
         <module>RESTful-service</module>
         <module>exception</module>
         <module>mail-server</module>
+        <module>scheduler</module>
     </modules>
 
     <parent>
@@ -88,6 +89,11 @@
             <dependency>
                 <groupId>com.ginogipsy</groupId>
                 <artifactId>business-logic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ginogipsy</groupId>
+                <artifactId>scheduler</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
